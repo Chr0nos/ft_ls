@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:52:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/07 23:47:38 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/08 01:33:05 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,15 @@ typedef struct	s_file
 {
 	struct dirent	*de;
 	char			*name;
-	char			*path;
-	size_t			size;
 	time_t			ctime;
 	time_t			mtime;
 	time_t			atime;
 }					t_file;
+
+typedef struct		s_dir
+{
+	char			*path;
+	t_list			*content;
+}					t_dir;
 
 #endif
