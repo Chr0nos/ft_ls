@@ -31,3 +31,5 @@
 # Debug files
 *.dSYM/
 *.swp
+
+ft_ls
