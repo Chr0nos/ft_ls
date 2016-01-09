@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/08 16:58:47 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/09 13:53:10 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,47 +19,70 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-static int	lsd_append(t_dir *rdir, int flags, char *match, struct dirent *ent)
+static char	*getpath(char *dir, char *file)
+{
+	const char	*tab[3] = { dir, file, NULL };
+	char	*fp;
+
+	fp = ft_strunsplit(tab, '/');
+	return (fp);
+}
+
+static int	lsd_append(t_lsd *x)
 {
 	t_file	file;
 
-	if (((!(flags & HIDENS)) && (ent->d_name[0] == '.')) ||
-			(!ft_match(ent->d_name, match)))
+	if (((!(x->rdir->flags & HIDENS)) && (x->ent->d_name[0] == '.')) ||
+			(!ft_match(x->ent->d_name, x->match)))
 		return (0);
-	file.de = ft_memdup(ent, sizeof(struct dirent));
+	file.de = ft_memdup(x->ent, sizeof(struct dirent));
 	file.name = file.de->d_name;
-	file.fullpath = ft_strjoin(rdir->path, file.name);
+	file.fullpath = getpath(x->rdir->path, file.name);
 	stat(file.fullpath, &file.stats);
-	ft_lstpush_back(&rdir->content, ft_lstnew(&file, sizeof(t_file)));
+	if ((x->ent->d_type == DT_DIR) && (x->rdir->flags & RECURSIVE))
+		ls_dir(file.fullpath, x->rdir->flags, x->match, x->root);
+	ft_lstpush_back(&x->rdir->content, ft_lstnew(&file, sizeof(t_file)));
 	return (1);
 }
 
-t_dir		*ls_dir(char *dir, int flags, char *match)
+static DIR	*ls_dir_open(char *dir)
 {
-	t_dir			*rdir;
-	DIR				*d;
-	struct dirent	*ent;
-	size_t			items;
+	DIR	*d;
 
 	if (!(d = opendir(dir)))
 	{
 		ft_putstr_fd("ft_ls: ", 2);
 		ft_putstr_fd(dir, 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
-		return (0);
-	}
-	if (!(rdir = malloc(sizeof(t_dir))))
 		return (NULL);
+	}
+	return (d);
+}
+
+void		ls_dir(char *dir, int flags, char *match, t_list **root)
+{
+	t_dir			*rdir;
+	DIR				*d;
+	size_t			items;
+	t_lsd			lsd;
+
+	if ((!(d = ls_dir_open(dir))) ||
+			(!(rdir = malloc(sizeof(t_dir)))))
+		return ;
 	items = 0;
 	rdir->path = ft_strdup(dir);
 	rdir->content = NULL;
-	while ((ent = readdir(d)))
+	rdir->flags = flags;
+	lsd.match = match;
+	lsd.root = root;
+	lsd.rdir = rdir;
+	while ((lsd.ent = readdir(d)))
 	{
-		if (lsd_append(rdir, flags, match, ent))
+		if (lsd_append(&lsd))
 			items++;
 	}
 	rdir->count = items;
 	closedir(d);
 	ft_lstsort(&rdir->content, &sorter);
-	return (rdir);
+	ft_lstadd(root, ft_lstnewlink(rdir, sizeof(t_dir)));
 }

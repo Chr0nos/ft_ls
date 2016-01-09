@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:56:08 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/08 16:41:46 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/09 13:44:31 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void	ft_lstatomisator(void *x, size_t size)
 	while (lst)
 	{
 		file = (t_file*)lst->content;
+		free(file->fullpath);
 		free(file->de);
 		free(lst->content);
 		lst = lst->next;
@@ -38,22 +39,15 @@ static void	ft_lstatomisator(void *x, size_t size)
 int			main(int ac, char **av)
 {
 	t_list	*lst;
-	t_dir	*dir;
+	int		flags;
 
+	flags = NONE | RECURSIVE;
 	lst = NULL;
 	if (ac == 1)
-	{
-		dir = ls_dir(".", NONE, "*");
-		if (dir)
-			ft_lstadd(&lst, ft_lstnewlink(dir, sizeof(t_dir)));
-	}
+		ls_dir(".", flags, "*", &lst);
 	else
 		while (ac-- > 1)
-		{
-			dir = ls_dir(av[ac], NONE, "*");
-			if (dir)
-				ft_lstadd(&lst, ft_lstnewlink(dir, sizeof(t_dir)));
-		}
+			ls_dir(av[ac], flags, "*", &lst);
 	if (lst)
 	{
 		display(lst);

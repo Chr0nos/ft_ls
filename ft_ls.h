@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:52:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/08 16:45:11 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/09 13:52:59 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,20 @@ typedef struct		s_dir
 	char			*path;
 	size_t			count;
 	t_list			*content;
+	int				flags;
+	char			padding[4];
 }					t_dir;
 
+typedef struct		s_lsd
+{
+	t_dir			*rdir;
+	char			*match;
+	struct dirent	*ent;
+	t_list			**root;
+}					t_lsd;
+
 void				display(t_list *lst);
-t_dir				*ls_dir(char *dir, int flags, char *match);
+void				ls_dir(char *dir, int flags, char *match, t_list **root);
 int					sorter(t_list *a, t_list *b);
 
 #endif
