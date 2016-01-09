@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:56:08 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/09 13:44:31 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/09 18:44:03 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,57 @@ static void	ft_lstatomisator(void *x, size_t size)
 	(void)size;
 }
 
+static int 	parser(int ac, char **av, t_list **targets)
+{
+	int		flags;
+	int		p;
+
+	flags = NONE;
+	p = 1;
+	while (p < ac)
+	{
+		if (av[p][0] == '-')
+		{
+			if (ft_match(av[p], "-*R*"))
+				flags |= RECURSIVE;
+			if (ft_match(av[p], "-*l*"))
+				flags |= LONG;
+			if (ft_match(av[p], "-*a*"))
+				flags |= HIDENS;
+		}
+		else
+			ft_lstadd(targets, ft_lstnewlink(av[p], 0));
+		p++;
+	}
+	return (flags);
+}
+
 int			main(int ac, char **av)
 {
+	t_list	*targets;
+	t_list	*to;
 	t_list	*lst;
 	int		flags;
+	t_lsd	d;
 
 	flags = NONE | RECURSIVE;
 	lst = NULL;
 	if (ac == 1)
 		ls_dir(".", flags, "*", &lst);
 	else
-		while (ac-- > 1)
-			ls_dir(av[ac], flags, "*", &lst);
+	{
+		d.match = ft_strdup("*");
+		targets = NULL;
+		flags = parser(ac, av, &targets);
+		to = targets;
+		while (targets)
+		{
+			ls_dir((char*)(targets->content), flags, d.match, &lst);
+			targets = targets->next;
+		}
+		if (to)
+			free(to);
+	}
 	if (lst)
 	{
 		display(lst);

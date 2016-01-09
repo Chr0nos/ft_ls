@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/09 13:53:10 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/09 16:43:12 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 static char	*getpath(char *dir, char *file)
 {
 	const char	*tab[3] = { dir, file, NULL };
-	char	*fp;
+	char		*fp;
 
 	fp = ft_strunsplit(tab, '/');
 	return (fp);
@@ -37,8 +37,9 @@ static int	lsd_append(t_lsd *x)
 		return (0);
 	file.de = ft_memdup(x->ent, sizeof(struct dirent));
 	file.name = file.de->d_name;
-	file.fullpath = getpath(x->rdir->path, file.name);
-	stat(file.fullpath, &file.stats);
+	file.fullpath = getpath(x->rdir->path, file.name);	
+	if (x->rdir->flags & LONG)
+		stat(file.fullpath, &file.stats);
 	if ((x->ent->d_type == DT_DIR) && (x->rdir->flags & RECURSIVE))
 		ls_dir(file.fullpath, x->rdir->flags, x->match, x->root);
 	ft_lstpush_back(&x->rdir->content, ft_lstnew(&file, sizeof(t_file)));
