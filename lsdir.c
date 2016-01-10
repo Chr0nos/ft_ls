@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/10 15:16:31 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/10 18:08:17 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void	sort(t_dir *rdir)
 
 	if (f & MTIMESORT)
 		ft_lstsort(&rdir->content, (f & REVERSESORT) ? &rmsort : &msort);
-	if (f & CTIMESORT)
+	else if (f & CTIMESORT)
 		ft_lstsort(&rdir->content, (f & REVERSESORT) ? &rcsort : &csort);
 	else
 		ft_lstsort(&rdir->content, (f & REVERSESORT) ? &rsort : &sorter);

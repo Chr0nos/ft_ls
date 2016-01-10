@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:56:08 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/10 15:29:25 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/10 17:17:58 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,9 @@ int			main(int ac, char **av)
 	int		flags;
 	t_lsd	d;
 
-	flags = NONE;
 	lst = NULL;
 	if (ac == 1)
-		ls_dir(".", flags, "*", &lst);
+		ls_dir(".", NONE, "*", &lst);
 	else
 	{
 		targets = NULL;
