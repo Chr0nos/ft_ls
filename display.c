@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:38:47 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/10 19:35:56 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/10 19:39:42 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,10 @@ static int	display_posix(t_file *file, char *buffer)
 	while (blk < 3)
 	{
 		perms = (int)file->stats.st_mode >> (2 - blk) * 3;
-		buffer[p++] = (perms & S_IROTH) ? 'r' : '-';
-		buffer[p++] = (perms & S_IWOTH) ? 'w' : '-';
-		buffer[p++] = (perms & S_IXOTH) ? 'x' : '-';
+		buffer[p] = (perms & S_IROTH) ? 'r' : '-';
+		buffer[p + 1] = (perms & S_IWOTH) ? 'w' : '-';
+		buffer[p + 2] = (perms & S_IXOTH) ? 'x' : '-';
+		p += 3;
 		blk++;
 	}
 	buffer[p++] = ' ';
