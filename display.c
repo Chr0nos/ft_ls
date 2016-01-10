@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:38:47 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/10 19:28:10 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/10 19:35:56 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void		display(t_list *lst)
 		dir = (t_dir*)lst->content;
 		if (dirs > 1)
 			ft_printf("%s:\n", dir->path);
-		else if (dir->flags & LONG)
+		if (dir->flags & LONG)
 			ft_printf("Total: %d\n", (int)dir->size);
 		dl = dir->content;
 		while (dl)
