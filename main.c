@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:56:08 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/10 02:15:10 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/10 15:29:25 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,15 @@ static void	ft_lstatomisator(void *x, size_t size)
 	(void)size;
 }
 
-static int 	parser(int ac, char **av, t_list **targets)
+static int	parser(int ac, char **av, t_list **targets)
 {
-	int		flags;
-	int		p;
+	const char	*strmatch[6] = { "-*R*", "-*l*", "-*a*", "-*r*", "-*f*",
+		"-*t*" };
+	const int	flagstab[6] = { RECURSIVE, LONG, HIDENS, REVERSESORT, NOSORT,
+		MTIMESORT };
+	int			mappos;
+	int			flags;
+	int			p;
 
 	flags = NONE;
 	p = 1;
@@ -47,14 +52,10 @@ static int 	parser(int ac, char **av, t_list **targets)
 	{
 		if (av[p][0] == '-')
 		{
-			if (ft_match(av[p], "-*R*"))
-				flags |= RECURSIVE;
-			if (ft_match(av[p], "-*l*"))
-				flags |= LONG;
-			if (ft_match(av[p], "-*a*"))
-				flags |= HIDENS;
-			if (ft_match(av[p], "-*r*"))
-				flags |= REVERSESORT;
+			mappos = 6;
+			while (mappos--)
+				if (ft_match(av[p], strmatch[mappos]))
+					flags |= flagstab[mappos];
 		}
 		else
 			ft_lstadd(targets, ft_lstnewlink(av[p], 0));
@@ -63,31 +64,35 @@ static int 	parser(int ac, char **av, t_list **targets)
 	return (flags);
 }
 
+static void	pre_parse(t_lsd *d, t_list **lst, t_list *targets, int flags)
+{
+	d->match = ft_strdup("*");
+	if (!targets)
+		ls_dir(".", flags, d->match, lst);
+	while (targets)
+	{
+		ls_dir((char*)(targets->content), flags, d->match, lst);
+		targets = targets->next;
+	}
+}
+
 int			main(int ac, char **av)
 {
 	t_list	*targets;
-	t_list	*to;
 	t_list	*lst;
 	int		flags;
 	t_lsd	d;
 
-	flags = NONE | RECURSIVE;
+	flags = NONE;
 	lst = NULL;
 	if (ac == 1)
 		ls_dir(".", flags, "*", &lst);
 	else
 	{
-		d.match = ft_strdup("*");
 		targets = NULL;
 		flags = parser(ac, av, &targets);
-		to = targets;
-		while (targets)
-		{
-			ls_dir((char*)(targets->content), flags, d.match, &lst);
-			targets = targets->next;
-		}
-		if (to)
-			free(to);
+		pre_parse(&d, &lst, targets, flags);
+		ft_lstdel(&targets, 0);
 	}
 	if (lst)
 	{

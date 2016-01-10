@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:52:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/10 03:44:47 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/10 14:56:38 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ enum				e_flags
 	ATIMESORT = 32,
 	CTIMESORT = 64,
 	SIZESORT = 128,
-	HUMAN = 256
+	NOSORT = 256,
+	HUMAN = 512
 };
 
 typedef struct		s_file
@@ -62,5 +63,9 @@ void				display(t_list *lst);
 void				ls_dir(char *dir, int flags, char *match, t_list **root);
 int					sorter(t_list *a, t_list *b);
 int					rsort(t_list *a, t_list *b);
+int					csort(t_list *a, t_list *b);
+int					rcsort(t_list *a, t_list *b);
+int					msort(t_list *a, t_list *b);
+int					rmsort(t_list *a, t_list *b);
 
 #endif

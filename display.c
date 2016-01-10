@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:38:47 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/10 03:45:07 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/10 15:30:30 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,25 @@ static char	get_type(t_file *file)
 	return ('u');
 }
 
-static void	display_posix(t_file *file)
+static int	display_posix(t_file *file, char *buffer)
 {
-	char			buffer[11];
 	unsigned char	p;
 
 	p = 0;
 	buffer[p++] = get_type(file);
 	buffer[p++] = ' ';
 	buffer[p] = '\0';
-	ft_putstr(buffer);
+	return (p);
+}
+
+static void	display_file(t_file *file, t_dir *dir, char *buffer)
+{
+	if (dir->flags & LONG)
+	{
+		display_posix(file, buffer);
+		ft_putstr(buffer);
+	}
+	ft_putendl(file->name);
 }
 
 void		display(t_list *lst)
@@ -50,24 +59,20 @@ void		display(t_list *lst)
 	t_dir			*dir;
 	t_file			*file;
 	t_list			*dl;
+	char			buffer[20];
 
 	while (lst)
 	{
 		dir = (t_dir*)lst->content;
 		if (dirs > 1)
-		{
-			ft_putstr(dir->path);
-			ft_putstr(":\n");
-		}
+			ft_printf("%s:\n", dir->path);
 		else if (dir->flags & LONG)
 			ft_printf("Total: %d\n", (int)dir->size);
 		dl = dir->content;
 		while (dl)
 		{
 			file = (t_file*)dl->content;
-			if (dir->flags & LONG)
-				display_posix(file);
-			ft_putendl(file->name);
+			display_file(file, dir, (char*)buffer);
 			dl = dl->next;
 		}
 		lst = lst->next;

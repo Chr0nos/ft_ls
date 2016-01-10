@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/10 03:46:09 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/10 15:16:31 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,12 @@ static int	lsd_append(t_lsd *x)
 		return (0);
 	file.de = ft_memdup(x->ent, sizeof(struct dirent));
 	file.name = file.de->d_name;
-	file.fullpath = getpath(x->rdir->path, file.name);	
+	file.fullpath = getpath(x->rdir->path, file.name);
 	stat(file.fullpath, &file.stats);
-	if ((x->ent->d_type == DT_DIR) && (x->rdir->flags & RECURSIVE))
+	if ((x->ent->d_type == DT_DIR) && (x->rdir->flags & RECURSIVE) &&
+			(ft_strcmp(file.name, ".") != 0) && (ft_strcmp(file.name, "..")))
 		ls_dir(file.fullpath, x->rdir->flags, x->match, x->root);
-	x->rdir->size += file.stats.st_blocks;
+	x->rdir->size += (unsigned long long)file.stats.st_blocks;
 	ft_lstpush_back(&x->rdir->content, ft_lstnew(&file, sizeof(t_file)));
 	return (1);
 }
@@ -58,6 +59,18 @@ static DIR	*ls_dir_open(char *dir)
 		return (NULL);
 	}
 	return (d);
+}
+
+static void	sort(t_dir *rdir)
+{
+	const int		f = rdir->flags;
+
+	if (f & MTIMESORT)
+		ft_lstsort(&rdir->content, (f & REVERSESORT) ? &rmsort : &msort);
+	if (f & CTIMESORT)
+		ft_lstsort(&rdir->content, (f & REVERSESORT) ? &rcsort : &csort);
+	else
+		ft_lstsort(&rdir->content, (f & REVERSESORT) ? &rsort : &sorter);
 }
 
 void		ls_dir(char *dir, int flags, char *match, t_list **root)
@@ -79,12 +92,11 @@ void		ls_dir(char *dir, int flags, char *match, t_list **root)
 	lsd.root = root;
 	lsd.rdir = rdir;
 	while ((lsd.ent = readdir(d)))
-	{
 		if (lsd_append(&lsd))
 			items++;
-	}
 	rdir->count = items;
 	closedir(d);
-	ft_lstsort(&rdir->content, (rdir->flags & REVERSESORT) ? &rsort : &sorter);
+	if (!(flags & NOSORT))
+		sort(rdir);
 	ft_lstadd(root, ft_lstnewlink(rdir, sizeof(t_dir)));
 }
