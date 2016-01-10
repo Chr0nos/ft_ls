@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/09 16:43:12 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/10 03:46:09 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ static int	lsd_append(t_lsd *x)
 	file.de = ft_memdup(x->ent, sizeof(struct dirent));
 	file.name = file.de->d_name;
 	file.fullpath = getpath(x->rdir->path, file.name);	
-	if (x->rdir->flags & LONG)
-		stat(file.fullpath, &file.stats);
+	stat(file.fullpath, &file.stats);
 	if ((x->ent->d_type == DT_DIR) && (x->rdir->flags & RECURSIVE))
 		ls_dir(file.fullpath, x->rdir->flags, x->match, x->root);
+	x->rdir->size += file.stats.st_blocks;
 	ft_lstpush_back(&x->rdir->content, ft_lstnew(&file, sizeof(t_file)));
 	return (1);
 }
@@ -74,6 +74,7 @@ void		ls_dir(char *dir, int flags, char *match, t_list **root)
 	rdir->path = ft_strdup(dir);
 	rdir->content = NULL;
 	rdir->flags = flags;
+	rdir->size = 0;
 	lsd.match = match;
 	lsd.root = root;
 	lsd.rdir = rdir;
@@ -84,6 +85,6 @@ void		ls_dir(char *dir, int flags, char *match, t_list **root)
 	}
 	rdir->count = items;
 	closedir(d);
-	ft_lstsort(&rdir->content, &sorter);
+	ft_lstsort(&rdir->content, (rdir->flags & REVERSESORT) ? &rsort : &sorter);
 	ft_lstadd(root, ft_lstnewlink(rdir, sizeof(t_dir)));
 }

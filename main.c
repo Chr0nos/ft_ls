@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:56:08 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/09 18:44:03 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/10 02:15:10 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ static int 	parser(int ac, char **av, t_list **targets)
 				flags |= LONG;
 			if (ft_match(av[p], "-*a*"))
 				flags |= HIDENS;
+			if (ft_match(av[p], "-*r*"))
+				flags |= REVERSESORT;
 		}
 		else
 			ft_lstadd(targets, ft_lstnewlink(av[p], 0));

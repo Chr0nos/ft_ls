@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:52:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/09 13:52:59 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/10 03:44:47 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,13 @@ enum				e_flags
 	NONE = 0,
 	RECURSIVE = 1,
 	HIDENS = 2,
-	LONG = 4
+	LONG = 4,
+	REVERSESORT = 8,
+	MTIMESORT = 16,
+	ATIMESORT = 32,
+	CTIMESORT = 64,
+	SIZESORT = 128,
+	HUMAN = 256
 };
 
 typedef struct		s_file
@@ -38,6 +44,7 @@ typedef struct		s_dir
 {
 	char			*path;
 	size_t			count;
+	size_t			size;
 	t_list			*content;
 	int				flags;
 	char			padding[4];
@@ -54,5 +61,6 @@ typedef struct		s_lsd
 void				display(t_list *lst);
 void				ls_dir(char *dir, int flags, char *match, t_list **root);
 int					sorter(t_list *a, t_list *b);
+int					rsort(t_list *a, t_list *b);
 
 #endif
