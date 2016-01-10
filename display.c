@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:38:47 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/10 15:30:30 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/10 19:28:10 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,20 @@ static char	get_type(t_file *file)
 static int	display_posix(t_file *file, char *buffer)
 {
 	unsigned char	p;
+	int				blk;
+	int				perms;
 
 	p = 0;
+	blk = 0;
 	buffer[p++] = get_type(file);
+	while (blk < 3)
+	{
+		perms = (int)file->stats.st_mode >> (2 - blk) * 3;
+		buffer[p++] = (perms & S_IROTH) ? 'r' : '-';
+		buffer[p++] = (perms & S_IWOTH) ? 'w' : '-';
+		buffer[p++] = (perms & S_IXOTH) ? 'x' : '-';
+		blk++;
+	}
 	buffer[p++] = ' ';
 	buffer[p] = '\0';
 	return (p);
