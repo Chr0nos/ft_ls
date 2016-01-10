@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:56:08 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/10 17:17:58 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/10 18:22:34 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ static void	pre_parse(t_lsd *d, t_list **lst, t_list *targets, int flags)
 		ls_dir((char*)(targets->content), flags, d->match, lst);
 		targets = targets->next;
 	}
+	free(d->match);
 }
 
 int			main(int ac, char **av)
