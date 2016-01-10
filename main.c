@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:56:08 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/10 18:24:19 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/10 18:27:37 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	ft_lstatomisator(void *x, size_t size)
 	t_list	*next;
 
 	lst = ((t_dir*)(x))->content;
+	free(((t_dir*)(x))->path);
 	while (lst)
 	{
 		file = (t_file*)lst->content;
