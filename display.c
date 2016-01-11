@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:38:47 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/11 23:26:49 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/11 23:34:17 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static int	display_posix(t_file *file, char *buffer)
 static void	display_file(t_file *file, t_dir *dir, char *buffer)
 {
 	int	p;
+
 	if (dir->flags & LONG)
 	{
 		p = display_posix(file, buffer);
