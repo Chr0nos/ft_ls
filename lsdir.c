@@ -67,6 +67,8 @@ static void	sort(t_dir *rdir)
 
 	if (f & NOSORT)
 		return ;
+	else if (f & SIZESORT)
+		ft_lstsort(&rdir->content, (f & REVERSESORT) ? &sizesort : &rsizesort);
 	else if (f & MTIMESORT)
 		ft_lstsort(&rdir->content, (f & REVERSESORT) ? &msort : &rmsort);
 	else if (f & CTIMESORT)

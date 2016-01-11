@@ -67,5 +67,7 @@ int					csort(t_list *a, t_list *b);
 int					rcsort(t_list *a, t_list *b);
 int					msort(t_list *a, t_list *b);
 int					rmsort(t_list *a, t_list *b);
+int					sizesort(t_list *a, t_list *b);
+int					rsizesort(t_list *a, t_list *b);
 
 #endif

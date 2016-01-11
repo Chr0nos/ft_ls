@@ -42,10 +42,10 @@ static void	ft_lstatomisator(void *x, size_t size)
 
 static int	parser(int ac, char **av, t_list **targets)
 {
-	const char	*strmatch[6] = { "-*R*", "-*l*", "-*a*", "-*r*", "-*f*",
-		"-*t*" };
-	const int	flagstab[6] = { RECURSIVE, LONG, HIDENS, REVERSESORT, NOSORT,
-		MTIMESORT };
+	const char	*strmatch[7] = { "-*R*", "-*l*", "-*a*", "-*r*", "-*f*",
+		"-*t*", "-*S*" };
+	const int	flagstab[7] = { RECURSIVE, LONG, HIDENS, REVERSESORT, NOSORT,
+		MTIMESORT, SIZESORT };
 	int			mappos;
 	int			flags;
 	int			p;
@@ -56,7 +56,7 @@ static int	parser(int ac, char **av, t_list **targets)
 	{
 		if (av[p][0] == '-')
 		{
-			mappos = 6;
+			mappos = 7;
 			while (mappos--)
 				if (ft_match(av[p], strmatch[mappos]))
 					flags |= flagstab[mappos];

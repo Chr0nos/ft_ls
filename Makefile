@@ -12,7 +12,7 @@
 
 NAME=ft_ls
 LIBFT=../libft
-OBJ = main.o sorter.o msort.o display.o lsdir.o
+OBJ = main.o sorter.o msort.o display.o lsdir.o sizesort.o
 FLAGS=-Wall -Wextra -Werror -Weverything
 CC=clang
 

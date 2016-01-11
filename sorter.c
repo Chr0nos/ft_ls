@@ -20,7 +20,7 @@ int		sorter(t_list *a, t_list *b)
 
 	as = ((t_file*)(a->content))->name;
 	bs = ((t_file*)(b->content))->name;
-	return (ft_strcmp(as, bs));
+	return (ft_strcasecmp(as, bs));
 }
 
 int		rsort(t_list *a, t_list *b)
