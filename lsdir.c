@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/11 20:27:53 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/11 20:35:02 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ static DIR			*ls_dir_open(char *dir)
 
 void				ls_dir(t_list **root, t_dir *rdir)
 {
-	DIR				*d;
-	t_lsd			lsd;
+	DIR			*d;
+	t_lsd		lsd;
 
 	if (!(d = ls_dir_open(rdir->pathinfo.path)))
 		return ;
