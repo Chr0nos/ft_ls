@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:52:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/10 14:56:38 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/11 20:09:39 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,12 @@ enum				e_flags
 	HUMAN = 512
 };
 
+typedef struct		s_filepath
+{
+	char			*path;
+	char			*filemask;
+}					t_filepath;
+
 typedef struct		s_file
 {
 	struct dirent	*de;
@@ -49,18 +55,19 @@ typedef struct		s_dir
 	t_list			*content;
 	int				flags;
 	char			padding[4];
+	t_filepath		pathinfo;
 }					t_dir;
 
 typedef struct		s_lsd
 {
 	t_dir			*rdir;
-	char			*match;
 	struct dirent	*ent;
 	t_list			**root;
+	char			*match;
 }					t_lsd;
 
 void				display(t_list *lst);
-void				ls_dir(char *dir, int flags, char *match, t_list **root);
+void				ls_dir(t_list **root, t_dir *rdir);
 int					sorter(t_list *a, t_list *b);
 int					rsort(t_list *a, t_list *b);
 int					csort(t_list *a, t_list *b);
@@ -69,5 +76,8 @@ int					msort(t_list *a, t_list *b);
 int					rmsort(t_list *a, t_list *b);
 int					sizesort(t_list *a, t_list *b);
 int					rsizesort(t_list *a, t_list *b);
+void				sort(t_dir *rdir);
+int					delpathinfo(t_filepath *file);
+t_dir				*get_rdir(t_list **root, char *path, int flags);
 
 #endif

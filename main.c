@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:56:08 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/10 18:27:37 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/11 20:21:36 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	ft_lstatomisator(void *x, size_t size)
 	t_list	*next;
 
 	lst = ((t_dir*)(x))->content;
+	delpathinfo(&((t_dir*)(x))->pathinfo);
 	free(((t_dir*)(x))->path);
 	while (lst)
 	{
@@ -68,17 +69,15 @@ static int	parser(int ac, char **av, t_list **targets)
 	return (flags);
 }
 
-static void	pre_parse(t_lsd *d, t_list **lst, t_list *targets, int flags)
+static void	pre_parse(t_list **lst, t_list *targets, int flags)
 {
-	d->match = ft_strdup("*");
 	if (!targets)
-		ls_dir(".", flags, d->match, lst);
+		ls_dir(lst, get_rdir(lst, ".", flags));
 	while (targets)
 	{
-		ls_dir((char*)(targets->content), flags, d->match, lst);
+		ls_dir(lst, get_rdir(lst, (char*)targets->content, flags));
 		targets = targets->next;
 	}
-	free(d->match);
 }
 
 int			main(int ac, char **av)
@@ -86,16 +85,15 @@ int			main(int ac, char **av)
 	t_list	*targets;
 	t_list	*lst;
 	int		flags;
-	t_lsd	d;
 
 	lst = NULL;
 	if (ac == 1)
-		ls_dir(".", NONE, "*", &lst);
+		ls_dir(&lst, get_rdir(&lst, ".", NONE));
 	else
 	{
 		targets = NULL;
 		flags = parser(ac, av, &targets);
-		pre_parse(&d, &lst, targets, flags);
+		pre_parse(&lst, targets, flags);
 		ft_lstdel(&targets, 0);
 	}
 	if (lst)

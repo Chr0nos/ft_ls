@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 14:26:30 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/10 15:33:31 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/11 17:09:58 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,20 @@ int		csort(t_list *a, t_list *b)
 int		rcsort(t_list *a, t_list *b)
 {
 	return (csort(a, b) * -1);
+}
+
+void	sort(t_dir *rdir)
+{
+	const int		f = rdir->flags;
+
+	if (f & NOSORT)
+		return ;
+	else if (f & SIZESORT)
+		ft_lstsort(&rdir->content, (f & REVERSESORT) ? &sizesort : &rsizesort);
+	else if (f & MTIMESORT)
+		ft_lstsort(&rdir->content, (f & REVERSESORT) ? &msort : &rmsort);
+	else if (f & CTIMESORT)
+		ft_lstsort(&rdir->content, (f & REVERSESORT) ? &rcsort : &csort);
+	else
+		ft_lstsort(&rdir->content, (f & REVERSESORT) ? &rsort : &sorter);
 }
