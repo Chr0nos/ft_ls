@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:56:08 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/11 21:19:08 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/11 21:34:11 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,7 @@ static void	pre_parse(t_list **lst, t_list *targets, int flags)
 		ls_dir(lst, get_rdir(lst, ".", flags));
 	while (targets)
 	{
-		ft_printf("bite: %s\n", (char*)((t_dir*)(targets->content))->path);
-		//ls_dir(lst, get_rdir(lst, ((t_dir*)(targets->content))->path, flags));
+		ls_dir(lst, get_rdir(lst, (char*)(targets->content), flags));
 		targets = targets->next;
 	}
 }

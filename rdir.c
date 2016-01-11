@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/11 18:49:35 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/11 21:31:42 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/11 22:19:15 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,16 +71,23 @@ static t_dir	*get_newrdir(char *path, int flags)
 
 t_dir			*get_rdir(t_list **root, char *path, int flags)
 {
-	t_list	*lst;
-	t_dir	*rdir;
+	t_list		*lst;
+	t_dir		*rdir;
+	char		*cpath;
+	t_filepath	testpath;
 
+	makepathinfo(path, &testpath);
 	lst = *root;
 	while (lst)
 	{
-		if (ft_strcmp(((t_dir*)lst->content)->path, path) == 0)
-			return ((t_dir*)lst->content);
+		rdir = (t_dir*)(lst->content);
+		cpath = rdir->pathinfo.path;
+		rdir->pathinfo.filemask = ft_strdup(testpath.filemask);
+		if (ft_strcmp(cpath, testpath.path) == 0)
+			return (rdir);
 		lst = lst->next;
 	}
+	delpathinfo(&testpath);
 	rdir = get_newrdir(path, flags);
 	if (!rdir)
 		return (NULL);
