@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/11 20:09:22 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/11 20:27:53 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,12 @@ void				ls_dir(t_list **root, t_dir *rdir)
 {
 	DIR				*d;
 	t_lsd			lsd;
-	t_filepath		file;
 
-	if (!(d = ls_dir_open(file.path)))
+	if (!(d = ls_dir_open(rdir->pathinfo.path)))
 		return ;
 	lsd.root = root;
 	lsd.rdir = rdir;
-	lsd.match = file.filemask;
+	lsd.match = rdir->pathinfo.filemask;
 	while ((lsd.ent = readdir(d)))
 		if (lsd_append(&lsd))
 			rdir->count++;
