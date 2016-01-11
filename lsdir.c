@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/11 20:35:02 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/11 20:59:27 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,4 @@ void				ls_dir(t_list **root, t_dir *rdir)
 			rdir->count++;
 	closedir(d);
 	sort(rdir);
-	ft_lstadd(root, ft_lstnewlink(rdir, sizeof(t_dir)));
 }

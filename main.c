@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:56:08 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/11 20:34:05 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/11 20:59:37 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,10 @@ static void	ft_lstatomisator(void *x, size_t size)
 	t_list	*next;
 	t_dir	*rdir;
 
+	if (!x)
+		return ;
 	rdir = (t_dir*)x;
 	lst = rdir->content;
-
 	delpathinfo(&rdir->pathinfo);
 	free(rdir->path);
 	while (lst)
@@ -102,6 +103,7 @@ int			main(int ac, char **av)
 	if (lst)
 	{
 		display(lst);
+		(void)ft_lstatomisator;
 		ft_lstdel(&lst, &ft_lstatomisator);
 	}
 	return (0);
