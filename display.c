@@ -61,6 +61,10 @@ static void	display_file(t_file *file, t_dir *dir, char *buffer)
 	if (dir->flags & LONG)
 	{
 		p = display_posix(file, buffer);
+		p += ft_itobuff(buffer + p, (int)file->stats.st_nlink, 10,
+				"0123456789");
+		buffer[p++] = ' ';
+		buffer[p] = '\0';
 		ft_putstr(buffer);
 	}
 	ft_putendl(file->name);
