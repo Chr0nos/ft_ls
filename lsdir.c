@@ -65,8 +65,10 @@ static void	sort(t_dir *rdir)
 {
 	const int		f = rdir->flags;
 
-	if (f & MTIMESORT)
-		ft_lstsort(&rdir->content, (f & REVERSESORT) ? &rmsort : &msort);
+	if (f & NOSORT)
+		return ;
+	else if (f & MTIMESORT)
+		ft_lstsort(&rdir->content, (f & REVERSESORT) ? &msort : &rmsort);
 	else if (f & CTIMESORT)
 		ft_lstsort(&rdir->content, (f & REVERSESORT) ? &rcsort : &csort);
 	else
@@ -96,7 +98,6 @@ void		ls_dir(char *dir, int flags, char *match, t_list **root)
 			items++;
 	rdir->count = items;
 	closedir(d);
-	if (!(flags & NOSORT))
-		sort(rdir);
+	sort(rdir);
 	ft_lstadd(root, ft_lstnewlink(rdir, sizeof(t_dir)));
 }

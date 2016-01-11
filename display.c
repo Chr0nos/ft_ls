@@ -57,9 +57,10 @@ static int	display_posix(t_file *file, char *buffer)
 
 static void	display_file(t_file *file, t_dir *dir, char *buffer)
 {
+	int	p;
 	if (dir->flags & LONG)
 	{
-		display_posix(file, buffer);
+		p = display_posix(file, buffer);
 		ft_putstr(buffer);
 	}
 	ft_putendl(file->name);
