@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/11 18:49:35 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/11 20:56:21 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/11 21:31:42 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft.h"
 #include <stdlib.h>
 
-static int	makepathinfo(const char *dir, t_filepath *info)
+static int		makepathinfo(const char *dir, t_filepath *info)
 {
 	const int		slash_pos = ft_strchrrpos(dir, '/');
 	struct stat		st;
@@ -55,16 +55,17 @@ static t_dir	*get_newrdir(char *path, int flags)
 
 	if (!(rdir = malloc(sizeof(t_dir))))
 		return (NULL);
-	if (makepathinfo(path, &rdir->pathinfo) == 0)
-	{
-		delpathinfo(&rdir->pathinfo);
-		return (NULL);
-	}
 	rdir->path = ft_strdup(path);
 	rdir->content = NULL;
 	rdir->flags = flags;
 	rdir->size = 0;
 	rdir->count = 0;
+	if (makepathinfo(path, &rdir->pathinfo) == 0)
+	{
+		delpathinfo(&rdir->pathinfo);
+		free(rdir);
+		return (NULL);
+	}
 	return (rdir);
 }
 
@@ -82,7 +83,7 @@ t_dir			*get_rdir(t_list **root, char *path, int flags)
 	}
 	rdir = get_newrdir(path, flags);
 	if (!rdir)
-		return NULL;
+		return (NULL);
 	ft_lstadd(root, ft_lstnewlink(rdir, sizeof(t_dir)));
 	return (rdir);
 }
