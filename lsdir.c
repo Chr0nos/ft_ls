@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/12 00:42:05 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/12 09:57:17 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,13 @@ static int			lsd_append(t_lsd *x)
 		return (0);
 	file.de = ft_memdup(x->ent, sizeof(struct dirent));
 	file.name = file.de->d_name;
-	file.fullpath = getpath(x->rdir->path, file.name);
+	file.fullpath = getpath(x->rdir->pathinfo.path, file.name);
 	if (stat(file.fullpath, &file.stats) < 0)
 		ft_printf("failed to stat: %s: %s\n", file.fullpath, strerror(errno));
 	if ((x->ent->d_type == DT_DIR) && (x->rdir->flags & RECURSIVE) &&
 			(ft_strcmp(file.name, ".") != 0) && (ft_strcmp(file.name, "..")))
 		ls_dir(x->root, get_rdir(x->root, file.fullpath, x->rdir->flags));
 	x->rdir->size += (unsigned long long)file.stats.st_blocks;
-	ft_printf("%s %d\n", file.name, (int)x->rdir->size);
 	ft_lstpush_back(&x->rdir->content, ft_lstnew(&file, sizeof(t_file)));
 	return (1);
 }
