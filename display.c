@@ -6,12 +6,14 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:38:47 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/11 23:34:17 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/12 11:01:49 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 #include "libft.h"
+#include "pwd.h"
+#include "grp.h"
 
 static char	get_type(t_file *file)
 {
@@ -57,13 +59,26 @@ static int	display_posix(t_file *file, char *buffer)
 
 static void	display_file(t_file *file, t_dir *dir, char *buffer)
 {
-	int	p;
+	int				p;
+	struct passwd	*pwd;
+	struct group	*grp;
+	unsigned int	userlen;
 
 	if (dir->flags & LONG)
 	{
+		pwd = getpwuid(file->stats.st_uid);
+		grp = getgrgid(file->stats.st_gid);
 		p = display_posix(file, buffer);
 		p += ft_itobuff(buffer + p, (int)file->stats.st_nlink, 10,
 				"0123456789");
+		buffer[p++] = ' ';
+		userlen = (unsigned int)ft_strlen(pwd->pw_name);
+		ft_memcpy(&buffer[p], pwd->pw_name, userlen);
+		p += userlen;
+		buffer[p++] = ' ';
+		userlen = (unsigned int)ft_strlen(grp->gr_name);
+		ft_memcpy(&buffer[p], grp->gr_name, userlen);
+		p += userlen;
 		buffer[p++] = ' ';
 		buffer[p] = '\0';
 		ft_putstr(buffer);
@@ -77,7 +92,7 @@ void		display(t_list *lst)
 	t_dir			*dir;
 	t_file			*file;
 	t_list			*dl;
-	char			buffer[20];
+	char			buffer[2048];
 
 	while (lst)
 	{
