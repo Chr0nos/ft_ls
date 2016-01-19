@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/19 09:07:16 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/19 09:37:23 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int			lsd_append(t_lsd *x)
 		ls_dir(x->root, get_rdir(x->root, file.fullpath, x->rdir->flags));
 	x->rdir->size += (size_t)file.stats.st_size;
 	x->rdir->blocs += (size_t)file.stats.st_blocks;
-	ft_lstpush_sort(x->root, ft_lstnew(&x->rdir->content, sizeof(t_file)), &sort);
+	ft_lstpush_sort(x->root, ft_lstnew(&file, sizeof(t_file)), &sort);
 	return (1);
 }
 
