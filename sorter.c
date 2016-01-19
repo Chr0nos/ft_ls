@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 14:26:30 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/11 17:09:58 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/19 09:31:02 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,18 @@ int		rcsort(t_list *a, t_list *b)
 	return (csort(a, b) * -1);
 }
 
-void	sort(t_dir *rdir)
+int		sort(t_list *a, t_list *b)
 {
-	const int		f = rdir->flags;
+	const int	f = ((t_dir*)(a->content))->flags;
 
 	if (f & NOSORT)
-		return ;
+		return (0);
 	else if (f & SIZESORT)
-		ft_lstsort(&rdir->content, (f & REVERSESORT) ? &sizesort : &rsizesort);
+		return ((f & REVERSESORT) ? sizesort(a, b) : rsizesort(a, b));
 	else if (f & MTIMESORT)
-		ft_lstsort(&rdir->content, (f & REVERSESORT) ? &msort : &rmsort);
+		return ((f & REVERSESORT) ? msort(a, b) : rmsort(a, b));
 	else if (f & CTIMESORT)
-		ft_lstsort(&rdir->content, (f & REVERSESORT) ? &rcsort : &csort);
+		return ((f & REVERSESORT) ? rcsort(a, b) : csort(a, b));
 	else
-		ft_lstsort(&rdir->content, (f & REVERSESORT) ? &rsort : &sorter);
+		return ((f & REVERSESORT) ? rsort(a, b) : sorter(a , b));
 }

@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/12 09:57:17 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/19 09:07:16 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,9 @@ static int			lsd_append(t_lsd *x)
 	if ((x->ent->d_type == DT_DIR) && (x->rdir->flags & RECURSIVE) &&
 			(ft_strcmp(file.name, ".") != 0) && (ft_strcmp(file.name, "..")))
 		ls_dir(x->root, get_rdir(x->root, file.fullpath, x->rdir->flags));
-	x->rdir->size += (unsigned long long)file.stats.st_blocks;
-	ft_lstpush_back(&x->rdir->content, ft_lstnew(&file, sizeof(t_file)));
+	x->rdir->size += (size_t)file.stats.st_size;
+	x->rdir->blocs += (size_t)file.stats.st_blocks;
+	ft_lstpush_sort(x->root, ft_lstnew(&x->rdir->content, sizeof(t_file)), &sort);
 	return (1);
 }
 
@@ -77,6 +78,5 @@ void				ls_dir(t_list **root, t_dir *rdir)
 		if (lsd_append(&lsd))
 			rdir->count++;
 	closedir(d);
-	sort(rdir);
 	ft_strdel(&rdir->pathinfo.filemask);
 }

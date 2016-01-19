@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:38:47 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/12 11:01:49 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/13 12:52:26 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void		display(t_list *lst)
 		if (dirs > 1)
 			ft_printf("%s:\n", dir->pathinfo.path);
 		if (dir->flags & LONG)
-			ft_printf("Total: %d\n", (int)dir->size);
+			ft_printf("Total: %d\n", (int)dir->blocs);
 		dl = dir->content;
 		while (dl)
 		{

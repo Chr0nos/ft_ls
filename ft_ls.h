@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:52:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/12 10:22:02 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/19 09:01:44 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct		s_dir
 	char			*path;
 	size_t			count;
 	size_t			size;
+	size_t			blocs;
 	t_list			*content;
 	int				flags;
 	char			padding[4];
@@ -76,7 +77,7 @@ int					msort(t_list *a, t_list *b);
 int					rmsort(t_list *a, t_list *b);
 int					sizesort(t_list *a, t_list *b);
 int					rsizesort(t_list *a, t_list *b);
-void				sort(t_dir *rdir);
+int					sort(t_list *a, t_list *b);
 int					delpathinfo(t_filepath *file);
 t_dir				*get_rdir(t_list **root, char *path, int flags);
 
