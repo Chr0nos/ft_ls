@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/20 16:01:59 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/20 16:22:08 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void				ls_dir(t_list **root, t_dir *rdir)
 		file->fullpath = getpath(rdir->pathinfo.path, file->de->d_name);
 		rdir->size += (size_t)file->stats.st_size;
 		rdir->blocs += (size_t)file->stats.st_blocks;
+		stat(file->fullpath, &file->stats);
 		ft_lstpush_sort(&rdir->content, ft_lstnewlink(file, sizeof(t_file)),
 				(int(*)())getsorter(rdir->flags));
 		if (((ft_strcmp(ent->d_name, ".")) && (ft_strcmp(ent->d_name, ".."))))
