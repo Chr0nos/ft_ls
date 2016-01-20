@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:38:47 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/20 16:08:22 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/20 18:10:48 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static char	get_type(t_file *file)
 	return ('u');
 }
 
-static int	display_posix(t_file *file, char *buffer)
+static int	add_posix(t_file *file, char *buffer)
 {
 	unsigned char	p;
 	int				blk;
@@ -68,7 +68,7 @@ static void	display_file(t_file *file, t_dir *dir, char *buffer)
 	{
 		pwd = getpwuid(file->stats.st_uid);
 		grp = getgrgid(file->stats.st_gid);
-		p = display_posix(file, buffer);
+		p = add_posix(file, buffer);
 		p += ft_itobuff(buffer + p, (int)file->stats.st_nlink, 10,
 				"0123456789");
 		buffer[p++] = ' ';
