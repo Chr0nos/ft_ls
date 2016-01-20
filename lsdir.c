@@ -35,17 +35,14 @@ static int			lsd_append(t_lsd *x)
 	t_list	*file_item;
 	char	*name;
 
-	if (((!(x->rdir->flags & HIDENS)) && (x->ent->d_name[0] == '.')) ||
-			(!ft_match(x->ent->d_name, x->match)))
+	ft_printf("listing: %s\n", x->ent->d_name);
+	if ((!(x->rdir->flags & HIDENS)) && (x->ent->d_name[0] == '.'))
 		return (0);
 	file.de = ft_memdup(x->ent, sizeof(struct dirent));
 	name = file.de->d_name;
 	file.fullpath = getpath(x->rdir->pathinfo.path, name);
 	if (stat(file.fullpath, &file.stats) < 0)
 		ft_printf("failed to stat: %s: %s\n", file.fullpath, strerror(errno));
-	if ((x->ent->d_type == DT_DIR) && (x->rdir->flags & RECURSIVE) &&
-			(ft_strcmp(name, ".") != 0) && (ft_strcmp(name, "..")))
-		ls_dir(x->root, get_rdir(x->root, file.fullpath, x->rdir->flags));
 	x->rdir->size += (size_t)file.stats.st_size;
 	x->rdir->blocs += (size_t)file.stats.st_blocks;
 	if (!(file_item = ft_lstnew(&file, sizeof(t_file))))
@@ -55,6 +52,9 @@ static int			lsd_append(t_lsd *x)
 	}
 	ft_lstadd(x->root, file_item);
 	//ft_lstpush_sort(x->root, file_item, (int(*)())x->sorter);
+	if ((x->ent->d_type == DT_DIR) && (x->rdir->flags & RECURSIVE) &&
+			(ft_strcmp(name, ".") != 0) && (ft_strcmp(name, "..")))
+		ls_dir(x->root, get_rdir(x->root, file.fullpath, x->rdir->flags));
 	return (1);
 }
 

@@ -19,7 +19,7 @@ static int		showerror(char *path)
 	ft_putstr_fd("ft_ls: ", 2);
 	ft_putstr_fd(path, 2);
 	ft_putstr_fd(": No fuck file or directory\n", 2);
-	return (0);
+	return (1);
 }
 
 static t_dir	*get_newrdir(char *path, int flags)
@@ -38,8 +38,11 @@ static t_dir	*get_newrdir(char *path, int flags)
 	rdir->pathinfo.file = NULL;
 	rdir->size_str = NULL;
 	rdir->pathinfo.path = path;
-	stat(path, &rdir->stats);
-	(void)showerror;
+	if ((stat(path, &rdir->stats) < 0) && (showerror(path)))
+	{
+		free(rdir);
+		return (NULL);
+	}
 	return (rdir);
 }
 

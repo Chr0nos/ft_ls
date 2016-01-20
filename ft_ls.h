@@ -65,7 +65,6 @@ typedef struct		s_lsd
 	t_dir			*rdir;
 	struct dirent	*ent;
 	t_list			**root;
-	char			*match;
 	void			*sorter;
 }					t_lsd;
 
