@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/19 13:26:43 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/20 09:41:17 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,29 @@ static char			*getpath(char *dir, char *file)
 static int			lsd_append(t_lsd *x)
 {
 	t_file	file;
+	t_list	*file_item;
+	char	*name;
 
 	if (((!(x->rdir->flags & HIDENS)) && (x->ent->d_name[0] == '.')) ||
 			(!ft_match(x->ent->d_name, x->match)))
 		return (0);
 	file.de = ft_memdup(x->ent, sizeof(struct dirent));
-	file.name = file.de->d_name;
-	file.fullpath = getpath(x->rdir->pathinfo.path, file.name);
+	name = file.de->d_name;
+	file.fullpath = getpath(x->rdir->pathinfo.path, name);
 	if (stat(file.fullpath, &file.stats) < 0)
 		ft_printf("failed to stat: %s: %s\n", file.fullpath, strerror(errno));
 	if ((x->ent->d_type == DT_DIR) && (x->rdir->flags & RECURSIVE) &&
-			(ft_strcmp(file.name, ".") != 0) && (ft_strcmp(file.name, "..")))
+			(ft_strcmp(name, ".") != 0) && (ft_strcmp(name, "..")))
 		ls_dir(x->root, get_rdir(x->root, file.fullpath, x->rdir->flags));
 	x->rdir->size += (size_t)file.stats.st_size;
 	x->rdir->blocs += (size_t)file.stats.st_blocks;
-	ft_lstpush_sort(x->root, ft_lstnew(&file, sizeof(t_file)), (int(*)())x->sorter);
+	if (!(file_item = ft_lstnew(&file, sizeof(t_file))))
+	{
+		free(file.de);
+		return (0);
+	}
+	ft_lstadd(x->root, file_item);
+	//ft_lstpush_sort(x->root, file_item, (int(*)())x->sorter);
 	return (1);
 }
 
@@ -79,5 +87,4 @@ void				ls_dir(t_list **root, t_dir *rdir)
 		if (lsd_append(&lsd))
 			rdir->count++;
 	closedir(d);
-	ft_strdel(&rdir->pathinfo.filemask);
 }

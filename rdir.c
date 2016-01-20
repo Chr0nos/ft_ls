@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/11 18:49:35 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/13 12:54:41 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/20 09:59:23 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static int		makepathinfo(const char *dir, t_filepath *info)
 	{
 		info->path = ft_strdup(dir);
 		info->filemask = ft_strdup("*");
+		ft_printf("path: %s --- mask: %s\n", info->path, info->filemask);
 	}
 	else if (st.st_mode & (S_IFIFO | S_IFREG | S_IFCHR | S_IFMT | S_IFBLK |
 				S_IFLNK | S_IFSOCK))
@@ -61,9 +62,11 @@ static t_dir	*get_newrdir(char *path, int flags)
 	rdir->size = 0;
 	rdir->blocs = 0;
 	rdir->count = 0;
+	rdir->pathinfo.path = NULL;
+	rdir->pathinfo.filemask = NULL;
+	rdir->size_str = NULL;
 	if (makepathinfo(path, &rdir->pathinfo) == 0)
 	{
-		delpathinfo(&rdir->pathinfo);
 		free(rdir);
 		return (NULL);
 	}
@@ -83,7 +86,6 @@ t_dir			*get_rdir(t_list **root, char *path, int flags)
 	{
 		rdir = (t_dir*)(lst->content);
 		cpath = rdir->pathinfo.path;
-		rdir->pathinfo.filemask = ft_strdup(testpath.filemask);
 		if (ft_strcmp(cpath, testpath.path) == 0)
 			return (rdir);
 		lst = lst->next;

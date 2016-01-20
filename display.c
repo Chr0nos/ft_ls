@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:38:47 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/13 12:52:26 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/20 09:56:31 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static void	display_file(t_file *file, t_dir *dir, char *buffer)
 		buffer[p] = '\0';
 		ft_putstr(buffer);
 	}
-	ft_putendl(file->name);
+	ft_putendl(file->de->d_name);
 }
 
 void		display(t_list *lst)
@@ -97,15 +97,18 @@ void		display(t_list *lst)
 	while (lst)
 	{
 		dir = (t_dir*)lst->content;
+		if (!dir)
+			continue ;
 		if (dirs > 1)
-			ft_printf("%s:\n", dir->pathinfo.path);
+			(void)dir;
+			//ft_printf("%s:\n", dir->pathinfo.path);
 		if (dir->flags & LONG)
 			ft_printf("Total: %d\n", (int)dir->blocs);
 		dl = dir->content;
 		while (dl)
 		{
-			file = (t_file*)dl->content;
-			display_file(file, dir, (char*)buffer);
+			if ((file = (t_file*)dl->content))
+				display_file(file, dir, (char*)buffer);
 			dl = dl->next;
 		}
 		lst = lst->next;

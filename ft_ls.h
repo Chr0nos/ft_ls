@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:52:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/19 09:47:08 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/20 09:46:17 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ typedef struct		s_filepath
 typedef struct		s_file
 {
 	struct dirent	*de;
-	char			*name;
 	char			*fullpath;
 	struct stat		stats;
 }					t_file;
@@ -50,6 +49,7 @@ typedef struct		s_file
 typedef struct		s_dir
 {
 	char			*path;
+	char			*size_str;
 	size_t			count;
 	size_t			size;
 	size_t			blocs;
