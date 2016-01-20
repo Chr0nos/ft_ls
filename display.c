@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:38:47 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/20 18:22:32 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/20 20:21:42 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,9 @@ static void	display_file(t_file *file, t_dir *dir, char *buffer)
 		ft_memcpy(&buffer[p], grp->gr_name, userlen);
 		p += userlen;
 		buffer[p++] = ' ';
-		buffer[p] = '\0';
+		ft_strcpy(&buffer[p], file->size_str);
+		p += ft_strlen(file->size_str);
+		ft_strcpy(&buffer[p], " ");
 		ft_putstr(buffer);
 	}
 	ft_putendl(file->de->d_name);
@@ -101,7 +103,7 @@ void		display(t_list *lst)
 		if (dirs > 1)
 			ft_printf("%s:\n", dir->pathinfo.path);
 		if (dir->flags & LONG)
-			ft_printf("Total: %d\n", (int)dir->blocs);
+			ft_printf("total %d\n", (int)dir->blocs);
 		dl = dir->content;
 		while (dl)
 		{

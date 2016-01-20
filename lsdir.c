@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/20 18:22:01 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/20 20:37:17 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,30 +43,34 @@ static DIR			*ls_dir_open(char *dir)
 	return (d);
 }
 
-static int			ls_addfile(t_dir *rdir, char *filepath)
+/*
+** this function add ONE FILE to a dir file list
+** return: a pointer to the t_file if success, NULL otherwise
+*/
+
+static t_file		*ls_addfile(t_dir *rdir, struct dirent *ent)
 {
-	struct stat		stats;
 	t_file			*file;
 
-	if (stat(filepath, &stats) < 0)
-	{
-		ft_putendl("ls_addfile failed");
-		return (0);
-	}
 	if (!(file = malloc(sizeof(t_file))))
-		return (-1);
+		return (NULL);
+	file->de = ft_memdup(ent, sizeof(struct dirent));
+	file->fullpath = getpath(rdir->pathinfo.path, file->de->d_name);
+	stat(file->fullpath, &file->stats);
+	rdir->size += file->stats.st_size;
+	rdir->blocs += file->stats.st_blocks;
+	sizetobuff(file->stats.st_size, file->size_str);
+	stat(file->fullpath, &file->stats);
 	ft_lstpush_sort(&rdir->content, ft_lstnewlink(file, sizeof(t_file)),
 			(int(*)())getsorter(rdir->flags));
-	return (1);
+	return (file);
 }
 
-static void			sizetobuff(size_t nb, char *buffer)
-{
-	*buffer = '0' + (nb % 10);
-	buffer[1] = '\0';
-	if (nb / 10 > 10)
-		sizetobuff(nb / 10, buffer + 1);
-}
+/*
+** this function list a dirctory and append it to the dir list (root)
+** it need the rdir entry given by the caller (with get_rdir or search_rdir)
+** each file is append by ls_addfile
+*/
 
 void				ls_dir(t_list **root, t_dir *rdir)
 {
@@ -74,23 +78,14 @@ void				ls_dir(t_list **root, t_dir *rdir)
 	struct dirent	*ent;
 	t_file			*file;
 
-	(void)ls_addfile;
 	if (!(d = ls_dir_open(rdir->pathinfo.path)))
 		return ;
 	while ((ent = readdir(d)))
 	{
 		if ((ent->d_name[0] == '.') && (!(rdir->flags & HIDENS)))
 			continue ;
-		if (!(file = malloc(sizeof(t_file))))
+		if (!(file = ls_addfile(rdir, ent)))
 			break ;
-		file->de = ft_memdup(ent, sizeof(struct dirent));
-		file->fullpath = getpath(rdir->pathinfo.path, file->de->d_name);
-		rdir->size += (size_t)file->stats.st_size;
-		rdir->blocs += (size_t)file->stats.st_blocks;
-		sizetobuff(rdir->size, rdir->size_str);
-		stat(file->fullpath, &file->stats);
-		ft_lstpush_sort(&rdir->content, ft_lstnewlink(file, sizeof(t_file)),
-				(int(*)())getsorter(rdir->flags));
 		if (((ft_strcmp(ent->d_name, ".")) && (ft_strcmp(ent->d_name, ".."))))
 			if ((ent->d_type == DT_DIR) && (rdir->flags & RECURSIVE))
 				ls_dir(root, get_rdir(root, file->fullpath, rdir->flags));
