@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/20 20:37:17 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/20 21:26:51 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static DIR			*ls_dir_open(char *dir)
 /*
 ** this function add ONE FILE to a dir file list
 ** return: a pointer to the t_file if success, NULL otherwise
+** todo: find a way to prevent so much calls of getsorter (needed just once)
 */
 
 static t_file		*ls_addfile(t_dir *rdir, struct dirent *ent)
@@ -61,7 +62,10 @@ static t_file		*ls_addfile(t_dir *rdir, struct dirent *ent)
 	rdir->blocs += file->stats.st_blocks;
 	sizetobuff(file->stats.st_size, file->size_str);
 	stat(file->fullpath, &file->stats);
-	ft_lstpush_sort(&rdir->content, ft_lstnewlink(file, sizeof(t_file)),
+	if (rdir->flags & NOSORT)
+		ft_lstpush_back(&rdir->content, ft_lstnewlink(file, sizeof(t_file)));
+	else
+		ft_lstpush_sort(&rdir->content, ft_lstnewlink(file, sizeof(t_file)),
 			(int(*)())getsorter(rdir->flags));
 	return (file);
 }
