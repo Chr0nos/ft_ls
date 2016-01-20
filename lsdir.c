@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/20 17:31:49 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/20 18:22:01 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,14 @@ static int			ls_addfile(t_dir *rdir, char *filepath)
 	return (1);
 }
 
+static void			sizetobuff(size_t nb, char *buffer)
+{
+	*buffer = '0' + (nb % 10);
+	buffer[1] = '\0';
+	if (nb / 10 > 10)
+		sizetobuff(nb / 10, buffer + 1);
+}
+
 void				ls_dir(t_list **root, t_dir *rdir)
 {
 	DIR				*d;
@@ -79,6 +87,7 @@ void				ls_dir(t_list **root, t_dir *rdir)
 		file->fullpath = getpath(rdir->pathinfo.path, file->de->d_name);
 		rdir->size += (size_t)file->stats.st_size;
 		rdir->blocs += (size_t)file->stats.st_blocks;
+		sizetobuff(rdir->size, rdir->size_str);
 		stat(file->fullpath, &file->stats);
 		ft_lstpush_sort(&rdir->content, ft_lstnewlink(file, sizeof(t_file)),
 				(int(*)())getsorter(rdir->flags));
