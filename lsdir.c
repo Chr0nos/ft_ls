@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/20 17:07:29 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/20 17:31:49 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,30 @@ static DIR			*ls_dir_open(char *dir)
 	return (d);
 }
 
+static int			ls_addfile(t_dir *rdir, char *filepath)
+{
+	struct stat		stats;
+	t_file			*file;
+
+	if (stat(filepath, &stats) < 0)
+	{
+		ft_putendl("ls_addfile failed");
+		return (0);
+	}
+	if (!(file = malloc(sizeof(t_file))))
+		return (-1);
+	ft_lstpush_sort(&rdir->content, ft_lstnewlink(file, sizeof(t_file)),
+			(int(*)())getsorter(rdir->flags));
+	return (1);
+}
+
 void				ls_dir(t_list **root, t_dir *rdir)
 {
 	DIR				*d;
 	struct dirent	*ent;
 	t_file			*file;
 
+	(void)ls_addfile;
 	if (!(d = ls_dir_open(rdir->pathinfo.path)))
 		return ;
 	while ((ent = readdir(d)))
