@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/11 18:49:35 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/20 16:04:08 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/20 16:07:21 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_dir			*get_rdir(t_list **root, char *path, int flags)
 {
 	t_list		*lst;
 	t_dir		*rdir;
-	
+
 	lst = *root;
 	while (lst)
 	{

@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:38:47 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/20 14:45:35 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/20 16:08:22 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ void		display(t_list *lst)
 {
 	const size_t	dirs = ft_lstsize(lst);
 	t_dir			*dir;
-	t_file			*file;
 	t_list			*dl;
 	char			buffer[2048];
 
@@ -106,8 +105,7 @@ void		display(t_list *lst)
 		dl = dir->content;
 		while (dl)
 		{
-			if ((file = (t_file*)dl->content))
-				display_file(file, dir, (char*)buffer);
+			display_file((t_file*)dl->content, dir, (char*)buffer);
 			dl = dl->next;
 		}
 		lst = lst->next;
