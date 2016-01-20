@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/11 18:49:35 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/20 18:15:07 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/20 21:19:28 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static t_dir	*get_newrdir(char *path, int flags)
 	rdir->count = 0;
 	rdir->pathinfo.path = ft_strdup(path);
 	rdir->pathinfo.file = NULL;
-	ft_strcpy(rdir->size_str, "0");
 	if ((stat(path, &rdir->stats) < 0) && (showerror(path)))
 	{
 		free(rdir);

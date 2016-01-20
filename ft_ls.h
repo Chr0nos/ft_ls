@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:52:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/20 21:11:00 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/20 21:19:10 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ typedef struct		s_file
 typedef struct		s_dir
 {
 	char			*path;
-	char			size_str[48];
 	size_t			count;
 	off_t			size;
 	off_t			blocs;
