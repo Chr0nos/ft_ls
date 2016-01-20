@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/20 09:41:17 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/20 11:26:12 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ void				ls_dir(t_list **root, t_dir *rdir)
 	lsd.sorter = (int *)getsorter(rdir->flags);
 	lsd.root = root;
 	lsd.rdir = rdir;
-	lsd.match = rdir->pathinfo.filemask;
 	while ((lsd.ent = readdir(d)))
 		if (lsd_append(&lsd))
 			rdir->count++;

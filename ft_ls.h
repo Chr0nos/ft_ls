@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:52:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/20 09:46:17 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/20 11:26:45 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ enum				e_flags
 typedef struct		s_filepath
 {
 	char			*path;
-	char			*filemask;
+	char			*file;
 }					t_filepath;
 
 typedef struct		s_file
@@ -56,6 +56,7 @@ typedef struct		s_dir
 	t_list			*content;
 	int				flags;
 	char			padding[4];
+	struct stat		stats;
 	t_filepath		pathinfo;
 }					t_dir;
 
@@ -79,7 +80,6 @@ int					rmsort(t_list *a, t_list *b);
 int					sizesort(t_list *a, t_list *b);
 int					rsizesort(t_list *a, t_list *b);
 void				*getsorter(int f);
-int					delpathinfo(t_filepath *file);
 t_dir				*get_rdir(t_list **root, char *path, int flags);
 
 #endif
