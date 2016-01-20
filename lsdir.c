@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/20 11:26:12 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/20 16:01:59 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,35 +29,6 @@ static char			*getpath(char *dir, char *file)
 	return (fp);
 }
 
-static int			lsd_append(t_lsd *x)
-{
-	t_file	file;
-	t_list	*file_item;
-	char	*name;
-
-	ft_printf("listing: %s\n", x->ent->d_name);
-	if ((!(x->rdir->flags & HIDENS)) && (x->ent->d_name[0] == '.'))
-		return (0);
-	file.de = ft_memdup(x->ent, sizeof(struct dirent));
-	name = file.de->d_name;
-	file.fullpath = getpath(x->rdir->pathinfo.path, name);
-	if (stat(file.fullpath, &file.stats) < 0)
-		ft_printf("failed to stat: %s: %s\n", file.fullpath, strerror(errno));
-	x->rdir->size += (size_t)file.stats.st_size;
-	x->rdir->blocs += (size_t)file.stats.st_blocks;
-	if (!(file_item = ft_lstnew(&file, sizeof(t_file))))
-	{
-		free(file.de);
-		return (0);
-	}
-	ft_lstadd(x->root, file_item);
-	//ft_lstpush_sort(x->root, file_item, (int(*)())x->sorter);
-	if ((x->ent->d_type == DT_DIR) && (x->rdir->flags & RECURSIVE) &&
-			(ft_strcmp(name, ".") != 0) && (ft_strcmp(name, "..")))
-		ls_dir(x->root, get_rdir(x->root, file.fullpath, x->rdir->flags));
-	return (1);
-}
-
 static DIR			*ls_dir_open(char *dir)
 {
 	DIR	*d;
@@ -74,16 +45,28 @@ static DIR			*ls_dir_open(char *dir)
 
 void				ls_dir(t_list **root, t_dir *rdir)
 {
-	DIR			*d;
-	t_lsd		lsd;
+	DIR				*d;
+	struct dirent	*ent;
+	t_file			*file;
 
 	if (!(d = ls_dir_open(rdir->pathinfo.path)))
 		return ;
-	lsd.sorter = (int *)getsorter(rdir->flags);
-	lsd.root = root;
-	lsd.rdir = rdir;
-	while ((lsd.ent = readdir(d)))
-		if (lsd_append(&lsd))
-			rdir->count++;
+	while ((ent = readdir(d)))
+	{
+		if ((ent->d_name[0] == '.') && (!(rdir->flags & HIDENS)))
+			continue ;
+		if (!(file = malloc(sizeof(t_file))))
+			break ;
+		file->de = ft_memdup(ent, sizeof(struct dirent));
+		file->fullpath = getpath(rdir->pathinfo.path, file->de->d_name);
+		rdir->size += (size_t)file->stats.st_size;
+		rdir->blocs += (size_t)file->stats.st_blocks;
+		ft_lstpush_sort(&rdir->content, ft_lstnewlink(file, sizeof(t_file)),
+				(int(*)())getsorter(rdir->flags));
+		if (((ft_strcmp(ent->d_name, ".")) && (ft_strcmp(ent->d_name, ".."))))
+			if ((ent->d_type == DT_DIR) && (rdir->flags & RECURSIVE))
+				ls_dir(root, get_rdir(root, file->fullpath, rdir->flags));
+		rdir->count++;
+	}
 	closedir(d);
 }

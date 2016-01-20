@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/11 18:49:35 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/20 13:42:35 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/20 16:04:08 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static t_dir	*get_newrdir(char *path, int flags)
 	rdir->size = 0;
 	rdir->blocs = 0;
 	rdir->count = 0;
-	rdir->pathinfo.path = NULL;
+	rdir->pathinfo.path = ft_strdup(path);
 	rdir->pathinfo.file = NULL;
 	rdir->size_str = NULL;
 	rdir->pathinfo.path = path;
