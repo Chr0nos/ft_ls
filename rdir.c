@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/11 18:49:35 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/20 16:20:05 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/20 16:55:41 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,23 @@ static t_dir	*get_newrdir(char *path, int flags)
 	return (rdir);
 }
 
-t_dir			*get_rdir(t_list **root, char *path, int flags)
+t_dir			*search_rdir(t_list *lst, char *path)
 {
-	t_list		*lst;
-	t_dir		*rdir;
-
-	lst = *root;
 	while (lst)
 	{
-		rdir = (t_dir*)(lst->content);
-		if (ft_strcmp(rdir->pathinfo.path, path) == 0)
-			return (rdir);
+		if (ft_strcmp(((t_dir*)(lst->content))->pathinfo.path, path) == 0)
+			return ((t_dir*)lst->content);
 		lst = lst->next;
 	}
+	return (NULL);
+}
+
+t_dir			*get_rdir(t_list **root, char *path, int flags)
+{
+	t_dir		*rdir;
+
+	if ((rdir = search_rdir(*root, path)))
+		return (rdir);
 	rdir = get_newrdir(path, flags);
 	if (!rdir)
 		return (NULL);

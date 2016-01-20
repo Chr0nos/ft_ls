@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:52:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/20 11:26:45 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/20 16:49:40 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,6 @@ typedef struct		s_dir
 	t_filepath		pathinfo;
 }					t_dir;
 
-typedef struct		s_lsd
-{
-	t_dir			*rdir;
-	struct dirent	*ent;
-	t_list			**root;
-	void			*sorter;
-}					t_lsd;
-
 void				display(t_list *lst);
 void				ls_dir(t_list **root, t_dir *rdir);
 int					sorter(t_list *a, t_list *b);
@@ -79,6 +71,7 @@ int					rmsort(t_list *a, t_list *b);
 int					sizesort(t_list *a, t_list *b);
 int					rsizesort(t_list *a, t_list *b);
 void				*getsorter(int f);
+t_dir				*search_rdir(t_list *lst, char *path);
 t_dir				*get_rdir(t_list **root, char *path, int flags);
 
 #endif
