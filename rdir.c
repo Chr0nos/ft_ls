@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/11 18:49:35 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/20 21:19:28 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/21 22:45:31 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ static t_dir	*get_newrdir(char *path, int flags)
 	rdir->pathinfo.file = NULL;
 	if ((stat(path, &rdir->stats) < 0) && (showerror(path)))
 	{
+		free(rdir->path);
+		free(rdir->pathinfo.path);
 		free(rdir);
 		return (NULL);
 	}
@@ -46,6 +48,13 @@ static t_dir	*get_newrdir(char *path, int flags)
 	rdir->max.grouplen = 0;
 	rdir->max.linkslen = 0;
 	return (rdir);
+}
+
+void			rdir_clean(t_dir *rdir)
+{
+	free(rdir->path);
+	free(rdir->pathinfo.path);
+	free(rdir);
 }
 
 t_dir			*search_rdir(t_list *lst, char *path)
