@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/20 20:26:02 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/21 21:57:08 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/21 22:25:54 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static unsigned int		sizetobuff_len(off_t nb)
 {
 	unsigned int		len;
 
-	len = 1;
+	len = 0;
 	while (nb)
 	{
 		nb /= 10;
@@ -36,12 +36,12 @@ unsigned int			sizetobuff(off_t nb, char *buffer)
 		ft_strcpy(buffer, "0");
 		return (1);
 	}
-	n = m - 1;
+	n = m;
 	buffer[n--] = '\0';
 	while (nb)
 	{
 		buffer[n--] = '0' + (nb % 10);
 		nb /= 10;
 	}
-	return (m - 1);
+	return (m);
 }
