@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:52:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/21 15:34:30 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/21 15:52:19 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct		s_dir
 	t_filepath		pathinfo;
 }					t_dir;
 
+void				aligner(char *buffer, unsigned int len);
 void				display(t_list *lst);
 void				ls_dir(t_list **root, t_dir *rdir);
 int					sorter(t_list *a, t_list *b);
