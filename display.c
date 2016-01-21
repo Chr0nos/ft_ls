@@ -75,7 +75,6 @@ static void	display_file(t_file *file, t_dir *dir, char *buffer)
 	{
 		aligner(file->size_str, dir->max.filesize);
 		p = (size_t)add_posix(file, buffer);
-		buffer[p++] = ' ';
 		p += ft_strxcpy(buffer + p, file->links, ft_strlen(file->links));
 		p += ft_strxcpy(buffer + p, file->user, ft_strlen(file->user));
 		p += ft_strxcpy(buffer + p, file->group, ft_strlen(file->group));
