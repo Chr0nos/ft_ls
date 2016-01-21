@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/20 21:26:51 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/21 12:59:27 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char			*getpath(char *dir, char *file)
 
 static DIR			*ls_dir_open(char *dir)
 {
-	DIR	*d;
+	DIR					*d;
 
 	if (!(d = opendir(dir)))
 	{
@@ -49,14 +49,14 @@ static DIR			*ls_dir_open(char *dir)
 ** todo: find a way to prevent so much calls of getsorter (needed just once)
 */
 
-static t_file		*ls_addfile(t_dir *rdir, struct dirent *ent)
+static t_file		*ls_addfile(t_dir *rdir, const char *name)
 {
 	t_file			*file;
 
 	if (!(file = malloc(sizeof(t_file))))
 		return (NULL);
-	file->de = ft_memdup(ent, sizeof(struct dirent));
-	file->fullpath = getpath(rdir->pathinfo.path, file->de->d_name);
+	file->name = ft_strdup(name);
+	file->fullpath = getpath(rdir->pathinfo.path, file->name);
 	stat(file->fullpath, &file->stats);
 	rdir->size += file->stats.st_size;
 	rdir->blocs += file->stats.st_blocks;
@@ -88,7 +88,7 @@ void				ls_dir(t_list **root, t_dir *rdir)
 	{
 		if ((ent->d_name[0] == '.') && (!(rdir->flags & HIDENS)))
 			continue ;
-		if (!(file = ls_addfile(rdir, ent)))
+		if (!(file = ls_addfile(rdir, ent->d_name)))
 			break ;
 		if (((ft_strcmp(ent->d_name, ".")) && (ft_strcmp(ent->d_name, ".."))))
 			if ((ent->d_type == DT_DIR) && (rdir->flags & RECURSIVE))

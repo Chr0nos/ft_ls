@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 14:26:30 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/19 22:27:51 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/21 13:00:55 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int		sorter(t_list *a, t_list *b)
 	char	*as;
 	char	*bs;
 
-	as = ((t_file*)(a->content))->de->d_name;
-	bs = ((t_file*)(b->content))->de->d_name;
-	return (ft_strcasecmp(as, bs));
+	as = ((t_file*)(a->content))->name;
+	bs = ((t_file*)(b->content))->name;
+	return (ft_strcmp(as, bs));
 }
 
 int		rsort(t_list *a, t_list *b)

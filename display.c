@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:38:47 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/20 20:21:42 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/21 12:59:08 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,21 @@
 
 static char	get_type(t_file *file)
 {
-	if (file->de->d_type == DT_BLK)
+	const mode_t	mode = file->stats.st_mode;
+
+	if (mode & S_IFBLK)
 		return ('b');
-	if (file->de->d_type == DT_DIR)
+	if (mode & S_IFDIR)
 		return ('d');
-	if (file->de->d_type == DT_CHR)
+	if (mode & S_IFCHR)
 		return ('c');
-	if (file->de->d_type == DT_FIFO)
+	if (mode & S_IFIFO)
 		return ('f');
-	if (file->de->d_type == DT_LNK)
+	if (mode & S_IFLNK)
 		return ('l');
-	if (file->de->d_type == DT_REG)
+	if (mode & S_IFREG)
 		return ('-');
-	if (file->de->d_type == DT_SOCK)
+	if (mode & S_IFSOCK)
 		return ('s');
 	return ('u');
 }
@@ -85,7 +87,7 @@ static void	display_file(t_file *file, t_dir *dir, char *buffer)
 		ft_strcpy(&buffer[p], " ");
 		ft_putstr(buffer);
 	}
-	ft_putendl(file->de->d_name);
+	ft_putendl(file->name);
 }
 
 void		display(t_list *lst)
