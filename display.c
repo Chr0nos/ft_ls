@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:38:47 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/21 16:49:13 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/21 21:48:57 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "libft.h"
 #include "pwd.h"
 #include "grp.h"
+#include <unistd.h>
 
 static char	get_type(t_file *file)
 {
@@ -67,6 +68,12 @@ static size_t	ft_strxcpy(char *dest, const char *src, const size_t len)
 	return (len + 1);
 }
 
+/*
+** this function is here to display ONE file to the terminal
+** the buffer is in the stack, i use write to prevent the ft_strlen of ft_putstr
+** p = the current lenght of the buffer
+*/
+
 static void	display_file(t_file *file, t_dir *dir, char *buffer)
 {
 	size_t	p;
@@ -82,7 +89,7 @@ static void	display_file(t_file *file, t_dir *dir, char *buffer)
 		p += ft_strxcpy(buffer + p, file->user, ft_strlen(file->user));
 		p += ft_strxcpy(buffer + p, file->group, ft_strlen(file->group));
 		p += ft_strxcpy(buffer + p, file->size_str, ft_strlen(file->size_str));
-		ft_putstr(buffer);
+		write(1, buffer, p);
 	}
 	ft_putendl(file->name);
 }

@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/20 20:26:02 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/21 14:13:07 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/21 21:57:08 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,5 @@ unsigned int			sizetobuff(off_t nb, char *buffer)
 		buffer[n--] = '0' + (nb % 10);
 		nb /= 10;
 	}
-	return (m);
+	return (m - 1);
 }
