@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/11 18:49:35 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/21 22:45:31 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/21 22:49:09 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ static t_dir	*get_newrdir(char *path, int flags)
 	rdir->pathinfo.file = NULL;
 	if ((stat(path, &rdir->stats) < 0) && (showerror(path)))
 	{
-		free(rdir->path);
-		free(rdir->pathinfo.path);
-		free(rdir);
+		rdir_clean(rdir);
 		return (NULL);
 	}
 	rdir->max.filesize = 0;
