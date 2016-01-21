@@ -45,18 +45,27 @@ typedef struct		s_file
 	char			*name;
 	char			*fullpath;
 	char			size_str[48];
+	char			user[256];
+	char			group[256];
 	struct stat		stats;
 }					t_file;
 
+typedef struct		s_max
+{
+	unsigned int	filesize;
+	unsigned int	userlen;
+	unsigned int	grouplen;
+}					t_max;
+
 typedef struct		s_dir
 {
+	int				flags;
+	t_max			max;
 	char			*path;
+	t_list			*content;
 	size_t			count;
 	off_t			size;
 	off_t			blocs;
-	t_list			*content;
-	int				flags;
-	char			padding[4];
 	struct stat		stats;
 	t_filepath		pathinfo;
 }					t_dir;

@@ -19,6 +19,8 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <errno.h>
+#include <pwd.h>
+#include <grp.h>
 
 static char			*getpath(char *dir, char *file)
 {
@@ -27,6 +29,31 @@ static char			*getpath(char *dir, char *file)
 
 	fp = ft_strunsplit(tab, '/');
 	return (fp);
+}
+
+/*
+** this function update user and group info about each file
+** it also update rdir to store the user/group lens for column alignement
+** (alignement is done into display function, not here)
+*/
+
+static void			update_infos(t_dir *rdir, t_file *file)
+{
+	struct		passwd		*pwd;
+	struct		group		*grp;
+	size_t		glen;
+	size_t		ulen;
+
+	pwd = getpwuid(file->stats.st_uid);
+	grp = getgrgid(file->stats.st_gid);
+	ft_strcpy(file->user, pwd->pw_name);
+	ft_strcpy(file->group, grp->gr_name);
+	ulen = ft_strlen(file->user);
+	glen = ft_strlen(file->group);
+	if (ulen > rdir->max.userlen)
+		rdir->max.userlen = (unsigned int)ulen;
+	if (glen > rdir->max.grouplen)
+		rdir->max.grouplen = (unsigned int)glen;
 }
 
 /*
@@ -53,6 +80,7 @@ static t_file		*ls_addfile(t_dir *rdir, const char *name, int (*sort)())
 	}
 	rdir->size += file->stats.st_size;
 	rdir->blocs += file->stats.st_blocks;
+	update_infos(rdir, file);
 	if (rdir->flags & HUMAN)
 		ft_wsize((unsigned long long)file->stats.st_size, file->size_str);
 	else
