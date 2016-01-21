@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:52:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/21 14:58:19 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/21 15:34:30 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int					msort(t_list *a, t_list *b);
 int					rmsort(t_list *a, t_list *b);
 int					sizesort(t_list *a, t_list *b);
 int					rsizesort(t_list *a, t_list *b);
+int					parser(int ac, char **av, t_list **targets);
 void				*getsorter(int f);
 t_dir				*search_rdir(t_list *lst, char *path);
 t_dir				*get_rdir(t_list **root, char *path, int flags);

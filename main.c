@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:56:08 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/21 14:59:05 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/21 15:35:50 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,34 +42,6 @@ static void	ft_lstatomisator(void *x, size_t size)
 	}
 	free(x);
 	(void)size;
-}
-
-static int	parser(int ac, char **av, t_list **targets)
-{
-	const char	*strmatch[9] = { "-*R*", "-*l*", "-*a*", "-*r*", "-*f*",
-		"-*t*", "-*S*", "-*h*", "-*A*" };
-	const int	flagstab[9] = { RECURSIVE, LONG, HIDENS, REVERSESORT, NOSORT,
-		MTIMESORT, SIZESORT, HUMAN, HIDENS | NODOTANDDOTDOT };
-	int			mappos;
-	int			flags;
-	int			p;
-
-	flags = NONE;
-	p = 1;
-	while (p < ac)
-	{
-		if (av[p][0] == '-')
-		{
-			mappos = 9;
-			while (mappos--)
-				if (ft_match(av[p], strmatch[mappos]))
-					flags |= flagstab[mappos];
-		}
-		else
-			ft_lstadd(targets, ft_lstnewlink(av[p], 0));
-		p++;
-	}
-	return (flags);
 }
 
 static void	pre_parse(t_list **lst, t_list *targets, int flags)
