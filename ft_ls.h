@@ -56,6 +56,7 @@ typedef struct		s_file
 	char			user[256];
 	char			group[256];
 	char			links[8];
+	char			time[64];
 	struct stat		stats;
 }					t_file;
 
