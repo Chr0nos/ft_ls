@@ -39,21 +39,28 @@ static char			*getpath(char *dir, char *file)
 
 static void			update_infos(t_dir *rdir, t_file *file)
 {
-	struct		passwd		*pwd;
-	struct		group		*grp;
-	size_t		glen;
-	size_t		ulen;
+	struct passwd			*pwd;
+	struct group			*grp;
+	size_t					lens[4];
 
 	pwd = getpwuid(file->stats.st_uid);
 	grp = getgrgid(file->stats.st_gid);
 	ft_strcpy(file->user, pwd->pw_name);
 	ft_strcpy(file->group, grp->gr_name);
-	ulen = ft_strlen(file->user);
-	glen = ft_strlen(file->group);
-	if (ulen > rdir->max.userlen)
-		rdir->max.userlen = (unsigned int)ulen;
-	if (glen > rdir->max.grouplen)
-		rdir->max.grouplen = (unsigned int)glen;
+	sizetobuff((off_t)file->stats.st_nlink, file->links);
+	lens[ULEN] = ft_strlen(file->user);
+	lens[GLEN] = ft_strlen(file->group);
+	sizetobuff(file->stats.st_size, file->size_str);
+	lens[SLEN] = ft_strlen(file->size_str);
+	lens[LLEN] = ft_strlen(file->links);
+	if (lens[ULEN] > rdir->max.userlen)
+		rdir->max.userlen = (unsigned int)lens[ULEN];
+	if (lens[GLEN] > rdir->max.grouplen)
+		rdir->max.grouplen = (unsigned int)lens[GLEN];
+	if (lens[LLEN] > rdir->max.linkslen)
+		rdir->max.linkslen = (unsigned int)lens[LLEN];
+	if (lens[SLEN] > rdir->max.filesize)
+		rdir->max.filesize = (unsigned int)lens[SLEN];
 }
 
 /*

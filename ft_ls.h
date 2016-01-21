@@ -34,6 +34,14 @@ enum				e_flags
 	NODOTANDDOTDOT = 1024
 };
 
+enum				e_lens
+{
+	ULEN = 0,
+	GLEN = 1,
+	SLEN = 2,
+	LLEN = 3
+};
+
 typedef struct		s_filepath
 {
 	char			*path;
@@ -47,6 +55,7 @@ typedef struct		s_file
 	char			size_str[48];
 	char			user[256];
 	char			group[256];
+	char			links[8];
 	struct stat		stats;
 }					t_file;
 
@@ -55,6 +64,8 @@ typedef struct		s_max
 	unsigned int	filesize;
 	unsigned int	userlen;
 	unsigned int	grouplen;
+	unsigned int	linkslen;
+	unsigned int	padding;
 }					t_max;
 
 typedef struct		s_dir

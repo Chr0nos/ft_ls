@@ -59,61 +59,35 @@ static int	add_posix(t_file *file, char *buffer)
 	return (p);
 }
 
+static size_t	ft_strxcpy(char *dest, const char *src, const size_t len)
+{
+	ft_memcpy(dest, src, len);
+	dest[len] = ' ';
+	dest[len + 1] = '\0';
+	return (len + 1);
+}
+
 static void	display_file(t_file *file, t_dir *dir, char *buffer)
 {
-	int				p;
-	struct passwd	*pwd;
-	struct group	*grp;
-	unsigned int	userlen;
+	size_t	p;
 
 	if (dir->flags & LONG)
 	{
-		pwd = getpwuid(file->stats.st_uid);
-		grp = getgrgid(file->stats.st_gid);
-		p = add_posix(file, buffer);
-		p += ft_itobuff(buffer + p, (int)file->stats.st_nlink, 10,
-				"0123456789");
+		aligner(file->size_str, dir->max.filesize);
+		p = (size_t)add_posix(file, buffer);
 		buffer[p++] = ' ';
-		userlen = (unsigned int)ft_strlen(pwd->pw_name);
-		ft_memcpy(&buffer[p], pwd->pw_name, userlen);
-		p += userlen;
-		buffer[p++] = ' ';
-		userlen = (unsigned int)ft_strlen(grp->gr_name);
-		ft_memcpy(&buffer[p], grp->gr_name, userlen);
-		p += userlen;
-		buffer[p++] = ' ';
-		ft_strcpy(&buffer[p], file->size_str);
-		p += ft_strlen(file->size_str);
-		ft_strcpy(&buffer[p], " ");
+		p += ft_strxcpy(buffer + p, file->links, ft_strlen(file->links));
+		p += ft_strxcpy(buffer + p, file->user, ft_strlen(file->user));
+		p += ft_strxcpy(buffer + p, file->group, ft_strlen(file->group));
+		p += ft_strxcpy(buffer + p, file->size_str, ft_strlen(file->size_str));
 		ft_putstr(buffer);
 	}
 	ft_putendl(file->name);
 }
 
-static size_t	pre_display(t_list *lst)
-{
-	t_dir		*dir;
-	t_file		*file;
-	t_list		*flst;
-
-	while (lst)
-	{
-		dir = (t_dir*)lst->content;
-		flst = dir->content;
-		while (flst)
-		{
-			file = flst->content;
-			aligner(file->size_str, 8);
-			flst = flst->next;
-		}
-		lst = lst->next;
-	}
-	return (0);
-}
-
 void		display(t_list *lst)
 {
-	const size_t	dirs = ft_lstsize(lst) + pre_display(lst);
+	const size_t	dirs = ft_lstsize(lst);
 	t_dir			*dir;
 	t_list			*dl;
 	char			buffer[2048];

@@ -44,6 +44,7 @@ static t_dir	*get_newrdir(char *path, int flags)
 	rdir->max.filesize = 0;
 	rdir->max.userlen = 0;
 	rdir->max.grouplen = 0;
+	rdir->max.linkslen = 0;
 	return (rdir);
 }
 
