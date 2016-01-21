@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/21 15:48:50 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/21 16:04:57 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/21 16:45:20 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 void	aligner(char *buffer, unsigned int len)
 {
-	char				*tmp;
 	size_t				slen;
 	size_t				diff;
 

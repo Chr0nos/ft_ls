@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:38:47 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/21 12:59:08 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/21 16:49:13 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,30 @@ static void	display_file(t_file *file, t_dir *dir, char *buffer)
 	ft_putendl(file->name);
 }
 
+static size_t	pre_display(t_list *lst)
+{
+	t_dir		*dir;
+	t_file		*file;
+	t_list		*flst;
+
+	while (lst)
+	{
+		dir = (t_dir*)lst->content;
+		flst = dir->content;
+		while (flst)
+		{
+			file = flst->content;
+			aligner(file->size_str, 8);
+			flst = flst->next;
+		}
+		lst = lst->next;
+	}
+	return (0);
+}
+
 void		display(t_list *lst)
 {
-	const size_t	dirs = ft_lstsize(lst);
+	const size_t	dirs = ft_lstsize(lst) + pre_display(lst);
 	t_dir			*dir;
 	t_list			*dl;
 	char			buffer[2048];
