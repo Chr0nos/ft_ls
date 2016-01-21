@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/11 21:02:44 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/11 21:02:47 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/21 14:39:51 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 int		sizesort(t_list *a, t_list *b)
 {
-	const size_t	sa = (size_t)((t_file *)(a->content))->stats.st_size;
-	const size_t	sb = (size_t)((t_file *)(b->content))->stats.st_size;
+	const off_t	sa = ((t_file *)(a->content))->stats.st_size;
+	const off_t	sb = ((t_file *)(b->content))->stats.st_size;
 
 	if (sa == sb)
 		return (sorter(a, b));

@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/21 13:48:43 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/21 15:13:55 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ static t_file		*ls_addfile(t_dir *rdir, const char *name, int (*sort)())
 	}
 	rdir->size += file->stats.st_size;
 	rdir->blocs += file->stats.st_blocks;
-	sizetobuff(file->stats.st_size, file->size_str);
+	if (rdir->flags & HUMAN)
+		ft_wsize((unsigned long long)file->stats.st_size, file->size_str);
+	else
+		sizetobuff(file->stats.st_size, file->size_str);
 	if (rdir->flags & NOSORT)
 		ft_lstpush_back(&rdir->content, ft_lstnewlink(file, sizeof(t_file)));
 	else
@@ -97,6 +100,7 @@ void				ls_dir(t_list **root, t_dir *rdir)
 	DIR				*d;
 	struct dirent	*ent;
 	t_file			*file;
+	char			*name;
 	int				(*sort)();
 
 	if (!(d = ls_dir_open(rdir)))
@@ -104,11 +108,15 @@ void				ls_dir(t_list **root, t_dir *rdir)
 	sort = (int(*)())getsorter(rdir->flags);
 	while ((ent = readdir(d)))
 	{
-		if ((ent->d_name[0] == '.') && (!(rdir->flags & HIDENS)))
+		name = ent->d_name;
+		if ((name[0] == '.') && (!(rdir->flags & HIDENS)))
+			continue ;
+		if (((!ft_strcmp(name, ".")) || (!ft_strcmp(name, ".."))) &&
+			(rdir->flags & NODOTANDDOTDOT))
 			continue ;
 		if (!(file = ls_addfile(rdir, ent->d_name, sort)))
 			break ;
-		if (((ft_strcmp(ent->d_name, ".")) && (ft_strcmp(ent->d_name, ".."))))
+		if (((ft_strcmp(name, ".")) && (ft_strcmp(name, ".."))))
 			if ((ent->d_type == DT_DIR) && (rdir->flags & RECURSIVE))
 				ls_dir(root, get_rdir(root, file->fullpath, rdir->flags));
 		rdir->count++;

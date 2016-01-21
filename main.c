@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:56:08 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/21 13:00:33 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/21 14:59:05 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ static void	ft_lstatomisator(void *x, size_t size)
 
 static int	parser(int ac, char **av, t_list **targets)
 {
-	const char	*strmatch[7] = { "-*R*", "-*l*", "-*a*", "-*r*", "-*f*",
-		"-*t*", "-*S*" };
-	const int	flagstab[7] = { RECURSIVE, LONG, HIDENS, REVERSESORT, NOSORT,
-		MTIMESORT, SIZESORT };
+	const char	*strmatch[9] = { "-*R*", "-*l*", "-*a*", "-*r*", "-*f*",
+		"-*t*", "-*S*", "-*h*", "-*A*" };
+	const int	flagstab[9] = { RECURSIVE, LONG, HIDENS, REVERSESORT, NOSORT,
+		MTIMESORT, SIZESORT, HUMAN, HIDENS | NODOTANDDOTDOT };
 	int			mappos;
 	int			flags;
 	int			p;
@@ -60,7 +60,7 @@ static int	parser(int ac, char **av, t_list **targets)
 	{
 		if (av[p][0] == '-')
 		{
-			mappos = 7;
+			mappos = 9;
 			while (mappos--)
 				if (ft_match(av[p], strmatch[mappos]))
 					flags |= flagstab[mappos];

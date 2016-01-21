@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:52:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/21 12:53:50 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/21 14:58:19 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ enum				e_flags
 	CTIMESORT = 64,
 	SIZESORT = 128,
 	NOSORT = 256,
-	HUMAN = 512
+	HUMAN = 512,
+	NODOTANDDOTDOT = 1024
 };
 
 typedef struct		s_filepath
