@@ -81,14 +81,13 @@ static t_file		*ls_addfile(t_dir *rdir, const char *name, int (*sort)())
 	if (stat(file->fullpath, &file->stats) < 0)
 	{
 		ft_printf("failed to stat: %s\n", file->fullpath);
-		free(file->fullpath);
-		free(file->name);
-		free(file);
+		clean_file(file);
 		return (NULL);
 	}
 	rdir->size += file->stats.st_size;
 	rdir->blocs += file->stats.st_blocks;
-	update_infos(rdir, file);
+	if (rdir->flags & LONG)
+		update_infos(rdir, file);
 	if (rdir->flags & HUMAN)
 		ft_wsize((unsigned long long)file->stats.st_size, file->size_str);
 	else

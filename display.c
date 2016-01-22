@@ -28,10 +28,10 @@ static char	get_type(t_file *file)
 		return ('c');
 	if (mode & S_IFIFO)
 		return ('f');
-	if (mode & S_IFLNK)
-		return ('l');
 	if (mode & S_IFREG)
 		return ('-');
+	if (mode & S_IFLNK)
+		return ('l');
 	if (mode & S_IFSOCK)
 		return ('s');
 	return ('u');

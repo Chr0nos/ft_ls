@@ -82,6 +82,8 @@ typedef struct		s_dir
 	t_filepath		pathinfo;
 }					t_dir;
 
+void				clean_file(t_file *file);
+void				ft_lstatomisator(void *x, size_t size);
 void				rdir_clean(t_dir *rdir);
 void				aligner(char *buffer, unsigned int len);
 void				display(t_list *lst);

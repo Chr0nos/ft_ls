@@ -37,11 +37,11 @@ unsigned int			sizetobuff(off_t nb, char *buffer)
 		return (1);
 	}
 	n = m;
-	buffer[n--] = '\0';
 	while (nb)
 	{
-		buffer[n--] = '0' + (nb % 10);
+		buffer[--n] = '0' + (nb % 10);
 		nb /= 10;
 	}
+	buffer[m] = '\0';
 	return (m);
 }
