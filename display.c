@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:38:47 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/21 22:29:16 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/22 13:56:43 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,50 +15,6 @@
 #include "pwd.h"
 #include "grp.h"
 #include <unistd.h>
-
-static char	get_type(t_file *file)
-{
-	const mode_t	mode = file->stats.st_mode;
-
-	if (S_ISLNK(mode))
-		return ('l');
-	if (S_ISBLK(mode))
-		return ('b');
-	if (S_ISDIR(mode))
-		return ('d');
-	if (S_ISCHR(mode))
-		return ('c');
-	if (S_ISFIFO(mode))
-		return ('f');
-	if (S_ISSOCK(mode))
-		return ('s');
-	if (S_ISREG(mode))
-		return ('-');
-	return ('u');
-}
-
-static int	add_posix(t_file *file, char *buffer)
-{
-	unsigned char	p;
-	int				blk;
-	int				perms;
-
-	p = 0;
-	blk = 0;
-	buffer[p++] = get_type(file);
-	while (blk < 3)
-	{
-		perms = (int)file->stats.st_mode >> (2 - blk) * 3;
-		buffer[p] = (perms & S_IROTH) ? 'r' : '-';
-		buffer[p + 1] = (perms & S_IWOTH) ? 'w' : '-';
-		buffer[p + 2] = (perms & S_IXOTH) ? 'x' : '-';
-		p += 3;
-		blk++;
-	}
-	buffer[p++] = ' ';
-	buffer[p] = '\0';
-	return (p);
-}
 
 static void		display_link(const char *path)
 {
@@ -85,7 +41,7 @@ static size_t	ft_strxcpy(char *dest, const char *src, const size_t len)
 ** p = the current lenght of the buffer
 */
 
-static void	display_file(t_file *file, t_dir *dir, char *buffer)
+static void		display_file(t_file *file, t_dir *dir, char *buffer)
 {
 	size_t	p;
 
@@ -100,6 +56,7 @@ static void	display_file(t_file *file, t_dir *dir, char *buffer)
 		p += ft_strxcpy(buffer + p, file->user, ft_strlen(file->user));
 		p += ft_strxcpy(buffer + p, file->group, ft_strlen(file->group));
 		p += ft_strxcpy(buffer + p, file->size_str, ft_strlen(file->size_str));
+		p += ft_strxcpy(buffer + p, file->time, ft_strlen(file->time) - 1);
 		write(1, buffer, p);
 		if (S_ISLNK(file->stats.st_mode))
 		{
@@ -113,7 +70,7 @@ static void	display_file(t_file *file, t_dir *dir, char *buffer)
 		ft_putendl(file->name);
 }
 
-void		display(t_list *lst)
+void			display(t_list *lst)
 {
 	const size_t	dirs = ft_lstsize(lst);
 	t_dir			*dir;

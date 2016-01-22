@@ -6,14 +6,21 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/21 15:34:54 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/21 15:35:27 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/22 13:41:09 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 #include "libft.h"
 
-int		parser(int ac, char **av, t_list **targets)
+static void	add_rest_parametersastargets(int ac, char **av, t_list **targets,
+		int p)
+{
+	while (p < ac)
+		ft_lstadd(targets, ft_lstnewlink(av[p++], 0));
+}
+
+int			parser(int ac, char **av, t_list **targets)
 {
 	const char	*strmatch[9] = { "-*R*", "-*l*", "-*a*", "-*r*", "-*f*",
 		"-*t*", "-*S*", "-*h*", "-*A*" };
@@ -38,8 +45,6 @@ int		parser(int ac, char **av, t_list **targets)
 			ft_lstadd(targets, ft_lstnewlink(av[p], 0));
 		p++;
 	}
-	p++;
-	while (p < ac)
-		ft_lstadd(targets, ft_lstnewlink(av[p++], 0));
+	add_rest_parametersastargets(ac, av, targets, p + 1);
 	return (flags);
 }

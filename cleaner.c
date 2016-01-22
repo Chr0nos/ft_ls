@@ -6,19 +6,21 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/22 12:31:28 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/22 12:31:30 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/22 13:44:48 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_ls.h"
+#include <string.h>
 #include <stdlib.h>
 
-void	clean_file(t_file *file)
+void	*clean_file(t_file *file)
 {
 	free(file->fullpath);
 	free(file->name);
 	free(file);
+	return (NULL);
 }
 
 void	ft_lstatomisator(void *x, size_t size)

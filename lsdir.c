@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/21 15:13:55 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/22 13:51:11 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static char			*getpath(char *dir, char *file)
 ** this function update user and group info about each file
 ** it also update rdir to store the user/group lens for column alignement
 ** (alignement is done into display function, not here)
+** called by ls_addfile (below)
 */
 
 static void			update_infos(t_dir *rdir, t_file *file)
@@ -53,7 +54,7 @@ static void			update_infos(t_dir *rdir, t_file *file)
 	sizetobuff(file->stats.st_size, file->size_str);
 	lens[SLEN] = ft_strlen(file->size_str);
 	lens[LLEN] = ft_strlen(file->links);
-	//ft_strcpy(file->time, ctime(file->stats.st_mtime));
+	ft_strcpy(file->time, ctime(&file->stats.st_mtime));
 	if (lens[ULEN] > rdir->max.userlen)
 		rdir->max.userlen = (unsigned int)lens[ULEN];
 	if (lens[GLEN] > rdir->max.grouplen)
@@ -68,6 +69,7 @@ static void			update_infos(t_dir *rdir, t_file *file)
 ** this function add ONE FILE to a dir file list
 ** return: a pointer to the t_file if success, NULL otherwise
 ** todo: find a way to prevent so much calls of getsorter (needed just once)
+** called by: ls_dir & ls_dir_open
 */
 
 static t_file		*ls_addfile(t_dir *rdir, const char *name, int (*sort)())
@@ -78,11 +80,10 @@ static t_file		*ls_addfile(t_dir *rdir, const char *name, int (*sort)())
 		return (NULL);
 	file->name = ft_strdup(name);
 	file->fullpath = getpath(rdir->pathinfo.path, file->name);
-	if (stat(file->fullpath, &file->stats) < 0)
+	if (lstat(file->fullpath, &file->stats) < 0)
 	{
 		ft_printf("failed to stat: %s\n", file->fullpath);
-		clean_file(file);
-		return (NULL);
+		return (clean_file(file));
 	}
 	rdir->size += file->stats.st_size;
 	rdir->blocs += file->stats.st_blocks;
@@ -103,12 +104,12 @@ static t_file		*ls_addfile(t_dir *rdir, const char *name, int (*sort)())
 static DIR			*ls_dir_open(t_dir *rdir)
 {
 	DIR					*d;
-	struct	stat		stats;
+	struct stat			stats;
 	const char			*dir = rdir->pathinfo.path;
 
 	if (!(d = opendir(dir)))
 	{
-		if (stat(dir, &stats) >= 0)
+		if (lstat(dir, &stats) >= 0)
 		{
 			ft_strcpy(rdir->pathinfo.path, ".");
 			ls_addfile(rdir, dir, (int(*)())getsorter(rdir->flags));
