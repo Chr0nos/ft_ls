@@ -20,20 +20,20 @@ static char	get_type(t_file *file)
 {
 	const mode_t	mode = file->stats.st_mode;
 
-	if (mode & S_IFBLK)
-		return ('b');
-	if (mode & S_IFDIR)
-		return ('d');
-	if (mode & S_IFCHR)
-		return ('c');
-	if (mode & S_IFIFO)
-		return ('f');
-	if (mode & S_IFREG)
-		return ('-');
-	if (mode & S_IFLNK)
+	if (S_ISLNK(mode))
 		return ('l');
-	if (mode & S_IFSOCK)
+	if (S_ISBLK(mode))
+		return ('b');
+	if (S_ISDIR(mode))
+		return ('d');
+	if (S_ISCHR(mode))
+		return ('c');
+	if (S_ISFIFO(mode))
+		return ('f');
+	if (S_ISSOCK(mode))
 		return ('s');
+	if (S_ISREG(mode))
+		return ('-');
 	return ('u');
 }
 
@@ -58,6 +58,17 @@ static int	add_posix(t_file *file, char *buffer)
 	buffer[p++] = ' ';
 	buffer[p] = '\0';
 	return (p);
+}
+
+static void		display_link(const char *path)
+{
+	char		buffer[1024];
+	ssize_t		rl;
+
+	ft_strcpy(buffer, " -> ");
+	rl = readlink(path, buffer + 4, 1024);
+	buffer[rl + 4] = '\0';
+	ft_putendl(buffer);
 }
 
 static size_t	ft_strxcpy(char *dest, const char *src, const size_t len)
@@ -90,8 +101,16 @@ static void	display_file(t_file *file, t_dir *dir, char *buffer)
 		p += ft_strxcpy(buffer + p, file->group, ft_strlen(file->group));
 		p += ft_strxcpy(buffer + p, file->size_str, ft_strlen(file->size_str));
 		write(1, buffer, p);
+		if (S_ISLNK(file->stats.st_mode))
+		{
+			ft_putstr(file->name);
+			display_link(file->fullpath);
+		}
+		else
+			ft_putendl(file->name);
 	}
-	ft_putendl(file->name);
+	else
+		ft_putendl(file->name);
 }
 
 void		display(t_list *lst)
