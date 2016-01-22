@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/22 13:55:42 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/22 15:14:24 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/22 16:22:33 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ static char		get_type(t_file *file)
 static void		fix_suid(char *buffer, int perms)
 {
 	if (perms & S_ISUID)
-		buffer[4] = (perms & S_IXUSR) ? 's' : 'S';
+		buffer[3] = (perms & S_IXUSR) ? 's' : 'S';
 	if (perms & S_ISGID)
-		buffer[8] = (perms & S_IXGRP) ? 's' : 'S';
+		buffer[7] = (perms & S_IXGRP) ? 's' : 'S';
 }
 
 int				add_posix(t_file *file, char *buffer)

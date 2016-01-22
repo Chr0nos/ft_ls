@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/22 15:21:40 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/22 18:38:36 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static void			update_infos(t_dir *rdir, t_file *file)
 	sizetobuff((off_t)file->stats.st_nlink, file->links);
 	lens[ULEN] = ft_strlen(file->user);
 	lens[GLEN] = ft_strlen(file->group);
+	ft_memset(file->size_str, 0, 48);
 	sizetobuff(file->stats.st_size, file->size_str);
 	lens[SLEN] = ft_strlen(file->size_str);
 	lens[LLEN] = ft_strlen(file->links);
