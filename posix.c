@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/22 13:55:42 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/22 13:57:08 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/22 14:39:02 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ int				add_posix(t_file *file, char *buffer)
 		perms = (int)file->stats.st_mode >> (2 - blk) * 3;
 		buffer[p] = (perms & S_IROTH) ? 'r' : '-';
 		buffer[p + 1] = (perms & S_IWOTH) ? 'w' : '-';
-		buffer[p + 2] = (perms & S_IXOTH) ? 'x' : '-';
+		if ((blk == 2) && (perms & S_ISVTX))
+			buffer[p + 2] = (perms & S_IXOTH) ? 't' : 'T';
+		else
+			buffer[p + 2] = (perms & S_IXOTH) ? 'x' : '-';
 		p += 3;
 		blk++;
 	}
