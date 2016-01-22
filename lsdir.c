@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/22 18:38:36 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/22 19:11:10 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,8 @@ static t_file		*ls_addfile(t_dir *rdir, const char *name, int (*sort)())
 		ft_printf("ft_ls: %s: %s\n", file->fullpath, strerror(errno));
 		return (clean_file(file));
 	}
-	rdir->size += file->stats.st_size;
 	rdir->blocs += file->stats.st_blocks;
-	if (rdir->flags & LONG)
+	if ((rdir->size += file->stats.st_size) && (rdir->flags & LONG))
 		update_infos(rdir, file);
 	if (rdir->flags & HUMAN)
 		ft_wsize((unsigned long long)file->stats.st_size, file->size_str);
@@ -100,6 +99,7 @@ static t_file		*ls_addfile(t_dir *rdir, const char *name, int (*sort)())
 	else
 		ft_lstpush_sort(&rdir->content, ft_lstnewlink(file, sizeof(t_file)),
 				sort);
+	rdir->count++;
 	return (file);
 }
 
@@ -108,13 +108,15 @@ static DIR			*ls_dir_open(t_dir *rdir)
 	DIR					*d;
 	struct stat			stats;
 	const char			*dir = rdir->pathinfo.path;
+	char				b[1024];
 
 	if (!(d = opendir(dir)))
 	{
 		if (lstat(dir, &stats) >= 0)
 		{
+			ft_strcpy(b, dir);
 			ft_strcpy(rdir->pathinfo.path, ".");
-			ls_addfile(rdir, dir, (int(*)())getsorter(rdir->flags));
+			ls_addfile(rdir, b, (int(*)())getsorter(rdir->flags));
 		}
 		else
 		{
@@ -157,7 +159,6 @@ void				ls_dir(t_list **root, t_dir *rdir)
 		if (((ft_strcmp(name, ".")) && (ft_strcmp(name, ".."))))
 			if ((ent->d_type == DT_DIR) && (rdir->flags & RECURSIVE))
 				ls_dir(root, get_rdir(root, file->fullpath, rdir->flags));
-		rdir->count++;
 	}
 	closedir(d);
 }
