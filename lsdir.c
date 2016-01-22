@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/22 13:51:11 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/22 15:21:40 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <errno.h>
 #include <pwd.h>
 #include <grp.h>
+#include <stdio.h>
 
 static char			*getpath(char *dir, char *file)
 {
@@ -82,7 +83,7 @@ static t_file		*ls_addfile(t_dir *rdir, const char *name, int (*sort)())
 	file->fullpath = getpath(rdir->pathinfo.path, file->name);
 	if (lstat(file->fullpath, &file->stats) < 0)
 	{
-		ft_printf("failed to stat: %s\n", file->fullpath);
+		ft_printf("ft_ls: %s: %s\n", file->fullpath, strerror(errno));
 		return (clean_file(file));
 	}
 	rdir->size += file->stats.st_size;

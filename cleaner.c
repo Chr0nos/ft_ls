@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/22 12:31:28 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/22 13:44:48 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/22 15:29:54 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,24 @@ void	ft_lstatomisator(void *x, size_t size)
 	}
 	free(rdir);
 	(void)size;
+}
+
+void	clean_emptydirs(t_list **root)
+{
+	t_dir	*rdir;
+	t_list	*lst;
+	t_list	*next;
+
+	lst = *root;
+	while (lst)
+	{
+		rdir = (t_dir*)lst->content;
+		next = lst->next;
+		if (rdir->count == 0)
+		{
+			rdir_clean(rdir);
+			ft_lstremove(&lst, root, 0);
+		}
+		lst = next;
+	}
 }

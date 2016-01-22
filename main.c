@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:56:08 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/21 22:43:17 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/22 15:27:42 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,12 @@ int			main(int ac, char **av)
 	}
 	if (lst)
 	{
-		display(lst);
-		ft_lstdel(&lst, &ft_lstatomisator);
+		clean_emptydirs(&lst);
+		if (lst)
+		{
+			display(lst);
+			ft_lstdel(&lst, &ft_lstatomisator);
+		}
 	}
 	return (0);
 }
