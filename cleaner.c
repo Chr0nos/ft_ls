@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/22 12:31:28 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/22 15:29:54 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/22 15:34:25 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ void	*clean_file(t_file *file)
 	free(file);
 	return (NULL);
 }
+
+/*
+** this function is called a the very end of the program,
+** consider it as the garbage collector, it here to prevent any memory leak
+*/
 
 void	ft_lstatomisator(void *x, size_t size)
 {
@@ -47,6 +52,13 @@ void	ft_lstatomisator(void *x, size_t size)
 	free(rdir);
 	(void)size;
 }
+
+/*
+** this function is called just before the display (in the main)
+** purpose: remove any empty directory in the display list
+** this case can occurs when ls is required to list a file inside a directory
+** with insufisent perms: ex: ./ft_ls -l /Library/Scripts/42/munki
+*/
 
 void	clean_emptydirs(t_list **root)
 {
