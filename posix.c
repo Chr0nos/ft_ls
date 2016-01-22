@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/22 13:55:42 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/22 14:39:02 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/22 15:14:24 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,14 @@ static char		get_type(t_file *file)
 	return ('u');
 }
 
+static void		fix_suid(char *buffer, int perms)
+{
+	if (perms & S_ISUID)
+		buffer[4] = (perms & S_IXUSR) ? 's' : 'S';
+	if (perms & S_ISGID)
+		buffer[8] = (perms & S_IXGRP) ? 's' : 'S';
+}
+
 int				add_posix(t_file *file, char *buffer)
 {
 	unsigned char	p;
@@ -56,6 +64,7 @@ int				add_posix(t_file *file, char *buffer)
 		blk++;
 	}
 	buffer[p++] = ' ';
+	fix_suid(buffer, file->stats.st_mode);
 	buffer[p] = '\0';
 	return (p);
 }
