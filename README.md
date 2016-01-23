@@ -1,7 +1,7 @@
                                   | a faire | en cour | fait | bug
 ----------------------------------|:-------:|:-------:|:----:|:---------
 listing recursif                  |         |         |   x  |
-afficahge des droits              |         |         |   x  |
+affichage des droits              |         |         |   x  |
 tris des informations             |         |         |   x  |
 liberation de la ram              |    x    |         |      |
 affichage lors du listing         |    x    |         |      |
