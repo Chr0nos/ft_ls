@@ -52,7 +52,6 @@ static void			update_infos(t_dir *rdir, t_file *file)
 	sizetobuff((off_t)file->stats.st_nlink, file->links);
 	lens[ULEN] = ft_strlen(file->user);
 	lens[GLEN] = ft_strlen(file->group);
-	ft_memset(file->size_str, 0, 48);
 	sizetobuff(file->stats.st_size, file->size_str);
 	lens[SLEN] = ft_strlen(file->size_str);
 	lens[LLEN] = ft_strlen(file->links);
@@ -88,7 +87,7 @@ static t_file		*ls_addfile(t_dir *rdir, const char *name, int (*sort)())
 		return (clean_file(file));
 	}
 	rdir->blocs += file->stats.st_blocks;
-	if ((rdir->size += file->stats.st_size) && (rdir->flags & LONG))
+	if (((rdir->size += file->stats.st_size) + 1) && (rdir->flags & LONG))
 		update_infos(rdir, file);
 	if (rdir->flags & HUMAN)
 		ft_wsize((unsigned long long)file->stats.st_size, file->size_str);
