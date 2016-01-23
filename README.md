@@ -1,5 +1,5 @@
                                   | a faire | en cour | fait | bug
-------------------------------------------------------------------
+----------------------------------|:-------:|:-------:|:----:|:---------
 listing recursif                  |         |         |   x  |
 afficahge des droits              |         |         |   x  |
 tris des informations             |         |         |   x  |
