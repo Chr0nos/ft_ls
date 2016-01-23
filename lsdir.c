@@ -55,7 +55,7 @@ static void			update_infos(t_dir *rdir, t_file *file)
 	sizetobuff(file->stats.st_size, file->size_str);
 	lens[SLEN] = ft_strlen(file->size_str);
 	lens[LLEN] = ft_strlen(file->links);
-	ft_strcpy(file->time, ctime(&file->stats.st_mtime));
+	ft_strcpy(file->time, ctime(&file->stats.st_mtime) + 4);
 	if (lens[ULEN] > rdir->max.userlen)
 		rdir->max.userlen = (unsigned int)lens[ULEN];
 	if (lens[GLEN] > rdir->max.grouplen)
@@ -111,7 +111,7 @@ static DIR			*ls_dir_open(t_dir *rdir)
 
 	if (!(d = opendir(dir)))
 	{
-		if (lstat(dir, &stats) >= 0)
+		if ((lstat(dir, &stats) >= 0) && (!(stats.st_mode & S_IFDIR)))
 		{
 			ft_strcpy(b, dir);
 			ft_strcpy(rdir->pathinfo.path, ".");
@@ -119,9 +119,11 @@ static DIR			*ls_dir_open(t_dir *rdir)
 		}
 		else
 		{
-			ft_putstr_fd("ft_ls: ", 2);
-			ft_putstr_fd(dir, 2);
-			ft_putstr_fd(": Failed to open\n", 2);
+			ft_strcpy(b, "ft_ls: ");
+			ft_strcpy(b, dir);
+			ft_strcat(b, ": ");
+			ft_strcat(b, strerror(errno));
+			ft_putendl_fd(b, 2);
 			return (NULL);
 		}
 	}
@@ -155,8 +157,8 @@ void				ls_dir(t_list **root, t_dir *rdir)
 			continue ;
 		if (!(file = ls_addfile(rdir, ent->d_name, sort)))
 			break ;
-		if (((ft_strcmp(name, ".")) && (ft_strcmp(name, ".."))))
-			if ((ent->d_type == DT_DIR) && (rdir->flags & RECURSIVE))
+		if ((ent->d_type == DT_DIR) && (rdir->flags & RECURSIVE))
+			if (((ft_strcmp(name, ".")) && (ft_strcmp(name, ".."))))
 				ls_dir(root, get_rdir(root, file->fullpath, rdir->flags));
 	}
 	closedir(d);
