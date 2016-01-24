@@ -45,6 +45,7 @@ static void			update_infos(t_dir *rdir, t_file *file)
 	struct group			*grp;
 	size_t					lens[4];
 
+	file_init(file);
 	pwd = getpwuid(file->stats.st_uid);
 	grp = getgrgid(file->stats.st_gid);
 	ft_strcpy(file->user, pwd->pw_name);

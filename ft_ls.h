@@ -82,6 +82,7 @@ typedef struct		s_dir
 	t_filepath		pathinfo;
 }					t_dir;
 
+void				file_init(t_file *file);
 void				clean_emptydirs(t_list **root);
 void				*clean_file(t_file *file);
 void				ft_lstatomisator(void *x, size_t size);
