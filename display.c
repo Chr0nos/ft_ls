@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:38:47 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/22 13:56:43 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/24 18:43:15 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ static void		display_file(t_file *file, t_dir *dir, char *buffer)
 
 	if (dir->flags & LONG)
 	{
-		aligner(file->size_str, dir->max.filesize);
-		aligner(file->links, dir->max.linkslen);
+		aligner(file->size_str, dir->max.filesize + 1);
+		aligner(file->links, dir->max.linkslen + 1);
 		aligner(file->user, dir->max.userlen);
-		aligner(file->group, dir->max.grouplen);
+		aligner(file->group, dir->max.grouplen + 1);
 		p = (size_t)add_posix(file, buffer);
 		p += ft_strxcpy(buffer + p, file->links, ft_strlen(file->links));
 		p += ft_strxcpy(buffer + p, file->user, ft_strlen(file->user));

@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/22 19:11:10 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/24 13:28:21 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ static void			update_infos(t_dir *rdir, t_file *file)
 /*
 ** this function add ONE FILE to a dir file list
 ** return: a pointer to the t_file if success, NULL otherwise
-** todo: find a way to prevent so much calls of getsorter (needed just once)
 ** called by: ls_dir & ls_dir_open
 */
 
