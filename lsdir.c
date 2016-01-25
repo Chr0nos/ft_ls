@@ -56,7 +56,7 @@ static void			update_infos(t_dir *rdir, t_file *file)
 	sizetobuff(file->stats.st_size, file->size_str);
 	lens[SLEN] = ft_strlen(file->size_str);
 	lens[LLEN] = ft_strlen(file->links);
-	ft_strcpy(file->time, ctime(&file->stats.st_mtime) + 4);
+	timeloader(ctime(&file->stats.st_mtime), file->time);
 	if (lens[ULEN] > rdir->max.userlen)
 		rdir->max.userlen = (unsigned int)lens[ULEN];
 	if (lens[GLEN] > rdir->max.grouplen)

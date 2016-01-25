@@ -22,16 +22,16 @@ enum				e_flags
 {
 	NONE = 0,
 	RECURSIVE = 1,
-	HIDENS = 2,
-	LONG = 4,
-	REVERSESORT = 8,
-	MTIMESORT = 16,
-	ATIMESORT = 32,
-	CTIMESORT = 64,
-	SIZESORT = 128,
-	NOSORT = 256,
-	HUMAN = 512,
-	NODOTANDDOTDOT = 1024
+	HIDENS = 0x1 << 1,
+	LONG = 0x1 << 2,
+	REVERSESORT = 0x1 << 3,
+	MTIMESORT = 0x1 << 4,
+	ATIMESORT = 0x1 << 5,
+	CTIMESORT = 0x1 << 6,
+	SIZESORT = 0x1 << 7,
+	NOSORT = 0x1 << 8,
+	HUMAN = 0x1 << 9,
+	NODOTANDDOTDOT = 0x1 << 10
 };
 
 enum				e_lens
@@ -82,6 +82,7 @@ typedef struct		s_dir
 	t_filepath		pathinfo;
 }					t_dir;
 
+void				timeloader(const char *time, char *buffer);
 void				file_init(t_file *file);
 void				clean_emptydirs(t_list **root);
 void				*clean_file(t_file *file);
