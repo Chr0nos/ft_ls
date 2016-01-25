@@ -70,28 +70,30 @@ static void		display_file(t_file *file, t_dir *dir, char *buffer)
 		ft_putendl(file->name);
 }
 
+static void		display_dir(t_dir *rdir)
+{
+	t_list	*lst;
+	char	buffer[2048];
+
+	ft_printf("%s:\n", rdir->pathinfo.path);
+	if (rdir->flags & LONG)
+		ft_printf("total %d\n", (int)rdir->blocs);
+	lst = rdir->content;
+	while (lst)
+	{
+		display_file((t_file*)lst->content, rdir, (char*)buffer);
+		lst = lst->next;
+	}
+}
+
 void			display(t_list *lst)
 {
-	const size_t	dirs = ft_lstsize(lst);
 	t_dir			*dir;
-	t_list			*dl;
-	char			buffer[2048];
 
 	while (lst)
 	{
 		dir = (t_dir*)lst->content;
-		if (!dir)
-			continue ;
-		if (dirs > 1)
-			ft_printf("%s:\n", dir->pathinfo.path);
-		if (dir->flags & LONG)
-			ft_printf("total %d\n", (int)dir->blocs);
-		dl = dir->content;
-		while (dl)
-		{
-			display_file((t_file*)dl->content, dir, (char*)buffer);
-			dl = dl->next;
-		}
+		display_dir(dir);
 		lst = lst->next;
 		if (lst)
 			ft_putchar('\n');
