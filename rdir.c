@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/11 18:49:35 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/24 18:44:15 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/25 18:52:19 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int		showerror(char *path)
 	return (1);
 }
 
-static t_dir	*get_newrdir(char *path, int flags)
+t_dir			*get_newrdir(char *path, int flags)
 {
 	t_dir			*rdir;
 
@@ -53,28 +53,4 @@ void			rdir_clean(t_dir *rdir)
 	free(rdir->path);
 	free(rdir->pathinfo.path);
 	free(rdir);
-}
-
-t_dir			*search_rdir(t_list *lst, char *path)
-{
-	while (lst)
-	{
-		if (ft_strcmp(((t_dir*)(lst->content))->pathinfo.path, path) == 0)
-			return ((t_dir*)lst->content);
-		lst = lst->next;
-	}
-	return (NULL);
-}
-
-t_dir			*get_rdir(t_list **root, char *path, int flags)
-{
-	t_dir		*rdir;
-
-	if ((rdir = search_rdir(*root, path)))
-		return (rdir);
-	rdir = get_newrdir(path, flags);
-	if (!rdir)
-		return (NULL);
-	ft_lstpush_back(root, ft_lstnewlink(rdir, sizeof(t_dir)));
-	return (rdir);
 }

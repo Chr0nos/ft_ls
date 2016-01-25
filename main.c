@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:56:08 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/22 15:27:42 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/25 19:05:41 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,44 +17,37 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-static void	pre_parse(t_list **lst, t_list *targets, int flags)
+static void	pre_parse(t_list *targets, int flags)
 {
-	t_dir	*rdir;
+	t_dir			*rdir;
+	unsigned int	n;
 
-	if ((!targets) && ((rdir = get_rdir(lst, ".", flags))))
-		ls_dir(lst, rdir);
+	if ((!targets) && ((rdir = get_newrdir(".", flags))))
+		ls_dir(rdir, 0);
+	n = 0;
 	while (targets)
 	{
-		if ((rdir = get_rdir(lst, (char*)(targets->content), flags)))
-			ls_dir(lst, rdir);
+		if ((rdir = get_newrdir((char*)(targets->content), flags)))
+			ls_dir(rdir, n++);
 		targets = targets->next;
+		if (targets)
+			ft_putchar('\n');
 	}
 }
 
 int			main(int ac, char **av)
 {
 	t_list	*targets;
-	t_list	*lst;
 	int		flags;
 
-	lst = NULL;
 	if (ac == 1)
-		ls_dir(&lst, get_rdir(&lst, ".", NONE));
+		ls_dir(get_newrdir(".", NONE), 0);
 	else
 	{
 		targets = NULL;
 		flags = parser(ac, av, &targets);
-		pre_parse(&lst, targets, flags);
+		pre_parse(targets, flags);
 		ft_lstdel(&targets, 0);
-	}
-	if (lst)
-	{
-		clean_emptydirs(&lst);
-		if (lst)
-		{
-			display(lst);
-			ft_lstdel(&lst, &ft_lstatomisator);
-		}
 	}
 	return (0);
 }

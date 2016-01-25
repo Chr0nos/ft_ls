@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/24 13:28:21 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/01/25 19:04:00 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ static DIR			*ls_dir_open(t_dir *rdir)
 ** each file is append by ls_addfile
 */
 
-void				ls_dir(t_list **root, t_dir *rdir)
+void				ls_dir(t_dir *rdir, unsigned int n)
 {
 	DIR				*d;
 	struct dirent	*ent;
@@ -146,6 +146,8 @@ void				ls_dir(t_list **root, t_dir *rdir)
 
 	if (!(d = ls_dir_open(rdir)))
 		return ;
+	if (n > 0)
+		ft_printf("%s:\n", rdir->pathinfo.path);
 	sort = (int(*)())getsorter(rdir->flags);
 	while ((ent = readdir(d)))
 	{
@@ -159,7 +161,8 @@ void				ls_dir(t_list **root, t_dir *rdir)
 			break ;
 		if ((ent->d_type == DT_DIR) && (rdir->flags & RECURSIVE))
 			if (((ft_strcmp(name, ".")) && (ft_strcmp(name, ".."))))
-				ls_dir(root, get_rdir(root, file->fullpath, rdir->flags));
+				ls_dir(get_newrdir(rdir->pathinfo.path, rdir->flags), n + 1);
 	}
 	closedir(d);
+	display_dir(rdir);
 }
