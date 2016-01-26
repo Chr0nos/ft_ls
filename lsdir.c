@@ -146,8 +146,6 @@ void				ls_dir(t_dir *rdir, unsigned int n)
 
 	if (!(d = ls_dir_open(rdir)))
 		return ;
-	if (n > 0)
-		ft_printf("%s:\n", rdir->pathinfo.path);
 	sort = (int(*)())getsorter(rdir->flags);
 	while ((ent = readdir(d)))
 	{
@@ -161,8 +159,8 @@ void				ls_dir(t_dir *rdir, unsigned int n)
 			break ;
 		if ((ent->d_type == DT_DIR) && (rdir->flags & RECURSIVE))
 			if (((ft_strcmp(name, ".")) && (ft_strcmp(name, ".."))))
-				ls_dir(get_newrdir(rdir->pathinfo.path, rdir->flags), n + 1);
+				ls_dir(get_newrdir(file->fullpath, rdir->flags), n + 1);
 	}
 	closedir(d);
-	display_dir(rdir);
+	display_dir(rdir, n);
 }

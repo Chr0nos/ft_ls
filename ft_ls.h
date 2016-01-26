@@ -82,7 +82,7 @@ typedef struct		s_dir
 	t_filepath		pathinfo;
 }					t_dir;
 
-void				display_dir(t_dir *rdir);
+void				display_dir(t_dir *rdir, unsigned int n);
 void				timeloader(const char *time, char *buffer);
 void				file_init(t_file *file);
 void				clean_emptydirs(t_list **root);

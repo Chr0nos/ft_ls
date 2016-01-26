@@ -70,11 +70,13 @@ static void		display_file(t_file *file, t_dir *dir, char *buffer)
 		ft_putendl(file->name);
 }
 
-void			display_dir(t_dir *rdir)
+void			display_dir(t_dir *rdir, unsigned int n)
 {
 	t_list	*lst;
 	char	buffer[2048];
 
+	if (n > 0)
+		ft_printf("%s:\n", rdir->pathinfo.path);
 	if (rdir->flags & LONG)
 		ft_printf("total %d\n", (int)rdir->blocs);
 	lst = rdir->content;
@@ -88,11 +90,13 @@ void			display_dir(t_dir *rdir)
 void			display(t_list *lst)
 {
 	t_dir			*dir;
+	unsigned int	n;
 
+	n = 0;
 	while (lst)
 	{
 		dir = (t_dir*)lst->content;
-		display_dir(dir);
+		display_dir(dir, n++);
 		lst = lst->next;
 		if (lst)
 			ft_putchar('\n');
