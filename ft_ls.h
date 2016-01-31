@@ -72,6 +72,8 @@ typedef struct		s_max
 typedef struct		s_dir
 {
 	int				flags;
+	int				err;
+	int				padding;
 	t_max			max;
 	char			*path;
 	t_list			*content;
@@ -91,6 +93,7 @@ void				rdir_clean(t_dir *rdir);
 void				aligner(char *buffer, unsigned int len);
 void				display(t_list *lst);
 void				ls_dir(t_list **root, t_dir *rdir);
+int					show_error(t_dir *rdir);
 int					add_posix(t_file *file, char *buffer);
 int					sorter(t_list *a, t_list *b);
 int					rsort(t_list *a, t_list *b);

@@ -76,6 +76,11 @@ static void		display_dir(t_dir *rdir)
 	char	buffer[2048];
 
 	ft_printf("%s:\n", rdir->pathinfo.path);
+	if (rdir->err)
+	{
+		show_error(rdir);
+		return ;
+	}
 	if (rdir->flags & LONG)
 		ft_printf("total %d\n", (int)rdir->blocs);
 	lst = rdir->content;
