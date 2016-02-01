@@ -143,10 +143,12 @@ void				ls_dir(t_dir *rdir, unsigned int n)
 	t_file			*file;
 	char			*name;
 	int				(*sort)();
+	t_list			*rlst;
 
 	if (!(d = ls_dir_open(rdir)))
 		return ;
 	sort = (int(*)())getsorter(rdir->flags);
+	rlst = NULL;
 	while ((ent = readdir(d)))
 	{
 		name = ent->d_name;
@@ -157,10 +159,17 @@ void				ls_dir(t_dir *rdir, unsigned int n)
 			continue ;
 		if (!(file = ls_addfile(rdir, ent->d_name, sort)))
 			break ;
-		if ((ent->d_type == DT_DIR) && (rdir->flags & RECURSIVE))
-			if (((ft_strcmp(name, ".")) && (ft_strcmp(name, ".."))))
-				ls_dir(get_newrdir(file->fullpath, rdir->flags), n + 1);
+		if (((ent->d_type == DT_DIR) && (rdir->flags & RECURSIVE)) &&
+				(((ft_strcmp(name, ".")) && (ft_strcmp(name, "..")))))
+					ft_lstpush_back(&rlst, ft_lstnewlink(
+							get_newrdir(file->fullpath, rdir->flags), 0));
 	}
 	closedir(d);
 	display_dir(rdir, n);
+	while (rlst)
+	{
+		ft_putchar('\n');
+		ls_dir((t_dir*)(rlst->content), 1);
+		rlst = rlst->next;
+	}
 }
