@@ -47,10 +47,14 @@ static void		display_file(t_file *file, t_dir *dir, char *buffer)
 
 	if (dir->flags & LONG)
 	{
-		aligner(file->size_str, dir->max.filesize + 1);
-		aligner(file->links, dir->max.linkslen + 1);
-		aligner(file->user, dir->max.userlen);
-		aligner(file->group, dir->max.grouplen + 1);
+		ft_stralign_left(file->size_str, dir->max.filesize + 1);
+		ft_stralign_left(file->links, dir->max.linkslen + 1);
+		ft_stralign_left(file->user, dir->max.userlen);
+		ft_stralign_left(file->group, dir->max.grouplen + 1);
+		//aligner(file->size_str, dir->max.filesize + 1);
+		//aligner(file->links, dir->max.linkslen + 1);
+		//aligner(file->user, dir->max.userlen);
+		//aligner(file->group, dir->max.grouplen + 1);
 		p = (size_t)add_posix(file, buffer);
 		p += ft_strxcpy(buffer + p, file->links, ft_strlen(file->links));
 		p += ft_strxcpy(buffer + p, file->user, ft_strlen(file->user));
