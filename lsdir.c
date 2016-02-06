@@ -120,7 +120,7 @@ static DIR			*ls_dir_open(t_dir *rdir)
 		else
 		{
 			ft_strcpy(b, "ft_ls: ");
-			ft_strcpy(b, dir);
+			ft_strcat(b, dir);
 			ft_strcat(b, ": ");
 			ft_strcat(b, strerror(errno));
 			ft_putendl_fd(b, 2);
