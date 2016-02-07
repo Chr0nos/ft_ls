@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/02/07 13:11:06 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/02/07 18:05:24 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void			update_infos(t_dir *rdir, t_file *file)
 	sizetobuff(file->stats.st_size, file->size_str);
 	lens[SLEN] = ft_strlen(file->size_str);
 	lens[LLEN] = ft_strlen(file->links);
-	timeloader(ctime(&file->stats.st_mtime), file->time);
+	timeloader(file, file->time);
 	if (lens[ULEN] > rdir->max.userlen)
 		rdir->max.userlen = (unsigned int)lens[ULEN];
 	if (lens[GLEN] > rdir->max.grouplen)
