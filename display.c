@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:38:47 by snicolet          #+#    #+#             */
-/*   Updated: 2016/02/07 13:04:09 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/02/07 20:54:45 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,11 @@ void			display_dir(t_dir *rdir, int n)
 	t_list	*lst;
 	char	buffer[2048];
 
+	lst = rdir->content;
 	if (n > 0)
 		ft_printf("%s:\n", rdir->pathinfo.path);
-	if ((rdir->flags & LONG) && (n >= 0))
+	if ((rdir->flags & LONG) && (n >= 0) && (lst))
 		ft_printf("total %d\n", (int)rdir->blocs);
-	lst = rdir->content;
 	while (lst)
 	{
 		display_file((t_file*)lst->content, rdir, (char*)buffer);

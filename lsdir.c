@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/02/07 18:05:24 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/02/07 21:16:17 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,6 @@
 #include <pwd.h>
 #include <grp.h>
 #include <stdio.h>
-
-static char			*getpath(char *dir, char *file)
-{
-	const char	*tab[3] = { dir, file, NULL };
-	char		*fp;
-
-	fp = ft_strunsplit(tab, '/');
-	return (fp);
-}
 
 /*
 ** this function update user and group info about each file
@@ -131,6 +122,28 @@ static DIR			*ls_dir_open(t_dir *rdir)
 	return (d);
 }
 
+static int			ls_dir_while(struct dirent *ent, t_list **rlst, t_dir *rdir,
+		int (*sort)())
+{
+	char	*name;
+	t_file	*file;
+	t_list	*(*lstad)(t_list **, t_list *);
+
+	lstad = (rdir->flags & REVERSESORT) ? &ft_lstadd : &ft_lstpush_back;
+	name = ent->d_name;
+	if ((name[0] == '.') && (!(rdir->flags & HIDENS)))
+		return (0);
+	if (((!ft_strcmp(name, ".")) || (!ft_strcmp(name, ".."))) &&
+		(rdir->flags & NODOTANDDOTDOT))
+		return (0);
+	if (!(file = ls_addfile(rdir, ent->d_name, sort)))
+		return (-1);
+	if (((ent->d_type == DT_DIR) && (rdir->flags & RECURSIVE)) &&
+			(((ft_strcmp(name, ".")) && (ft_strcmp(name, "..")))))
+		lstad(rlst, ft_lstnewlink(get_newrdir(file->fullpath, rdir->flags), 0));
+	return (1);
+}
+
 /*
 ** this function list a dirctory and append it to the dir list (root)
 ** it need the rdir entry given by the caller (with get_rdir or search_rdir)
@@ -141,8 +154,6 @@ void				ls_dir(t_dir *rdir, int n)
 {
 	DIR				*d;
 	struct dirent	*ent;
-	t_file			*file;
-	char			*name;
 	int				(*sort)();
 	t_list			*rlst;
 
@@ -150,21 +161,8 @@ void				ls_dir(t_dir *rdir, int n)
 		return ;
 	sort = (int(*)())getsorter(rdir->flags);
 	rlst = NULL;
-	while ((ent = readdir(d)))
-	{
-		name = ent->d_name;
-		if ((name[0] == '.') && (!(rdir->flags & HIDENS)))
-			continue ;
-		if (((!ft_strcmp(name, ".")) || (!ft_strcmp(name, ".."))) &&
-			(rdir->flags & NODOTANDDOTDOT))
-			continue ;
-		if (!(file = ls_addfile(rdir, ent->d_name, sort)))
-			break ;
-		if (((ent->d_type == DT_DIR) && (rdir->flags & RECURSIVE)) &&
-				(((ft_strcmp(name, ".")) && (ft_strcmp(name, "..")))))
-					ft_lstpush_back(&rlst, ft_lstnewlink(
-							get_newrdir(file->fullpath, rdir->flags), 0));
-	}
+	while (((ent = readdir(d))) && (ls_dir_while(ent, &rlst, rdir, sort) >= 0))
+		;
 	closedir(d);
 	display_dir(rdir, n);
 	while (rlst)
