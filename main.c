@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:56:08 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/25 19:05:41 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/02/07 13:05:40 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 static void	pre_parse(t_list *targets, int flags)
 {
 	t_dir			*rdir;
-	unsigned int	n;
+	int				n;
 
 	if ((!targets) && ((rdir = get_newrdir(".", flags))))
 		ls_dir(rdir, 0);

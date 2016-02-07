@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/25 19:04:00 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/02/07 13:11:06 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,8 @@ static DIR			*ls_dir_open(t_dir *rdir)
 		{
 			ft_strcpy(b, dir);
 			ft_strcpy(rdir->pathinfo.path, ".");
-			ls_addfile(rdir, b, (int(*)())getsorter(rdir->flags));
+			if (ls_addfile(rdir, b, (int(*)())getsorter(rdir->flags)))
+				display_dir(rdir, -1);
 		}
 		else
 		{
@@ -136,7 +137,7 @@ static DIR			*ls_dir_open(t_dir *rdir)
 ** each file is append by ls_addfile
 */
 
-void				ls_dir(t_dir *rdir, unsigned int n)
+void				ls_dir(t_dir *rdir, int n)
 {
 	DIR				*d;
 	struct dirent	*ent;

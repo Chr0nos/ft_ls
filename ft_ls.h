@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:52:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/25 18:57:14 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/02/07 13:05:26 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ typedef struct		s_dir
 	t_filepath		pathinfo;
 }					t_dir;
 
-void				display_dir(t_dir *rdir, unsigned int n);
+void				display_dir(t_dir *rdir, int n);
 void				timeloader(const char *time, char *buffer);
 void				file_init(t_file *file);
 void				clean_emptydirs(t_list **root);
@@ -91,7 +91,7 @@ void				ft_lstatomisator(void *x, size_t size);
 void				rdir_clean(t_dir *rdir);
 void				aligner(char *buffer, unsigned int len);
 void				display(t_list *lst);
-void				ls_dir(t_dir *rdir, unsigned int n);
+void				ls_dir(t_dir *rdir, int n);
 int					add_posix(t_file *file, char *buffer);
 int					sorter(t_list *a, t_list *b);
 int					rsort(t_list *a, t_list *b);
