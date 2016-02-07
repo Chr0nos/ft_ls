@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/07 14:29:53 by snicolet          #+#    #+#             */
-/*   Updated: 2016/02/07 20:34:10 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/02/07 20:37:37 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,14 @@
 #include <string.h>
 #include <time.h>
 
-static void	monthtostr(char *buff, int m)
-{
-	const char	*months[12] = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
-		"Aug", "Sep", "Oct", "Nov", "Dec" };
-
-	ft_strcpy(buff, months[m]);
-}
-
 void	timeloader(t_file *file, char *buffer)
 {
 	const time_t	*clock = &file->stats.st_mtime;
-	char			*strtime;
+	const char		*strtime = ctime(clock);
 	char			year[12];
-	size_t			timelen;
+	const size_t	timelen = ft_strlen(strtime);
 	const time_t	localtime = time(NULL);
 
-	(void)monthtostr;
-	strtime = ctime(clock);
-	timelen = ft_strlen(strtime);
 	ft_strncpy(buffer, strtime + 4, timelen - 12);
 	if (ft_abs((int)(localtime - *clock)) > 15778800)
 	{
