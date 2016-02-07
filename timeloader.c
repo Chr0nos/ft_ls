@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/07 14:29:53 by snicolet          #+#    #+#             */
-/*   Updated: 2016/02/07 20:37:37 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/02/08 00:15:02 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,46 @@
 #include <string.h>
 #include <time.h>
 
+static size_t	strrchrpos(const char *str, int c)
+{
+	size_t	n;
+
+	n = ft_strlen(str);
+	while ((n) && (str[n] == c))
+		n--;
+	while ((str[n] != c) && (n--))
+		;
+	return (n + 1);
+}
+
+static size_t	strseek(const char *str)
+{
+	size_t	p;
+
+	p = 4;
+	while ((str[p]) && (str[p] == ' '))
+		p++;
+	while ((str[p] != ' ') && (str[p]))
+		p++;
+	return (p - 1);
+}
+
 void	timeloader(t_file *file, char *buffer)
 {
-	const time_t	*clock = &file->stats.st_mtime;
-	const char		*strtime = ctime(clock);
+	const char		*strtime = ctime(&file->stats.st_mtime);
 	char			year[12];
 	const size_t	timelen = ft_strlen(strtime);
-	const time_t	localtime = time(NULL);
+	ssize_t			timediff;
+	size_t			epos;
 
 	ft_strncpy(buffer, strtime + 4, timelen - 12);
-	if (ft_abs((int)(localtime - *clock)) > 15778800)
+	timediff = time(NULL) - file->stats.st_mtime;
+	if ((timediff > 15778800) || (timediff < -15778800))
 	{
-		ft_strncpy(year, strtime + timelen - 5, 5);
-		ft_stralign_right(year, 6);
-		ft_strcpy(buffer + ft_strlen(buffer) - 6, year);
+		ft_strcpy(year, strtime + strrchrpos(strtime, ' '));
+		ft_stralign_right(year, 6 + ((ft_strlen(year) == 6) ? 1 : 0));
+		epos = strseek(strtime);
+		buffer[epos] = ' ';
+		ft_strcpy(buffer + epos + 1 , year);
 	}
 }
