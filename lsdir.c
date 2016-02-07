@@ -6,7 +6,7 @@
 /*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/02/07 21:16:17 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/02/08 00:24:50 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static t_file		*ls_addfile(t_dir *rdir, const char *name, int (*sort)())
 	file->fullpath = getpath(rdir->pathinfo.path, file->name);
 	if (lstat(file->fullpath, &file->stats) < 0)
 	{
-		ft_printf("ft_ls: %s: %s\n", file->fullpath, strerror(errno));
+		ft_printf("ls: %s: %s\n", file->fullpath, strerror(errno));
 		return (clean_file(file));
 	}
 	rdir->blocs += file->stats.st_blocks;
