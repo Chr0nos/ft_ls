@@ -48,3 +48,24 @@ int			parser(int ac, char **av, t_list **targets)
 	add_rest_parametersastargets(ac, av, targets, p + 1);
 	return (flags);
 }
+/*
+int			parser(int ac, char **av, t_list **targets)
+{
+	const char	*args = "RlarftShA";
+	const int	flagstab[9] = { RECURSIVE, LONG, HIDENS, REVERSESORT, NOSORT,
+		MTIMESORT, SIZESORT, HUMAN, HIDENS | NODOTANDDOTDOT };
+	int			mappos;
+	int			flags;
+	int			p;
+
+	p = 0;
+	while (p < ac)
+	{
+		if ((av[p][0] == '-') && (av[p][1]))
+		{
+			mappos = 0;
+		}
+		p++;
+	}
+}
+*/
