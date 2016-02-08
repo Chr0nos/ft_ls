@@ -122,7 +122,7 @@ static DIR			*ls_dir_open(t_dir *rdir)
 	return (d);
 }
 
-static int			ls_dir_while(struct dirent *ent, t_list **rlst, t_dir *rdir,
+inline static int	ls_dir_while(struct dirent *ent, t_list **rlst, t_dir *rdir,
 		int (*sort)())
 {
 	char	*name;
