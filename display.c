@@ -45,6 +45,8 @@ static void		display_file(t_file *file, t_dir *dir, char *buffer)
 {
 	size_t	p;
 
+	if (dir->flags & INODES)
+		display_inode(file);
 	if (dir->flags & LONG)
 	{
 		ft_stralign_right(file->size_str, dir->max.filesize);

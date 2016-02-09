@@ -31,7 +31,8 @@ enum				e_flags
 	SIZESORT = 0x1 << 7,
 	NOSORT = 0x1 << 8,
 	HUMAN = 0x1 << 9,
-	NODOTANDDOTDOT = 0x1 << 10
+	NODOTANDDOTDOT = 0x1 << 10,
+	INODES = 0x1 << 11
 };
 
 enum				e_lens
@@ -103,6 +104,7 @@ int					rmsort(t_list *a, t_list *b);
 int					sizesort(t_list *a, t_list *b);
 int					rsizesort(t_list *a, t_list *b);
 int					parser(int ac, char **av, t_list **targets);
+int					display_inode(const t_file *file);
 void				*getsorter(int f);
 t_dir				*get_newrdir(char *path, int flags);
 unsigned int		sizetobuff(off_t nb, char *buffer);

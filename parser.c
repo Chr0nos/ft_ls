@@ -22,10 +22,10 @@ static void	add_rest_parametersastargets(int ac, char **av, t_list **targets,
 
 int			parser(int ac, char **av, t_list **targets)
 {
-	const char	*strmatch[9] = { "-*R*", "-*l*", "-*a*", "-*r*", "-*f*",
-		"-*t*", "-*S*", "-*h*", "-*A*" };
-	const int	flagstab[9] = { RECURSIVE, LONG, HIDENS, REVERSESORT, NOSORT,
-		MTIMESORT, SIZESORT, HUMAN, HIDENS | NODOTANDDOTDOT };
+	const char	*strmatch[10] = { "-*R*", "-*l*", "-*a*", "-*r*", "-*f*",
+		"-*t*", "-*S*", "-*h*", "-*A*", "-*i*" };
+	const int	flagstab[10] = { RECURSIVE, LONG, HIDENS, REVERSESORT, NOSORT,
+		MTIMESORT, SIZESORT, HUMAN, HIDENS | NODOTANDDOTDOT, INODES };
 	int			mappos;
 	int			flags;
 	int			p;
@@ -36,7 +36,7 @@ int			parser(int ac, char **av, t_list **targets)
 	{
 		if (av[p][0] == '-')
 		{
-			mappos = 9;
+			mappos = 10;
 			while (mappos--)
 				if (ft_match(av[p], strmatch[mappos]))
 					flags |= flagstab[mappos];
