@@ -17,7 +17,7 @@ static void	add_rest_parametersastargets(int ac, char **av, t_list **targets,
 		int p)
 {
 	while (p < ac)
-		ft_lstadd(targets, ft_lstnewlink(av[p++], 0));
+		ft_lstpush_sort(targets, ft_lstnewlink(av[p++], 0), &ft_lststrcmp);
 }
 
 int			parser(int ac, char **av, t_list **targets)
@@ -42,7 +42,7 @@ int			parser(int ac, char **av, t_list **targets)
 					flags |= flagstab[mappos];
 		}
 		else
-			ft_lstadd(targets, ft_lstnewlink(av[p], 0));
+			ft_lstpush_sort(targets, ft_lstnewlink(av[p], 0), &ft_lststrcmp);
 		p++;
 	}
 	add_rest_parametersastargets(ac, av, targets, p + 1);
