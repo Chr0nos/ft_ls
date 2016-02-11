@@ -24,11 +24,11 @@ static void	pre_parse(t_list *targets, int flags)
 
 	if ((!targets) && ((rdir = get_newrdir(".", flags))))
 		ls_dir(rdir, 0);
-	n = 0;
+	n = ((targets) && (targets->next)) ? 1 : 0;
 	while (targets)
 	{
 		if ((rdir = get_newrdir((char*)(targets->content), flags)))
-			ls_dir(rdir, n++);
+			ls_dir(rdir, n);
 		targets = targets->next;
 		if (targets)
 			ft_putchar('\n');
