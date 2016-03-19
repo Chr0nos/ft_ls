@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rdir.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/11 18:49:35 by snicolet          #+#    #+#             */
-/*   Updated: 2016/02/08 00:25:29 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/02/27 11:36:36 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,29 +22,35 @@ static int		showerror(char *path)
 	return (1);
 }
 
-t_dir			*get_newrdir(char *path, int flags)
+inline static void	rdir_init(t_dir *rdir, const int flags, char *path)
 {
-	t_dir			*rdir;
-
-	if (!(rdir = malloc(sizeof(t_dir))))
-		return (NULL);
+	rdir->pathinfo.path = ft_strdup(path);
+	rdir->pathinfo.file = NULL;
+	rdir->max.filesize = (flags & HUMAN) ? 5 : 0;
+	rdir->max.userlen = 0;
+	rdir->max.grouplen = 0;
+	rdir->max.linkslen = 0;
 	rdir->path = ft_strdup(path);
 	rdir->content = NULL;
 	rdir->flags = flags;
 	rdir->size = 0;
 	rdir->blocs = 0;
 	rdir->count = 0;
-	rdir->pathinfo.path = ft_strdup(path);
-	rdir->pathinfo.file = NULL;
+}
+
+t_dir			*get_newrdir(char *path, int flags)
+{
+	t_dir			*rdir;
+
+	if (!(rdir = malloc(sizeof(t_dir))))
+		return (NULL);
+	rdir_init(rdir, flags, path);
 	if ((stat(path, &rdir->stats) < 0) && (showerror(path)))
 	{
 		rdir_clean(rdir);
 		return (NULL);
 	}
-	rdir->max.filesize = (flags & HUMAN) ? 5 : 0;
-	rdir->max.userlen = 0;
-	rdir->max.grouplen = 0;
-	rdir->max.linkslen = 0;
+
 	return (rdir);
 }
 
