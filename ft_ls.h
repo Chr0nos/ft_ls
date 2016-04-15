@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:52:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/03 13:33:40 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/15 20:04:11 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ enum				e_flags
 	HUMAN = 0x1 << 9,
 	NODOTANDDOTDOT = 0x1 << 10,
 	INODES = 0x1 << 11,
-	LTIMESORT = 0x1 << 12
+	LTIMESORT = 0x1 << 12,
 };
 
 enum				e_lens

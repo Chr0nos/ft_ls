@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/21 15:34:54 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/03 13:31:34 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/15 19:35:23 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,32 @@ static void	add_rest_parametersastargets(int ac, char **av, t_list **targets,
 		ft_lstpush_sort(targets, ft_lstnewlink(av[p++], 0), &ft_lststrcmp);
 }
 
+static void	parser_populate_flags(int *tab)
+{
+	const int	flagstab[12] = { RECURSIVE, LONG, HIDENS, REVERSESORT, NOSORT, \
+	CTIMESORT, SIZESORT, HUMAN, HIDENS | NODOTANDDOTDOT, INODES, LTIMESORT, \
+ 	LTIMESORT };
+
+	ft_memcpy(tab, flagstab, sizeof(flagstab));
+}
+
 int			parser(int ac, char **av, t_list **targets)
 {
-	const char	*strmatch[11] = { "-*R*", "-*l*", "-*a*", "-*r*", "-*f*",
-		"-*t*", "-*S*", "-*h*", "-*A*", "-*i*", "-*u*" };
-	const int	flagstab[11] = { RECURSIVE, LONG, HIDENS, REVERSESORT, NOSORT,
-		MTIMESORT, SIZESORT, HUMAN, HIDENS | NODOTANDDOTDOT, INODES, LTIMESORT };
+	const char	*strmatch[12] = { "-*R*", "-*l*", "-*a*", "-*r*", "-*f*",
+		"-*t*", "-*S*", "-*h*", "-*A*", "-*i*", "-*u*", "-*t*" };
+	int			flagstab[12];
 	int			mappos;
 	int			flags;
 	int			p;
 
+	parser_populate_flags(flagstab);
 	flags = NONE;
 	p = 1;
 	while ((p < ac) && (ft_strcmp(av[p], "--")))
 	{
 		if (av[p][0] == '-')
 		{
-			mappos = 11;
+			mappos = 12;
 			while (mappos--)
 				if (ft_match(av[p], strmatch[mappos]))
 					flags |= flagstab[mappos];
@@ -48,24 +57,3 @@ int			parser(int ac, char **av, t_list **targets)
 	add_rest_parametersastargets(ac, av, targets, p + 1);
 	return (flags);
 }
-/*
-int			parser(int ac, char **av, t_list **targets)
-{
-	const char	*args = "RlarftShA";
-	const int	flagstab[9] = { RECURSIVE, LONG, HIDENS, REVERSESORT, NOSORT,
-		MTIMESORT, SIZESORT, HUMAN, HIDENS | NODOTANDDOTDOT };
-	int			mappos;
-	int			flags;
-	int			p;
-
-	p = 0;
-	while (p < ac)
-	{
-		if ((av[p][0] == '-') && (av[p][1]))
-		{
-			mappos = 0;
-		}
-		p++;
-	}
-}
-*/

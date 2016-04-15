@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 14:26:30 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/03 14:28:16 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/15 19:34:36 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	*getsorter(int f)
 	else if (f & CTIMESORT)
 		return ((void*)((f & REVERSESORT) ? &rcsort : &csort));
 	else if (f & LTIMESORT)
-		return ((void*)((f & REVERSESORT) ? &ltsortr : &ltsort));
+		return ((void*)((f & REVERSESORT) ? &ltsortr : &ltsort));		
 	else
 		return ((void*)((f & REVERSESORT) ? &rsort : &sorter));
 }
