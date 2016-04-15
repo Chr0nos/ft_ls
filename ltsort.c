@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/03 13:32:28 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/15 19:27:58 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/15 23:05:52 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ int	ltsort(t_list *a, t_list *b)
 	long	ta ;
 	long	tb;
 
-	ta = ((t_file*)(a->content))->stats.st_atime;
-	tb = ((t_file*)(b->content))->stats.st_atime;
+	ta = ((t_file*)(a->content))->stats.st_mtime;
+	tb = ((t_file*)(b->content))->stats.st_mtime;
 	if (ta == tb)
 	{
-		ta = ((t_file*)(a->content))->stats.st_atimespec.tv_nsec;
-		tb = ((t_file*)(b->content))->stats.st_atimespec.tv_nsec;
+		ta = ((t_file*)(a->content))->stats.st_mtimespec.tv_nsec;
+		tb = ((t_file*)(b->content))->stats.st_mtimespec.tv_nsec;
 		if (ta == tb)
 			return (sorter(a, b));
 	}
