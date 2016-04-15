@@ -1,0 +1,7 @@
+ls avec plusieurs args:
+	1: messages d erreurs
+	2: fichiers
+	3: repertoires
+
+todo:
+	tris par temps a la nano seconde
