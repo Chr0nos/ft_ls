@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:56:08 by snicolet          #+#    #+#             */
-/*   Updated: 2016/02/07 13:05:40 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/03/19 19:39:32 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,14 @@ static void	pre_parse(t_list *targets, int flags)
 	}
 }
 
+static int	checkpute(int ac, char **av)
+{
+	while (ac--)
+		if (!ft_strlen(av[ac]))
+			return (1);
+	return (0);
+}
+
 int			main(int ac, char **av)
 {
 	t_list	*targets;
@@ -42,6 +50,8 @@ int			main(int ac, char **av)
 
 	if (ac == 1)
 		ls_dir(get_newrdir(".", NONE), 0);
+	else if (checkpute(ac, av))
+		ft_putendl_fd("ls: fts_open: No such file or directory", 2);
 	else
 	{
 		targets = NULL;

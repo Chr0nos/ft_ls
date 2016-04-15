@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/21 15:34:54 by snicolet          #+#    #+#             */
-/*   Updated: 2016/01/22 13:41:09 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/03 13:31:34 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ static void	add_rest_parametersastargets(int ac, char **av, t_list **targets,
 
 int			parser(int ac, char **av, t_list **targets)
 {
-	const char	*strmatch[10] = { "-*R*", "-*l*", "-*a*", "-*r*", "-*f*",
-		"-*t*", "-*S*", "-*h*", "-*A*", "-*i*" };
-	const int	flagstab[10] = { RECURSIVE, LONG, HIDENS, REVERSESORT, NOSORT,
-		MTIMESORT, SIZESORT, HUMAN, HIDENS | NODOTANDDOTDOT, INODES };
+	const char	*strmatch[11] = { "-*R*", "-*l*", "-*a*", "-*r*", "-*f*",
+		"-*t*", "-*S*", "-*h*", "-*A*", "-*i*", "-*u*" };
+	const int	flagstab[11] = { RECURSIVE, LONG, HIDENS, REVERSESORT, NOSORT,
+		MTIMESORT, SIZESORT, HUMAN, HIDENS | NODOTANDDOTDOT, INODES, LTIMESORT };
 	int			mappos;
 	int			flags;
 	int			p;
@@ -36,7 +36,7 @@ int			parser(int ac, char **av, t_list **targets)
 	{
 		if (av[p][0] == '-')
 		{
-			mappos = 10;
+			mappos = 11;
 			while (mappos--)
 				if (ft_match(av[p], strmatch[mappos]))
 					flags |= flagstab[mappos];

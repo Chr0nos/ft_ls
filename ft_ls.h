@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:52:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/02/07 21:15:09 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/03 13:33:40 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ enum				e_flags
 	NOSORT = 0x1 << 8,
 	HUMAN = 0x1 << 9,
 	NODOTANDDOTDOT = 0x1 << 10,
-	INODES = 0x1 << 11
+	INODES = 0x1 << 11,
+	LTIMESORT = 0x1 << 12
 };
 
 enum				e_lens
@@ -101,6 +102,8 @@ int					csort(t_list *a, t_list *b);
 int					rcsort(t_list *a, t_list *b);
 int					msort(t_list *a, t_list *b);
 int					rmsort(t_list *a, t_list *b);
+int					ltsort(t_list *a, t_list *b);
+int					ltsortr(t_list *a, t_list *b);
 int					sizesort(t_list *a, t_list *b);
 int					rsizesort(t_list *a, t_list *b);
 int					parser(int ac, char **av, t_list **targets);
