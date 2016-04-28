@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/28 19:23:12 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/28 20:28:50 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/28 20:37:05 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,24 +39,16 @@ static int		get_type(const char *str)
 
 int				params_sort(t_list *a, t_list *b)
 {
-	int			at;
-	int			bt;
-	const char	*as;
-	const char	*bs;
+	const char	*as = (const char *)a->content;
+	const char	*bs = (const char *)b->content;
+	const int	at = get_type(as);
+	const int	bt = get_type(bs);
 
-	as = (const char *)a->content;
-	bs = (const char *)b->content;
-	at = get_type(as);
-	bt = get_type(bs);
-	if (at == FILEX)
-	{
-		if (bt != FILEX)
-			return (1);
-	}
-	else if (at == DIRECTORY)
-	{
-		if (bt != DIRECTORY)
-			return (1);
-	}
-	return (ft_lststrcmp(a, b));
+	if ((at == ERROR) && (strcmp(as, bs) != 0))
+		return (1);
+	else if ((at == FILEX) && (bt != FILEX))
+		return (1);
+	else if ((at == DIRECTORY) && (bt != DIRECTORY))
+		return (1);
+	return (strcmp(as, bs));
 }
