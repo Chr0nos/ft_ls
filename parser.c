@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/21 15:34:54 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/28 19:07:28 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/28 19:25:31 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int			parser(int ac, char **av, t_list **targets)
 					flags |= flagstab[mappos];
 		}
 		else
-			ft_lstpush_sort(targets, ft_lstnewlink(av[p], 0), &ft_lststrcmp);
+			ft_lstpush_sort(targets, ft_lstnewlink(av[p], 0), &params_sort);
 		p++;
 	}
 	add_rest_parametersastargets(ac, av, targets, p + 1);

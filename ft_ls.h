@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:52:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/28 19:09:55 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/28 19:24:13 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ int					ltsort(t_list *a, t_list *b);
 int					ltsortr(t_list *a, t_list *b);
 int					sizesort(t_list *a, t_list *b);
 int					rsizesort(t_list *a, t_list *b);
+int					params_sort(t_list *a, t_list *b);
 int					parser(int ac, char **av, t_list **targets);
 int					display_inode(const t_file *file);
 void				*getsorter(int f);
