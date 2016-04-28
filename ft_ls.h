@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:52:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/28 17:29:20 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/28 19:04:30 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ enum				e_flags
 	NODOTANDDOTDOT = 0x1 << 10,
 	INODES = 0x1 << 11,
 	LTIMESORT = 0x1 << 12,
-	UTIMESORT = 0x1 << 13,
-	MTIMESORT = 0x1 << 14
+	UTIMESORT = 0x1 << 13
 };
 
 enum				e_lens
@@ -102,7 +101,6 @@ int					sorter(t_list *a, t_list *b);
 int					rsort(t_list *a, t_list *b);
 int					csort(t_list *a, t_list *b);
 int					rcsort(t_list *a, t_list *b);
-int					msort(t_list *a, t_list *b);
 int					rmsort(t_list *a, t_list *b);
 int					ltsort(t_list *a, t_list *b);
 int					ltsortr(t_list *a, t_list *b);

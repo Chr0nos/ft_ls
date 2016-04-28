@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 14:26:30 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/28 17:28:43 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/28 19:04:22 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,18 @@ int		rsort(t_list *a, t_list *b)
 
 int		csort(t_list *a, t_list *b)
 {
-	const long	ta = ((t_file*)(a->content))->stats.st_ctime;
-	const long	tb = ((t_file*)(b->content))->stats.st_ctime;
+	long	ta;
+	long	tb;
 
+	ta = ((t_file*)(a->content))->stats.st_ctime;
+	tb = ((t_file*)(b->content))->stats.st_ctime;
+	if (ta == tb)
+	{
+		ta = ((t_file*)(a->content))->stats.st_ctimespec.tv_nsec;
+		tb = ((t_file*)(b->content))->stats.st_ctimespec.tv_nsec;
+		if (ta == tb)
+			return (sorter(b, a));
+	}
 	return ((int)(ta - tb));
 }
 
@@ -47,8 +56,6 @@ void	*getsorter(int f)
 		return (NULL);
 	else if (f & SIZESORT)
 		return ((void*)((f & REVERSESORT) ? &sizesort : &rsizesort));
-	else if (f & MTIMESORT)
-		return ((void*)((f & REVERSESORT) ? &msort : &rmsort));
 	else if (f & CTIMESORT)
 		return ((void*)((f & REVERSESORT) ? &rcsort : &csort));
 	else if (f & TTIMESORT)

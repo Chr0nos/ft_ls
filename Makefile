@@ -6,13 +6,13 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/01/07 23:01:54 by snicolet          #+#    #+#              #
-#    Updated: 2016/04/03 13:37:44 by snicolet         ###   ########.fr        #
+#    Updated: 2016/04/28 19:02:58 by snicolet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME=ft_ls
 LIBFT=./libft/
-OBJ = main.o sorter.o msort.o display.o lsdir.o sizesort.o rdir.o sizetobuff.o \
+OBJ = main.o sorter.o display.o lsdir.o sizesort.o rdir.o sizetobuff.o \
 	  parser.o cleaner.o posix.o file.o timeloader.o path.o display_inode.o \
 	  ltsort.o
 FLAGS=-Wall -Wextra -Werror -Weverything
