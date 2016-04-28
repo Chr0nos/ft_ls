@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:52:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/28 19:24:13 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/28 20:28:36 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,13 @@ enum				e_lens
 	GLEN = 1,
 	SLEN = 2,
 	LLEN = 3
+};
+
+enum				e_stype
+{
+	ERROR = -1,
+	FILEX = 0,
+	DIRECTORY = 2
 };
 
 typedef struct		s_filepath
