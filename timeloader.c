@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   timeloader.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/07 14:29:53 by snicolet          #+#    #+#             */
-/*   Updated: 2016/02/08 00:15:02 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/28 19:14:59 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static size_t	strseek(const char *str)
 	return (p - 1);
 }
 
-void	timeloader(t_file *file, char *buffer)
+void			timeloader(t_file *file, char *buffer)
 {
 	const char		*strtime = ctime(&file->stats.st_mtime);
 	char			year[12];
@@ -55,6 +55,6 @@ void	timeloader(t_file *file, char *buffer)
 		ft_stralign_right(year, 6 + ((ft_strlen(year) == 6) ? 1 : 0));
 		epos = strseek(strtime);
 		buffer[epos] = ' ';
-		ft_strcpy(buffer + epos + 1 , year);
+		ft_strcpy(buffer + epos + 1, year);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/11 18:49:35 by snicolet          #+#    #+#             */
-/*   Updated: 2016/03/19 15:23:03 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/28 19:14:37 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft.h"
 #include <stdlib.h>
 
-static int		showerror(char *path)
+static int			showerror(char *path)
 {
 	ft_putstr_fd("ls: ", 2);
 	ft_putstr_fd(path, 2);
@@ -38,7 +38,7 @@ inline static void	rdir_init(t_dir *rdir, const int flags, char *path)
 	rdir->count = 0;
 }
 
-t_dir			*get_newrdir(char *path, int flags)
+t_dir				*get_newrdir(char *path, int flags)
 {
 	t_dir			*rdir;
 
@@ -50,11 +50,10 @@ t_dir			*get_newrdir(char *path, int flags)
 		rdir_clean(rdir);
 		return (NULL);
 	}
-
 	return (rdir);
 }
 
-void			rdir_clean(t_dir *rdir)
+void				rdir_clean(t_dir *rdir)
 {
 	free(rdir->path);
 	free(rdir->pathinfo.path);

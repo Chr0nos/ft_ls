@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/15 15:53:17 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/28 19:16:14 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,10 +139,10 @@ inline static int	ls_dir_while(struct dirent *ent, t_list **rlst, t_dir *rdir,
 	if (!(file = ls_addfile(rdir, ent->d_name, sort)))
 		return (-1);
 	if (((file->stats.st_mode & S_IFDIR) && (rdir->flags & RECURSIVE)) &&
-			(((ft_strcmp(name, ".")) && (ft_strcmp(name, "..")))))
-		{
-			lstad(rlst, ft_lstnewlink(get_newrdir(file->fullpath, rdir->flags), 0));
-		}
+		(((ft_strcmp(name, ".")) && (ft_strcmp(name, "..")))))
+	{
+		lstad(rlst, ft_lstnewlink(get_newrdir(file->fullpath, rdir->flags), 0));
+	}
 	return (1);
 }
 

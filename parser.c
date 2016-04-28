@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/21 15:34:54 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/28 19:03:52 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/28 19:07:28 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	parser_populate_flags(int *tab)
 {
 	const int	flagstab[12] = { RECURSIVE, LONG, HIDENS, REVERSESORT, NOSORT, \
 	TTIMESORT, SIZESORT, HUMAN, HIDENS | NODOTANDDOTDOT, INODES, UTIMESORT, \
- 	LTIMESORT };
+	LTIMESORT };
 
 	ft_memcpy(tab, flagstab, sizeof(int) * 12);
 }
