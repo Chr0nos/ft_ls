@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:52:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/15 20:04:11 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/28 17:29:20 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ enum				e_flags
 	HIDENS = 0x1 << 1,
 	LONG = 0x1 << 2,
 	REVERSESORT = 0x1 << 3,
-	MTIMESORT = 0x1 << 4,
+	TTIMESORT = 0x1 << 4,
 	ATIMESORT = 0x1 << 5,
 	CTIMESORT = 0x1 << 6,
 	SIZESORT = 0x1 << 7,
@@ -34,6 +34,8 @@ enum				e_flags
 	NODOTANDDOTDOT = 0x1 << 10,
 	INODES = 0x1 << 11,
 	LTIMESORT = 0x1 << 12,
+	UTIMESORT = 0x1 << 13,
+	MTIMESORT = 0x1 << 14
 };
 
 enum				e_lens

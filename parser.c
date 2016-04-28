@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/21 15:34:54 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/15 19:35:23 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/28 17:41:54 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ static void	add_rest_parametersastargets(int ac, char **av, t_list **targets,
 static void	parser_populate_flags(int *tab)
 {
 	const int	flagstab[12] = { RECURSIVE, LONG, HIDENS, REVERSESORT, NOSORT, \
-	CTIMESORT, SIZESORT, HUMAN, HIDENS | NODOTANDDOTDOT, INODES, LTIMESORT, \
+	TTIMESORT, SIZESORT, HUMAN, HIDENS | NODOTANDDOTDOT, INODES, UTIMESORT, \
  	LTIMESORT };
 
-	ft_memcpy(tab, flagstab, sizeof(flagstab));
+	ft_memcpy(tab, flagstab, sizeof(int) * 12);
 }
-
+#include <stdio.h>
 int			parser(int ac, char **av, t_list **targets)
 {
 	const char	*strmatch[12] = { "-*R*", "-*l*", "-*a*", "-*r*", "-*f*",
-		"-*t*", "-*S*", "-*h*", "-*A*", "-*i*", "-*u*", "-*t*" };
+		"-*t*", "-*S*", "-*h*", "-*A*", "-*i*", "-*u*", "-*c*" };
 	int			flagstab[12];
 	int			mappos;
 	int			flags;
