@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/28 19:23:12 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/28 20:37:05 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/28 20:57:08 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ int				params_sort(t_list *a, t_list *b)
 	const int	bt = get_type(bs);
 
 	if ((at == ERROR) && (strcmp(as, bs) != 0))
-		return (1);
+		return (-1);
 	else if ((at == FILEX) && (bt != FILEX))
-		return (1);
+		return (-1);
 	else if ((at == DIRECTORY) && (bt != DIRECTORY))
-		return (1);
+		return (-1);
 	return (strcmp(as, bs));
 }
