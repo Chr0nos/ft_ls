@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   posix.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/22 13:55:42 by snicolet          #+#    #+#             */
-/*   Updated: 2016/02/07 15:01:57 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/29 18:23:10 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 #include <sys/stat.h>
 
-static char		get_type(t_file *file)
+static char		get_file_type(t_file *file)
 {
 	const mode_t	mode = file->stats.st_mode;
 
@@ -50,7 +50,7 @@ int				add_posix(t_file *file, char *buffer)
 
 	p = 0;
 	blk = 0;
-	buffer[p++] = get_type(file);
+	buffer[p++] = get_file_type(file);
 	while (blk < 3)
 	{
 		perms = (int)file->stats.st_mode >> (2 - blk) * 3;

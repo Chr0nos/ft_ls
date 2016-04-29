@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/07 21:14:22 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/29 17:06:04 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/29 18:16:31 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char		*nofile(const char *filepath, char *buffer)
 
 	start = ft_strchrrpos(filepath, '/');
 	if (start < 0)
-		buffer[0] = '\0';
+		ft_strcpy(buffer, ".");
 	else
 	{
 		len = (int)ft_strlen(filepath);

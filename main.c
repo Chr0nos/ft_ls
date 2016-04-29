@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:56:08 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/29 17:46:54 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/29 18:28:19 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,11 @@ static void	pre_parse(t_list *targets, int flags)
 	{
 		if ((rdir = get_newrdir((char*)(targets->content), flags)))
 			ls_dir(rdir, n);
-		if ((targets->next) && (ft_strcmp(
+		if ((targets->next) && ((ft_strcmp(
 			nofile((char*)targets->content, patha),
-			nofile((char*)targets->next->content, pathb)) != 0))
+			nofile((char*)targets->next->content, pathb)) != 0) ||
+			((get_type((const char *)targets->content) !=
+				get_type((const char *)targets->next->content)))))
 		{
 			ft_putchar('\n');
 		}
