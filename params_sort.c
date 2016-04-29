@@ -44,11 +44,11 @@ int				params_sort(t_list *a, t_list *b)
 	const int	at = get_type(as);
 	const int	bt = get_type(bs);
 
-	if ((at == ERROR) && (strcmp(as, bs) != 0))
+	if ((at == ERROR) && (ft_strcmp(as, bs) != 0))
 		return (-1);
 	else if ((at == FILEX) && (bt != FILEX))
 		return (-1);
 	else if ((at == DIRECTORY) && (bt != DIRECTORY))
 		return (-1);
-	return (strcmp(as, bs));
+	return (ft_strcmp(as, bs));
 }
