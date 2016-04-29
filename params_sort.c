@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/28 19:23:12 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/29 17:43:40 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/29 18:04:58 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,7 @@ int				params_sort(t_list *a, t_list *b)
 	{
 		if ((bt == FILEX) || (bt == ERROR))
 			return (1);
-		else if (bt == DIRECTORY)
-			;
-		else
+		else if (bt != DIRECTORY)
 			return (-1);
 	}
 	return (ft_strcmp(as, bs));
