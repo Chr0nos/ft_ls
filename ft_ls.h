@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:52:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/28 20:28:36 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/29 14:31:10 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,6 @@ void				*getsorter(int f);
 t_dir				*get_newrdir(char *path, int flags);
 unsigned int		sizetobuff(off_t nb, char *buffer);
 void				display_file(t_file *file, t_dir *dir, char *buffer);
+char				*nofile(const char *filepath, char *buffer);
 
 #endif

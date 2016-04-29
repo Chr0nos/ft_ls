@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:56:08 by snicolet          #+#    #+#             */
-/*   Updated: 2016/03/19 19:39:32 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/29 17:32:36 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,17 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+/*
+** here the targets list contains char *
+*/
+
 static void	pre_parse(t_list *targets, int flags)
 {
 	t_dir			*rdir;
 	int				n;
+	char			patha[1024];
+	char			pathb[1024];
+	struct stat		st;
 
 	if ((!targets) && ((rdir = get_newrdir(".", flags))))
 		ls_dir(rdir, 0);
@@ -29,16 +36,28 @@ static void	pre_parse(t_list *targets, int flags)
 	{
 		if ((rdir = get_newrdir((char*)(targets->content), flags)))
 			ls_dir(rdir, n);
+		if ((targets->next) && (ft_strcmp(
+			nofile((char*)targets->content, patha),
+			nofile((char*)targets->next->content, pathb)) != 0))
+		{
+			lstat(pathb, &st);
+			if (st.st_mode & S_IFDIR)
+				ft_putchar('\n');
+		}
 		targets = targets->next;
-		if (targets)
-			ft_putchar('\n');
 	}
 }
+
+/*
+** this function is used to know if there is a empty parameter
+** example: ./ft_ls main.c Makefile ""
+** called by: main()
+*/
 
 static int	checkpute(int ac, char **av)
 {
 	while (ac--)
-		if (!ft_strlen(av[ac]))
+		if (av[ac][0] == '\0')
 			return (1);
 	return (0);
 }
