@@ -6,13 +6,13 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/21 15:34:54 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/29 17:47:25 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/30 17:30:30 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 #include "libft.h"
-#define NBFLAGS 13
+#define NBFLAGS 15
 
 static void	add_rest_parametersastargets(int ac, char **av, t_list **targets,
 		int p)
@@ -21,28 +21,29 @@ static void	add_rest_parametersastargets(int ac, char **av, t_list **targets,
 		ft_lstpush_sort(targets, ft_lstnewlink(av[p++], 0), &ft_lststrcmp);
 }
 
-static void	parser_populate_flags(int *tab)
+static void	parser_populate_flags(int *tab, int *p, int *flags)
 {
 	const int	flagstab[NBFLAGS] = { RECURSIVE, LONG, HIDENS, REVERSESORT, \
 	NOSORT, \
 	TTIMESORT, SIZESORT, HUMAN, HIDENS | NODOTANDDOTDOT, INODES, UTIMESORT, \
-	LTIMESORT, NONE };
+	LTIMESORT, NONE, HIDENS | NOSORT, SLASH };
 
 	ft_memcpy(tab, flagstab, sizeof(int) * NBFLAGS);
+	*flags = NONE;
+	*p = 1;
 }
 
 int			parser(int ac, char **av, t_list **targets)
 {
 	const char	*strmatch[NBFLAGS] = { "-*R*", "-*l*", "-*a*", "-*r*", "-*f*",
-		"-*t*", "-*S*", "-*h*", "-*A*", "-*i*", "-*u*", "-*c*", "-*1*" };
+		"-*t*", "-*S*", "-*h*", "-*A*", "-*i*", "-*u*", "-*c*", "-*1*", "-*f*",
+		"-*p*" };
 	int			flagstab[NBFLAGS];
 	int			mappos;
 	int			flags;
 	int			p;
 
-	parser_populate_flags(flagstab);
-	flags = NONE;
-	p = 1;
+	parser_populate_flags(flagstab, &p, &flags);
 	while ((p < ac) && (ft_strcmp(av[p], "--")))
 	{
 		if (av[p][0] == '-')

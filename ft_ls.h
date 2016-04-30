@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:52:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/30 15:37:26 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/30 17:23:15 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ enum				e_flags
 	NODOTANDDOTDOT = 0x1 << 10,
 	INODES = 0x1 << 11,
 	LTIMESORT = 0x1 << 12,
-	UTIMESORT = 0x1 << 13
+	UTIMESORT = 0x1 << 13,
+	SLASH = 0x1 << 14
 };
 
 enum				e_lens
@@ -104,6 +105,8 @@ void				aligner(char *buffer, unsigned int len);
 void				ls_dir(t_dir *rdir, int n, int total_items);
 int					add_posix(t_file *file, char *buffer);
 int					sorter(t_list *a, t_list *b);
+int					usort(t_list *a, t_list *b);
+int					usortr(t_list *a, t_list *b);
 int					rsort(t_list *a, t_list *b);
 int					csort(t_list *a, t_list *b);
 int					rcsort(t_list *a, t_list *b);
@@ -121,5 +124,6 @@ unsigned int		sizetobuff(off_t nb, char *buffer);
 void				display_file(t_file *file, t_dir *dir, char *buffer);
 char				*nofile(const char *filepath, char *buffer);
 int					get_type(const char *str);
+void				putslash_ifneeded(int flags, t_file *file);
 
 #endif

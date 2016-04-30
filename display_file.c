@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/28 19:08:25 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/28 19:14:12 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/30 17:24:26 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,19 @@ static size_t	display_file_prepair(t_file *file, char *buffer)
 	return (p);
 }
 
+static void		display_prepair_alignements(t_file *file, t_dir *dir)
+{
+	ft_stralign_right(file->size_str, dir->max.filesize);
+	ft_stralign_right(file->links, dir->max.linkslen + 1);
+	ft_stralign_left(file->user, dir->max.userlen + 1);
+	ft_stralign_left(file->group, dir->max.grouplen + 1);
+}
+
 /*
 ** this function is here to display ONE file to the terminal
 ** the buffer is in the stack, i use write to prevent the ft_strlen of ft_putstr
 ** p = the current lenght of the buffer
+** called by: display_dir
 */
 
 void			display_file(t_file *file, t_dir *dir, char *buffer)
@@ -60,10 +69,7 @@ void			display_file(t_file *file, t_dir *dir, char *buffer)
 		display_inode(file);
 	if (dir->flags & LONG)
 	{
-		ft_stralign_right(file->size_str, dir->max.filesize);
-		ft_stralign_right(file->links, dir->max.linkslen + 1);
-		ft_stralign_left(file->user, dir->max.userlen + 1);
-		ft_stralign_left(file->group, dir->max.grouplen + 1);
+		display_prepair_alignements(file, dir);
 		write(1, buffer, display_file_prepair(file, buffer));
 		if (S_ISLNK(file->stats.st_mode))
 		{
@@ -71,8 +77,8 @@ void			display_file(t_file *file, t_dir *dir, char *buffer)
 			display_link(file->fullpath);
 		}
 		else
-			ft_putendl(file->name);
+			putslash_ifneeded(dir->flags, file);
 	}
 	else
-		ft_putendl(file->name);
+		putslash_ifneeded(dir->flags, file);
 }

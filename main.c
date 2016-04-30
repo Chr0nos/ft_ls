@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:56:08 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/30 15:38:15 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/30 16:46:51 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,22 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+
+static int	pre_parse_get_dirs_count(t_list *targets)
+{
+	char	*item;
+	int		dirs;
+
+	dirs = 0;
+	while (targets)
+	{
+		item = (char*)targets->content;
+		if (get_type(item) == DIRECTORY)
+			dirs++;
+		targets = targets->next;
+	}
+	return (dirs);
+}
 
 /*
 ** here the targets list contains char *
@@ -27,10 +43,15 @@ static void	pre_parse(t_list *targets, int flags)
 	int				n;
 	int				total_dirs_bool;
 
+	total_dirs_bool = pre_parse_get_dirs_count(targets);
+	n = (total_dirs_bool == 0) ? -1 : 0;
+	if (flags & RECURSIVE)
+	{
+		total_dirs_bool = 1;
+		n = 1;
+	}
 	if ((!targets) && ((rdir = get_newrdir(".", flags))))
-		ls_dir(rdir, 0, 0);
-	total_dirs_bool = ((targets) && (targets->next)) ? 1 : 0;
-	n = 0;
+		ls_dir(rdir, 0, total_dirs_bool);
 	while (targets)
 	{
 		if ((rdir = get_newrdir((char*)(targets->content), flags)))
