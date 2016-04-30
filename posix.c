@@ -64,7 +64,7 @@ int				add_posix(t_file *file, char *buffer)
 		blk++;
 	}
 	buffer[p++] = ' ';
-	fix_suid(buffer, file->stats.st_mode);
+	fix_suid(buffer, (int)file->stats.st_mode);
 	buffer[p] = '\0';
 	return (p);
 }
