@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:56:08 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/29 18:28:19 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/30 15:38:15 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,16 @@ static void	pre_parse(t_list *targets, int flags)
 {
 	t_dir			*rdir;
 	int				n;
-	char			patha[1024];
-	char			pathb[1024];
+	int				total_dirs_bool;
 
 	if ((!targets) && ((rdir = get_newrdir(".", flags))))
-		ls_dir(rdir, 0);
-	n = ((targets) && (targets->next)) ? 1 : 0;
+		ls_dir(rdir, 0, 0);
+	total_dirs_bool = ((targets) && (targets->next)) ? 1 : 0;
+	n = 0;
 	while (targets)
 	{
 		if ((rdir = get_newrdir((char*)(targets->content), flags)))
-			ls_dir(rdir, n);
-		if ((targets->next) && ((ft_strcmp(
-			nofile((char*)targets->content, patha),
-			nofile((char*)targets->next->content, pathb)) != 0) ||
-			((get_type((const char *)targets->content) !=
-				get_type((const char *)targets->next->content)))))
-		{
-			ft_putchar('\n');
-		}
+			ls_dir(rdir, n++, total_dirs_bool);
 		targets = targets->next;
 	}
 }
@@ -67,7 +59,7 @@ int			main(int ac, char **av)
 	int		flags;
 
 	if (ac == 1)
-		ls_dir(get_newrdir(".", NONE), 0);
+		ls_dir(get_newrdir(".", NONE), 0, 0);
 	else if (checkpute(ac, av))
 		ft_putendl_fd("ls: fts_open: No such file or directory", 2);
 	else

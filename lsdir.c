@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/29 13:38:08 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/30 15:41:55 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static t_file		*ls_addfile(t_dir *rdir, const char *name, int (*sort)())
 	return (file);
 }
 
-static DIR			*ls_dir_open(t_dir *rdir)
+static DIR			*ls_dir_open(t_dir *rdir, int total_items)
 {
 	DIR					*d;
 	struct stat			stats;
@@ -107,7 +107,7 @@ static DIR			*ls_dir_open(t_dir *rdir)
 			ft_strcpy(b, dir);
 			ft_strcpy(rdir->pathinfo.path, ".");
 			if (ls_addfile(rdir, b, (int(*)())getsorter(rdir->flags)))
-				display_dir(rdir, -1);
+				display_dir(rdir, -1, total_items);
 		}
 		else
 		{
@@ -152,25 +152,24 @@ inline static int	ls_dir_while(struct dirent *ent, t_list **rlst, t_dir *rdir,
 ** each file is append by ls_addfile
 */
 
-void				ls_dir(t_dir *rdir, int n)
+void				ls_dir(t_dir *rdir, int n, int total_items)
 {
 	DIR				*d;
 	struct dirent	*ent;
 	int				(*sort)();
 	t_list			*rlst;
 
-	if (!(d = ls_dir_open(rdir)))
+	if (!(d = ls_dir_open(rdir, total_items)))
 		return ;
 	sort = (int(*)())getsorter(rdir->flags);
 	rlst = NULL;
 	while (((ent = readdir(d))) && (ls_dir_while(ent, &rlst, rdir, sort) >= 0))
 		;
 	closedir(d);
-	display_dir(rdir, n);
+	display_dir(rdir, n, total_items);
 	while (rlst)
 	{
-		ft_putchar('\n');
-		ls_dir((t_dir*)(rlst->content), 1);
+		ls_dir((t_dir*)(rlst->content), 1, total_items);
 		rlst = rlst->next;
 	}
 }
