@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snicolet <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/07 21:14:22 by snicolet          #+#    #+#             */
-/*   Updated: 2016/02/07 21:14:43 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/29 18:16:31 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,21 @@
 
 char		*getpath(char *dir, char *file)
 {
-	const char	*tab[3] = { dir, file, NULL };
-	char		*fp;
+	return (ft_strunsplit((const char*[3]){ dir, file, NULL }, '/'));
+}
 
-	fp = ft_strunsplit(tab, '/');
-	return (fp);
+char		*nofile(const char *filepath, char *buffer)
+{
+	int		start;
+	int		len;
+
+	start = ft_strchrrpos(filepath, '/');
+	if (start < 0)
+		ft_strcpy(buffer, ".");
+	else
+	{
+		len = (int)ft_strlen(filepath);
+		ft_memcpy(buffer, &filepath[start], (unsigned int)(len - start + 1));
+	}
+	return (buffer);
 }

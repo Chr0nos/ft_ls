@@ -6,12 +6,13 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/21 15:34:54 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/28 19:25:31 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/29 17:47:25 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 #include "libft.h"
+#define NBFLAGS 13
 
 static void	add_rest_parametersastargets(int ac, char **av, t_list **targets,
 		int p)
@@ -22,18 +23,19 @@ static void	add_rest_parametersastargets(int ac, char **av, t_list **targets,
 
 static void	parser_populate_flags(int *tab)
 {
-	const int	flagstab[12] = { RECURSIVE, LONG, HIDENS, REVERSESORT, NOSORT, \
+	const int	flagstab[NBFLAGS] = { RECURSIVE, LONG, HIDENS, REVERSESORT, \
+	NOSORT, \
 	TTIMESORT, SIZESORT, HUMAN, HIDENS | NODOTANDDOTDOT, INODES, UTIMESORT, \
-	LTIMESORT };
+	LTIMESORT, NONE };
 
-	ft_memcpy(tab, flagstab, sizeof(int) * 12);
+	ft_memcpy(tab, flagstab, sizeof(int) * NBFLAGS);
 }
 
 int			parser(int ac, char **av, t_list **targets)
 {
-	const char	*strmatch[12] = { "-*R*", "-*l*", "-*a*", "-*r*", "-*f*",
-		"-*t*", "-*S*", "-*h*", "-*A*", "-*i*", "-*u*", "-*c*" };
-	int			flagstab[12];
+	const char	*strmatch[NBFLAGS] = { "-*R*", "-*l*", "-*a*", "-*r*", "-*f*",
+		"-*t*", "-*S*", "-*h*", "-*A*", "-*i*", "-*u*", "-*c*", "-*1*" };
+	int			flagstab[NBFLAGS];
 	int			mappos;
 	int			flags;
 	int			p;
@@ -45,7 +47,7 @@ int			parser(int ac, char **av, t_list **targets)
 	{
 		if (av[p][0] == '-')
 		{
-			mappos = 12;
+			mappos = NBFLAGS;
 			while (mappos--)
 				if (ft_match(av[p], strmatch[mappos]))
 					flags |= flagstab[mappos];
