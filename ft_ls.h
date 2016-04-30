@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:52:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/30 23:04:11 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/30 23:44:12 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ enum				e_flags
 	UTIMESORT = 0x1 << 13,
 	SLASH = 0x1 << 14,
 	ONESHOOT = 0x1 << 15,
-	FULLTIMESHOW = 0x1 << 16
+	FULLTIMESHOW = 0x1 << 16,
+	NODIRENTER = 0x1 << 17
 };
 
 enum				e_lens
@@ -98,7 +99,7 @@ typedef struct		s_dir
 char				*getpath(char *dir, char *file);
 void				display_dir(t_dir *rdir, int n, int total_dirs,
 	int total_files);
-void				timeloader(t_file *file, char *buffer);
+void				timeloader(t_file *file, char *buffer, int flags);
 void				file_init(t_file *file);
 void				clean_emptydirs(t_list **root);
 void				*clean_file(t_file *file);

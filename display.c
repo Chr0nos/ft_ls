@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:38:47 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/30 23:06:31 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/05/01 00:13:49 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void			putslash_ifneeded(int flags, t_file *file)
 ** if n is >= to 0 a new line will be inserted before
 ** called by: ls_dir_open / ls_dir
 */
-//#include <stdio.h>
+
 void			display_dir(t_dir *rdir, int n, int total_dirs, int total_files)
 {
 	t_list	*lst;
@@ -34,7 +34,7 @@ void			display_dir(t_dir *rdir, int n, int total_dirs, int total_files)
 
 	(void)total_files;
 	lst = rdir->content;
-	if (rdir->stats.st_mode & S_IFDIR)
+	if ((rdir->stats.st_mode & S_IFDIR) && (!(rdir->flags & NODIRENTER)))
 	{
 		if (n > 0)
 			ft_putchar('\n');

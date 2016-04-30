@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/30 19:16:48 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/05/01 00:12:49 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void			update_infos(t_dir *rdir, t_file *file)
 	sizetobuff(file->stats.st_size, file->size_str);
 	lens[SLEN] = ft_strlen(file->size_str);
 	lens[LLEN] = ft_strlen(file->links);
-	timeloader(file, file->time);
+	timeloader(file, file->time, rdir->flags);
 	if (lens[ULEN] > rdir->max.userlen)
 		rdir->max.userlen = (unsigned int)lens[ULEN];
 	if (lens[GLEN] > rdir->max.grouplen)
@@ -161,9 +161,15 @@ void				ls_dir(t_dir *rdir, int n, int total_dirs, int total_files)
 	int				(*sort)();
 	t_list			*rlst;
 
+	sort = (int(*)())getsorter(rdir->flags);
+	if ((rdir->flags & NODIRENTER) && (get_type(rdir->path) == DIRECTORY))
+	{
+		ls_addfile(rdir, rdir->path, sort);
+		display_dir(rdir, n, -1, -1);
+		return ;
+	}
 	if (!(d = ls_dir_open(rdir, total_dirs, total_files)))
 		return ;
-	sort = (int(*)())getsorter(rdir->flags);
 	rlst = NULL;
 	while (((ent = readdir(d))) && (ls_dir_while(ent, &rlst, rdir, sort) >= 0))
 		;

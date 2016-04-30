@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/07 14:29:53 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/28 19:14:59 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/30 23:15:03 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static size_t	strseek(const char *str)
 	return (p - 1);
 }
 
-void			timeloader(t_file *file, char *buffer)
+void			timeloader(t_file *file, char *buffer, int flags)
 {
 	const char		*strtime = ctime(&file->stats.st_mtime);
 	char			year[12];
@@ -47,6 +47,11 @@ void			timeloader(t_file *file, char *buffer)
 	ssize_t			timediff;
 	size_t			epos;
 
+	if (flags & FULLTIMESHOW)
+	{
+		ft_memcpy(buffer, strtime + 4, timelen + 1 - 4);
+		return ;
+	}
 	ft_strncpy(buffer, strtime + 4, timelen - 12);
 	timediff = time(NULL) - file->stats.st_mtime;
 	if ((timediff > 15778800) || (timediff < -15778800))

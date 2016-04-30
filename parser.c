@@ -6,13 +6,13 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/21 15:34:54 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/30 23:04:09 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/30 23:58:38 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 #include "libft.h"
-#define NBFLAGS 15
+#define NBFLAGS 16
 
 static void	add_rest_parametersastargets(int ac, char **av, t_list **targets,
 		int p)
@@ -27,6 +27,10 @@ static void	parser_setflag(int flag, int *flags)
 		*flags = (*flags & ~LONG);
 	else if (flag == LONG)
 		*flags = (*flags & ~ONESHOOT);
+	else if (flag == RECURSIVE)
+		*flags = (*flags & ~NODIRENTER);
+	else if (flag == NODIRENTER)
+		*flags = (*flags & ~RECURSIVE);
 	*flags |= flag;
 }
 
@@ -55,7 +59,8 @@ static int	parser_eval(const char *av, const char *strmap, const int *flagstab,
 		{
 			ft_putstr("ls: illegal option -- ");
 			ft_putchar(av[p]);
-			ft_putstr("\nusage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]\n");
+			ft_putstr("\nusage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1]");
+			ft_putstr(" [file ...]\n");
 			return (-1);
 		}
 		p++;
@@ -67,7 +72,7 @@ static void	parser_populate_flags(int *tab, int *p, int *flags)
 {
 	const int	flagstab[NBFLAGS] = { RECURSIVE, LONG, HIDENS, REVERSESORT, \
 	TTIMESORT, SIZESORT, HUMAN, HIDENS | NODOTANDDOTDOT, INODES, UTIMESORT, \
-	LTIMESORT, HIDENS | NOSORT, SLASH, ONESHOOT, FULLTIMESHOW };
+	LTIMESORT, HIDENS | NOSORT, SLASH, ONESHOOT, FULLTIMESHOW, NODIRENTER };
 
 	ft_memcpy(tab, flagstab, sizeof(int) * NBFLAGS);
 	*flags = NONE;
@@ -75,12 +80,15 @@ static void	parser_populate_flags(int *tab, int *p, int *flags)
 }
 
 /*
+** DON'T TOUCH: IT'S MAGIC !!!
+** Seriously dude, i dont know who you are but do not edit this, whatever they
+** told you, they lie ! Honestly: the cake is a lie !
 ** called by : main
 */
 
 int			parser(int ac, char **av, t_list **targets)
 {
-	const char	*strmap = "RlartShAiucfp1T";
+	const char	*strmap = "RlartShAiucfp1Td";
 	int			flagstab[NBFLAGS];
 	int			flags;
 	int			p;
