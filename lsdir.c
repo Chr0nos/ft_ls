@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/30 15:41:55 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/30 19:16:48 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static t_file		*ls_addfile(t_dir *rdir, const char *name, int (*sort)())
 	return (file);
 }
 
-static DIR			*ls_dir_open(t_dir *rdir, int total_items)
+static DIR			*ls_dir_open(t_dir *rdir, int total_items, int total_files)
 {
 	DIR					*d;
 	struct stat			stats;
@@ -107,7 +107,7 @@ static DIR			*ls_dir_open(t_dir *rdir, int total_items)
 			ft_strcpy(b, dir);
 			ft_strcpy(rdir->pathinfo.path, ".");
 			if (ls_addfile(rdir, b, (int(*)())getsorter(rdir->flags)))
-				display_dir(rdir, -1, total_items);
+				display_dir(rdir, -1, total_items, total_files);
 		}
 		else
 		{
@@ -150,26 +150,28 @@ inline static int	ls_dir_while(struct dirent *ent, t_list **rlst, t_dir *rdir,
 ** this function list a dirctory and append it to the dir list (root)
 ** it need the rdir entry given by the caller (with get_rdir or search_rdir)
 ** each file is append by ls_addfile
+** total_dirs and total_files are the total IN PARAMETER not in the list
+** i mean the ones in the arv[] tab
 */
 
-void				ls_dir(t_dir *rdir, int n, int total_items)
+void				ls_dir(t_dir *rdir, int n, int total_dirs, int total_files)
 {
 	DIR				*d;
 	struct dirent	*ent;
 	int				(*sort)();
 	t_list			*rlst;
 
-	if (!(d = ls_dir_open(rdir, total_items)))
+	if (!(d = ls_dir_open(rdir, total_dirs, total_files)))
 		return ;
 	sort = (int(*)())getsorter(rdir->flags);
 	rlst = NULL;
 	while (((ent = readdir(d))) && (ls_dir_while(ent, &rlst, rdir, sort) >= 0))
 		;
 	closedir(d);
-	display_dir(rdir, n, total_items);
+	display_dir(rdir, n, total_dirs, total_files);
 	while (rlst)
 	{
-		ls_dir((t_dir*)(rlst->content), 1, total_items);
+		ls_dir((t_dir*)(rlst->content), 1, total_dirs, total_files);
 		rlst = rlst->next;
 	}
 }

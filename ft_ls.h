@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:52:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/30 17:23:15 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/30 23:04:11 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ enum				e_flags
 	INODES = 0x1 << 11,
 	LTIMESORT = 0x1 << 12,
 	UTIMESORT = 0x1 << 13,
-	SLASH = 0x1 << 14
+	SLASH = 0x1 << 14,
+	ONESHOOT = 0x1 << 15,
+	FULLTIMESHOW = 0x1 << 16
 };
 
 enum				e_lens
@@ -94,7 +96,8 @@ typedef struct		s_dir
 }					t_dir;
 
 char				*getpath(char *dir, char *file);
-void				display_dir(t_dir *rdir, int n, int total_dirs);
+void				display_dir(t_dir *rdir, int n, int total_dirs,
+	int total_files);
 void				timeloader(t_file *file, char *buffer);
 void				file_init(t_file *file);
 void				clean_emptydirs(t_list **root);
@@ -102,7 +105,7 @@ void				*clean_file(t_file *file);
 void				ft_lstatomisator(void *x, size_t size);
 void				rdir_clean(t_dir *rdir);
 void				aligner(char *buffer, unsigned int len);
-void				ls_dir(t_dir *rdir, int n, int total_items);
+void				ls_dir(t_dir *rdir, int n, int total_dirs, int total_files);
 int					add_posix(t_file *file, char *buffer);
 int					sorter(t_list *a, t_list *b);
 int					usort(t_list *a, t_list *b);
@@ -125,5 +128,6 @@ void				display_file(t_file *file, t_dir *dir, char *buffer);
 char				*nofile(const char *filepath, char *buffer);
 int					get_type(const char *str);
 void				putslash_ifneeded(int flags, t_file *file);
+int					strpresent(const char *str, const char c);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:38:47 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/30 17:24:27 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/30 23:06:31 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,15 @@ void			putslash_ifneeded(int flags, t_file *file)
 /*
 ** this function will display the current dir
 ** if n is >= to 0 a new line will be inserted before
+** called by: ls_dir_open / ls_dir
 */
-
-void			display_dir(t_dir *rdir, int n, int total_dirs)
+//#include <stdio.h>
+void			display_dir(t_dir *rdir, int n, int total_dirs, int total_files)
 {
 	t_list	*lst;
 	char	buffer[2048];
 
+	(void)total_files;
 	lst = rdir->content;
 	if (rdir->stats.st_mode & S_IFDIR)
 	{

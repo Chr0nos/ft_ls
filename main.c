@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:56:08 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/30 16:46:51 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/04/30 22:55:02 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,45 +17,52 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-static int	pre_parse_get_dirs_count(t_list *targets)
+/*
+** returns the number of directories in the arguments list
+** called by: pre_parse
+*/
+
+static void	pre_parse_get_dirs_count(t_list *targets, int *dirs, int *files)
 {
 	char	*item;
-	int		dirs;
+	int		type;
 
-	dirs = 0;
+	*dirs = 0;
+	*files = 0;
 	while (targets)
 	{
+		type = get_type(item);
 		item = (char*)targets->content;
-		if (get_type(item) == DIRECTORY)
-			dirs++;
+		if (type == DIRECTORY)
+			(*dirs)++;
+		else if (type == FILEX)
+			(*files)++;
 		targets = targets->next;
 	}
-	return (dirs);
 }
 
 /*
 ** here the targets list contains char *
+** called by: main
 */
 
 static void	pre_parse(t_list *targets, int flags)
 {
 	t_dir			*rdir;
 	int				n;
-	int				total_dirs_bool;
+	int				dirs_count;
+	int				files_count;
 
-	total_dirs_bool = pre_parse_get_dirs_count(targets);
-	n = (total_dirs_bool == 0) ? -1 : 0;
+	pre_parse_get_dirs_count(targets, &dirs_count, &files_count);
 	if (flags & RECURSIVE)
-	{
-		total_dirs_bool = 1;
-		n = 1;
-	}
+		dirs_count = 1;
 	if ((!targets) && ((rdir = get_newrdir(".", flags))))
-		ls_dir(rdir, 0, total_dirs_bool);
+		ls_dir(rdir, 0, dirs_count, 0);
+	n = 0;
 	while (targets)
 	{
 		if ((rdir = get_newrdir((char*)(targets->content), flags)))
-			ls_dir(rdir, n++, total_dirs_bool);
+			ls_dir(rdir, n++, dirs_count, files_count);
 		targets = targets->next;
 	}
 }
@@ -80,14 +87,15 @@ int			main(int ac, char **av)
 	int		flags;
 
 	if (ac == 1)
-		ls_dir(get_newrdir(".", NONE), 0, 0);
+		ls_dir(get_newrdir(".", NONE), 0, 0, 0);
 	else if (checkpute(ac, av))
 		ft_putendl_fd("ls: fts_open: No such file or directory", 2);
 	else
 	{
 		targets = NULL;
 		flags = parser(ac, av, &targets);
-		pre_parse(targets, flags);
+		if (flags >= 0)
+			pre_parse(targets, flags);
 		ft_lstdel(&targets, 0);
 	}
 	return (0);
