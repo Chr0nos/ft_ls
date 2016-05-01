@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:40:26 by snicolet          #+#    #+#             */
-/*   Updated: 2016/05/01 00:29:52 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/05/01 17:19:18 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,9 +127,7 @@ inline static int	ls_dir_while(struct dirent *ent, t_list **rlst, t_dir *rdir,
 {
 	char	*name;
 	t_file	*file;
-	t_list	*(*lstad)(t_list **, t_list *);
 
-	lstad = (rdir->flags & REVERSESORT) ? &ft_lstadd : &ft_lstpush_back;
 	name = ent->d_name;
 	if ((name[0] == '.') && (!(rdir->flags & HIDENS)))
 		return (0);
@@ -141,7 +139,9 @@ inline static int	ls_dir_while(struct dirent *ent, t_list **rlst, t_dir *rdir,
 	if (((file->stats.st_mode & S_IFDIR) && (rdir->flags & RECURSIVE)) &&
 		(((ft_strcmp(name, ".")) && (ft_strcmp(name, "..")))))
 	{
-		lstad(rlst, ft_lstnewlink(get_newrdir(file->fullpath, rdir->flags), 0));
+		ft_lstpush_sort(rlst,
+			ft_lstnewlink(get_newrdir(file->fullpath, rdir->flags), 0),
+			&ls_sortrdir);
 	}
 	return (1);
 }

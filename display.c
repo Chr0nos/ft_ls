@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 16:38:47 by snicolet          #+#    #+#             */
-/*   Updated: 2016/05/01 00:13:49 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/05/01 16:53:40 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void			display_dir(t_dir *rdir, int n, int total_dirs, int total_files)
 			ft_putchar('\n');
 		if (total_dirs >= 1)
 			ft_printf("%s:\n", rdir->pathinfo.path);
-		if (rdir->flags & LONG)
+		if ((rdir->flags & LONG) && (rdir->count > 0))
 			ft_printf("total %d\n", (int)rdir->blocs);
 	}
 	while (lst)
