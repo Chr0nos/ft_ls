@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/01/07 23:01:54 by snicolet          #+#    #+#              #
-#    Updated: 2016/05/01 17:20:13 by snicolet         ###   ########.fr        #
+#    Updated: 2016/05/01 17:27:12 by snicolet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,3 +36,7 @@ re: fclean all
 
 fclean: clean
 	rm -f $(NAME)
+
+norminette:
+	@norminette *.[ch]
+	@norminette ./libft/*.[ch]
