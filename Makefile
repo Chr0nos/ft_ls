@@ -6,7 +6,7 @@
 #    By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/01/07 23:01:54 by snicolet          #+#    #+#              #
-#    Updated: 2016/05/01 17:27:12 by snicolet         ###   ########.fr        #
+#    Updated: 2016/05/01 17:59:56 by snicolet         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ $(LIBFT)libft.a:
 	make -C $(LIBFT) BTREE=""
 
 $(NAME): $(LIBFT)libft.a $(OBJ)
-	$(CC) $(FLAGS) $(OBJ) -o $(NAME) -L../libft -lft
+	$(CC) $(FLAGS) $(OBJ) -o $(NAME) -L./libft -lft
 
 clean:
 	rm -f $(OBJ)
