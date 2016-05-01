@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/07 22:52:56 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/30 23:44:12 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/05/01 00:33:15 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ enum				e_flags
 	SLASH = 0x1 << 14,
 	ONESHOOT = 0x1 << 15,
 	FULLTIMESHOW = 0x1 << 16,
-	NODIRENTER = 0x1 << 17
+	NODIRENTER = 0x1 << 17,
+	NOUSER = 0x1 << 18
 };
 
 enum				e_lens

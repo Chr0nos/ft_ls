@@ -6,13 +6,13 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/21 15:34:54 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/30 23:58:38 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/05/01 00:33:47 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 #include "libft.h"
-#define NBFLAGS 16
+#define NBFLAGS 17
 
 static void	add_rest_parametersastargets(int ac, char **av, t_list **targets,
 		int p)
@@ -31,6 +31,12 @@ static void	parser_setflag(int flag, int *flags)
 		*flags = (*flags & ~NODIRENTER);
 	else if (flag == NODIRENTER)
 		*flags = (*flags & ~RECURSIVE);
+	else if (flag == UTIMESORT)
+		*flags = (*flags & ~CTIMESORT);
+	else if (flag == CTIMESORT)
+		*flags = (*flags & ~UTIMESORT);
+	else if (flag == HIDENS)
+		*flags = (*flags & ~NODOTANDDOTDOT);
 	*flags |= flag;
 }
 
@@ -72,7 +78,8 @@ static void	parser_populate_flags(int *tab, int *p, int *flags)
 {
 	const int	flagstab[NBFLAGS] = { RECURSIVE, LONG, HIDENS, REVERSESORT, \
 	TTIMESORT, SIZESORT, HUMAN, HIDENS | NODOTANDDOTDOT, INODES, UTIMESORT, \
-	LTIMESORT, HIDENS | NOSORT, SLASH, ONESHOOT, FULLTIMESHOW, NODIRENTER };
+	LTIMESORT, HIDENS | NOSORT, SLASH, ONESHOOT, FULLTIMESHOW, NODIRENTER, \
+	NOUSER };
 
 	ft_memcpy(tab, flagstab, sizeof(int) * NBFLAGS);
 	*flags = NONE;
@@ -88,7 +95,7 @@ static void	parser_populate_flags(int *tab, int *p, int *flags)
 
 int			parser(int ac, char **av, t_list **targets)
 {
-	const char	*strmap = "RlartShAiucfp1Td";
+	const char	*strmap = "RlartShAiucfp1Tdg";
 	int			flagstab[NBFLAGS];
 	int			flags;
 	int			p;

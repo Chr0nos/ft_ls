@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/28 19:08:25 by snicolet          #+#    #+#             */
-/*   Updated: 2016/04/30 17:24:26 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/05/01 00:35:58 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,14 @@ static size_t	ft_strxcpy(char *dest, const char *src, const size_t len)
 	return (len + 1);
 }
 
-static size_t	display_file_prepair(t_file *file, char *buffer)
+static size_t	display_file_prepair(t_file *file, char *buffer, int flags)
 {
 	size_t	p;
 
 	p = (size_t)add_posix(file, buffer);
 	p += ft_strxcpy(buffer + p, file->links, ft_strlen(file->links));
-	p += ft_strxcpy(buffer + p, file->user, ft_strlen(file->user));
+	if (!(flags & NOUSER))
+		p += ft_strxcpy(buffer + p, file->user, ft_strlen(file->user));
 	p += ft_strxcpy(buffer + p, file->group, ft_strlen(file->group));
 	p += ft_strxcpy(buffer + p, file->size_str, ft_strlen(file->size_str));
 	p += ft_strxcpy(buffer + p, file->time, ft_strlen(file->time) - 1);
@@ -70,7 +71,7 @@ void			display_file(t_file *file, t_dir *dir, char *buffer)
 	if (dir->flags & LONG)
 	{
 		display_prepair_alignements(file, dir);
-		write(1, buffer, display_file_prepair(file, buffer));
+		write(1, buffer, display_file_prepair(file, buffer, dir->flags));
 		if (S_ISLNK(file->stats.st_mode))
 		{
 			ft_putstr(file->name);
