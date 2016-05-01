@@ -6,7 +6,7 @@
 /*   By: snicolet <snicolet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/21 15:34:54 by snicolet          #+#    #+#             */
-/*   Updated: 2016/05/01 00:33:47 by snicolet         ###   ########.fr       */
+/*   Updated: 2016/05/01 15:52:32 by snicolet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ static int	parser_eval(const char *av, const char *strmap, const int *flagstab,
 			parser_setflag(flagstab[idx], flags);
 		else
 		{
-			ft_putstr("ls: illegal option -- ");
-			ft_putchar(av[p]);
-			ft_putstr("\nusage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1]");
-			ft_putstr(" [file ...]\n");
+			ft_putstr_fd("ls: illegal option -- ", 2);
+			ft_putchar_fd(av[p], 2);
+			ft_putstr_fd("\nusage: ls [-ABCFGHLOPRSTUWabcdefgh", 2);
+			ft_putstr_fd("iklmnopqrstuwx1] [file ...]\n", 2);
 			return (-1);
 		}
 		p++;
